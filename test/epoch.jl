@@ -72,4 +72,19 @@ end
         end
         @test_throws ErrorException source_date_epoch(joinpath(repo, "a"))
     end
+    mktempdir() do root
+        # A broken config: the first call, `git rev-parse --is-shallow-repository`, fails.
+        repo = repository(root)
+        open(io -> println(io, "[broken"), joinpath(repo, ".git", "config"), "a")
+        @test_throws ErrorException source_date_epoch(joinpath(repo, "a"))
+    end
+    mktempdir() do root
+        # A broken packed-refs file in place of the branch: the second call,
+        # `git rev-parse --verify -q HEAD`, fails with exit code 128.
+        repo = repository(root)
+        branch = readchomp(Cmd(`git symbolic-ref HEAD`; dir = repo))
+        rm(joinpath(repo, ".git", branch))
+        write(joinpath(repo, ".git", "packed-refs"), "garbage line\n")
+        @test_throws ErrorException source_date_epoch(joinpath(repo, "a"))
+    end
 end

@@ -18,9 +18,11 @@ const PRETTY = get(ENV, "CI", nothing) == "true"
 const UP = PRETTY ? "../../" : "../"
 
 # actions/checkout makes a depth-1 clone, in which `build` throws: the commit time of a figure's
-# last change, its SOURCE_DATE_EPOCH, needs the full history.
+# last change, its SOURCE_DATE_EPOCH, needs the full history. A failed query, as where `git` is
+# missing or the tree is in no repository, reads as not shallow: `build` then decides.
 const ROOT = dirname(@__DIR__)
-if readchomp(Cmd(`git rev-parse --is-shallow-repository`; dir = ROOT)) == "true"
+const SHALLOW = Cmd(`git rev-parse --is-shallow-repository`; dir = ROOT, ignorestatus = true)
+if Sys.which("git") !== nothing && readchomp(pipeline(SHALLOW; stderr = devnull)) == "true"
     run(Cmd(`git fetch --unshallow`; dir = ROOT))
 end
 
