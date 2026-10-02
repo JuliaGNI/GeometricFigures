@@ -18,8 +18,9 @@ package's site.
 * **`GeometricFigures.build(outdir; names)` compiles figures in both themes.** Renders each figure
   to PDF, SVG and transparent PNG at 150, 300 and 600 dpi. Two builds of the same commit on one
   machine give byte-identical files: `SOURCE_DATE_EPOCH` is the commit time of the figure's last
-  change. A source that does not compile throws an error that names the figure and quotes the last
-  20 lines of its log.
+  change, so `build` throws in a shallow clone, and `docs/make.jl` fetches the full history first.
+  A source that does not compile throws an error that names the figure and quotes the last 20
+  lines of its log. A tool that is not on the `PATH` throws an error that names it.
 
 * **`GeometricFigures.figures()` lists the figure manifest.** Returns every figure of
   `src/figures.toml`, each with its name, topic, caption and TeX engine.

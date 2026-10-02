@@ -3,15 +3,37 @@
 
 The commit time of the last change under `dir`, in seconds since the epoch; 0 where `git` is
 missing, where `dir` is in no repository, or where nothing under `dir` is committed.
+
+Throws an error in a shallow clone, where `git log` gives the time of the shallow boundary
+rather than of the last change, and on any other failure of `git`.
 """
 function source_date_epoch(dir::AbstractString)
     git = Sys.which("git")
     git === nothing && return 0
-    out = IOBuffer()
-    cmd = Cmd(`$(git) log -1 --format=%ct -- .`; dir, ignorestatus = true)
-    p = run(pipeline(cmd; stdout = out, stderr = devnull))
-    time = strip(String(take!(out)))
-    return success(p) && !isempty(time) ? parse(Int, time) : 0
+    function rungit(args...)
+        out, err = IOBuffer(), IOBuffer()
+        cmd = addenv(Cmd(`$(git) $(args)`; dir, ignorestatus = true), "LC_ALL" => "C")
+        p = run(pipeline(cmd; stdout = out, stderr = err))
+        return p.exitcode, strip(String(take!(out))), strip(String(take!(err)))
+    end
+    failed(args, code, err) = error("`git $(join(args, ' '))` failed in $(dir) " *
+                                    "with exit code $(code):\n$(err)")
+    args = ("rev-parse", "--is-shallow-repository")
+    code, shallow, err = rungit(args...)
+    code != 0 && startswith(err, "fatal: not a git repository (or any") && return 0
+    code != 0 && failed(args, code, err)
+    shallow == "true" &&
+        error("$(dir) is in a shallow clone, where the time of its last change is unknown; " *
+              "run `git fetch --unshallow` first")
+    # Exit code 1 with no output: the repository has no commit yet.
+    args = ("rev-parse", "--verify", "-q", "HEAD")
+    code, _, err = rungit(args...)
+    code == 1 && isempty(err) && return 0
+    code != 0 && failed(args, code, err)
+    args = ("log", "-1", "--format=%ct", "--", ".")
+    code, time, err = rungit(args...)
+    code != 0 && failed(args, code, err)
+    return isempty(time) ? 0 : parse(Int, time)
 end
 
 """
@@ -69,11 +91,16 @@ of the same commit give the same bytes: `SOURCE_DATE_EPOCH` is the commit time o
 change.
 
 Needs the engine of each figure, `xelatex` or `pdflatex`, and `pdftocairo` from Poppler. Throws an
-`ArgumentError` for an unknown name, and an error that names the figure and quotes the last 20
-lines of its log when a source does not compile.
+`ArgumentError` for an unknown name, an error that names a needed tool that is not on the `PATH`,
+and an error that names the figure and quotes the last 20 lines of its log when a source does not
+compile. Throws in a shallow clone (see `source_date_epoch`).
 """
 function build(outdir::AbstractString; names = [f.name for f in figures()])
     selected = [figure(string(name)) for name in names]
+    for tool in unique([[f.engine for f in selected]; "pdftocairo"])
+        Sys.which(tool) === nothing &&
+            error("`$(tool)` is not on the PATH; `build` needs it")
+    end
     for f in selected, theme in THEMES
 
         mktempdir() do workdir

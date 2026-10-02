@@ -17,6 +17,13 @@ const TOPICS = joinpath(SRC, "topics")
 const PRETTY = get(ENV, "CI", nothing) == "true"
 const UP = PRETTY ? "../../" : "../"
 
+# actions/checkout makes a depth-1 clone, in which `build` throws: the commit time of a figure's
+# last change, its SOURCE_DATE_EPOCH, needs the full history.
+const ROOT = dirname(@__DIR__)
+if readchomp(Cmd(`git rev-parse --is-shallow-repository`; dir = ROOT)) == "true"
+    run(Cmd(`git fetch --unshallow`; dir = ROOT))
+end
+
 rm(FIGURES; force = true, recursive = true)
 rm(TOPICS; force = true, recursive = true)
 GeometricFigures.build(FIGURES)
