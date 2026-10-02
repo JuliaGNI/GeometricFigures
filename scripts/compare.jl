@@ -4,7 +4,7 @@
 #
 # Renders `dogleg-tikz` with `GeometricFigures.build` at 300 dpi in both themes. Compiles
 # SimpleSolvers' `docs/src/trust_region/dogleg_tikz_{light,dark}.tex`, as committed on its
-# `origin/main`, the way its Makefile did: `pdflatex`, then `pdftocairo -png -r 300 -transp
+# `origin/main`, the way its Makefile does: `pdflatex`, then `pdftocairo -png -r 300 -transp
 # -singlefile`. Prints `magick compare -metric AE` for each theme, the number of pixels that
 # differ, and exits 1 unless both are 0.
 #
@@ -18,7 +18,7 @@ length(ARGS) == 1 ||
 const SIMPLESOLVERS = abspath(ARGS[1])
 const OLD = "docs/src/trust_region"
 
-"The PNG of the old source of `theme`, compiled in `dir` the way SimpleSolvers' Makefile did."
+"The PNG of the old source of `theme`, compiled in `dir` the way SimpleSolvers' Makefile does."
 function old_png(theme, dir)
     name = "dogleg_tikz_$(theme)"
     source = read(`git -C $(SIMPLESOLVERS) show origin/main:$(OLD)/$(name).tex`, String)

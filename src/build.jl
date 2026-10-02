@@ -87,8 +87,8 @@ and into transparent PNGs at 150, 300 and 600 dpi. The files are
     <outdir>/<topic>/<name>/png<dpi>/<name>_<theme>.png
 
 which is the layout of the published `figures/` directory (see [`figure_url`](@ref)). Two builds
-of the same commit give the same bytes: `SOURCE_DATE_EPOCH` is the commit time of the figure's last
-change.
+of the same commit on one machine give the same bytes: `SOURCE_DATE_EPOCH` is the commit time of
+the figure's last change.
 
 Needs the engine of each figure, `xelatex` or `pdflatex`, and `pdftocairo` from Poppler. Throws an
 `ArgumentError` for an unknown name, an error that names a needed tool that is not on the `PATH`,
