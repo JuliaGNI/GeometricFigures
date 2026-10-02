@@ -1,0 +1,37 @@
+% The theme and the palette of the GeometricFigures sources. Every source loads it with
+% \usepackage{geometricfigures}; the build puts this directory on TEXINPUTS.
+%
+% The build compiles each source twice: once as it is, for the light theme, and once with
+% \def\darkmode{} prepended, for the dark theme. A source takes every colour that depends on the
+% theme from here, never a literal white or black:
+%
+%   fg      the foreground: black in the light theme, white in the dark theme
+%   bg      the background: white in the light theme, black in the dark theme
+%   muted   a secondary foreground: gray in the light theme, fg in the dark theme, so that a
+%           tint muted!<p> fades towards white in the light theme and stays white in the dark one
+%
+% In the dark theme the text of every node is fg, whatever the colour of its path; a node that
+% sets its own text or color keeps it.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{geometricfigures}[GeometricFigures theme and palette]
+
+\RequirePackage{tikz}
+
+\ifdefined\darkmode
+    \colorlet{fg}{white}
+    \colorlet{bg}{black}
+    \colorlet{muted}{fg}
+    \tikzset{every picture/.append style={color=fg, every node/.append style={text=fg}}}
+\else
+    \colorlet{fg}{black}
+    \colorlet{bg}{white}
+    \colorlet{muted}{gray}
+    \tikzset{every picture/.append style={color=fg}}
+\fi
+
+% The palette: the colours of Matplotlib's tab10 cycle, the same in both themes.
+\definecolor{mblue}{RGB}{31,119,180}
+\definecolor{morange}{RGB}{255,127,14}
+\definecolor{mgreen}{RGB}{44,160,44}
+\definecolor{mred}{RGB}{214,39,40}
+\definecolor{mpurple}{RGB}{148,103,189}

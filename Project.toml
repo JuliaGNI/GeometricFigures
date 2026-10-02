@@ -1,0 +1,11 @@
+name = "GeometricFigures"
+uuid = "da7f2503-3a89-49d8-bde7-5251f87a3c1b"
+authors = ["Michael Kraus"]
+version = "0.1.0"
+
+[deps]
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
+[compat]
+TOML = "1"
+julia = "1.11"

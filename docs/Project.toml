@@ -1,0 +1,9 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+GeometricFigures = "da7f2503-3a89-49d8-bde7-5251f87a3c1b"
+
+[sources]
+GeometricFigures = {path = ".."}
+
+[compat]
+Documenter = "1"
