@@ -17,7 +17,7 @@ end
 The entries of the manifest at `path`, in the order of the file. An entry without an `engine`
 compiles with `xelatex`.
 """
-function read_manifest(path::AbstractString = MANIFEST)
+function read_manifest(path::AbstractString = MANIFEST)::Vector{Figure}
     entries = get(TOML.parsefile(path), "figure", Any[])
     return [Figure(e["name"], e["topic"], e["caption"], get(e, "engine", "xelatex"))
             for e in entries]
