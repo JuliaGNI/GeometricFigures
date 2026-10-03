@@ -7,10 +7,11 @@
 # Compiles each original of `references.toml` the old way: in a copy of its source's directory on
 # its repository's `origin/main`, so that `\input`, a `.sty` and raster inputs resolve, with the
 # entry's `untracked` files copied in from the local working tree, by the entry's engine, `runs`
-# times in that directory (1 where the entry gives no `runs`). Renders the new and the old PDF alike, `pdftocairo -png -transp -r <dpi> -singlefile`, at the
-# entry's DPI, which can be outside the 150, 300 and 600 of `build`. Prints
-# `magick compare -metric AE`, the number of pixels that differ, for each entry, and
-# "no original" for a theme that has no entry. Exits 1 unless every AE is 0.
+# times in that directory (1 where the entry gives no `runs`). Renders the new and the old PDF
+# alike, `pdftocairo -png -transp -r <dpi> -singlefile`, at the entry's DPI, which can be outside
+# the 150, 300 and 600 of `build`. Prints `magick compare -metric AE`, the number of pixels that
+# differ, for each entry, and "no original" for a theme that has no entry. Exits 1 unless every AE
+# is 0.
 #
 # The checkout of an entry's `repository` is the directory of that name in `~/Research/Packages`
 # or `~/Research/Experiments`. The script reads `origin/main` as the checkout last fetched it.
