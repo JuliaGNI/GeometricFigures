@@ -77,8 +77,3 @@ caption = "The mathematical pendulum: a point mass m on a massless rod of length
 name = "double-pendulum"
 topic = "problems"
 caption = "The double pendulum: two point masses m₁ and m₂ on massless rods of lengths l₁ and l₂, the second attached to the first."
-
-[[figure]]
-name = "mnist-visualization"
-topic = "data"
-caption = "Visualization of how the data are preprocessed. An image is first split and then flattened."

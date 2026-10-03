@@ -150,23 +150,3 @@ repository = "GeometricProblems"
 path = "docs/src/images/double-pendulum_dark.tex"
 engine = "xelatex"
 dpi = 150
-
-# The rasters come from mnist_visualization.jl, and final_image.pdf from final_image.tex; the
-# Makefile on origin/main makes them, and none is committed there.
-[[reference]]
-name = "mnist-visualization"
-theme = "light"
-repository = "GMLDatasets"
-path = "docs/src/mnist/mnist_visualization.tex"
-engine = "xelatex"
-dpi = 120
-untracked = ["final_image.pdf", "original", "split", "flatten", "final"]
-
-[[reference]]
-name = "mnist-visualization"
-theme = "dark"
-repository = "GMLDatasets"
-path = "docs/src/mnist/mnist_visualization_dark.tex"
-engine = "xelatex"
-dpi = 120
-untracked = ["final_image.pdf", "original", "split", "flatten", "final"]

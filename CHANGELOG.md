@@ -42,13 +42,12 @@ package's site.
   `https://juliagni.github.io/GeometricFigures/` served the site only in the minutes between the
   first deployment and the rename, and GitHub Pages does not redirect it.
 
-* **The 14 TikZ figures of GeometricIntegrators, GeometricProblems, SimpleSolvers and GMLDatasets
-  are figures of the package.** The topic `integrators` holds the ten projection and variation
-  figures of GeometricIntegrators, `problems` holds `pendulum` and `double-pendulum`, `solvers`
-  holds `solver`, and `data` holds `mnist-visualization` with its raster inputs, the Julia script
-  that writes them and the TeX source of `final_image.pdf`. Each source renders both themes. Each
-  light theme, and the dark themes of `pendulum`, `double-pendulum` and `mnist-visualization`, are
-  pixel-identical to the old sources at the old resolution. The other 11 dark themes are new.
+* **The 13 TikZ figures of GeometricIntegrators, GeometricProblems and SimpleSolvers are figures
+  of the package.** The topic `integrators` holds the ten projection and variation figures of
+  GeometricIntegrators, `problems` holds `pendulum` and `double-pendulum`, and `solvers` holds
+  `solver`. Each source renders both themes. Each light theme, and the dark themes of `pendulum`
+  and `double-pendulum`, are pixel-identical to the old sources at the old resolution. The other
+  11 dark themes are new.
 
 * **`geometricfigures.sty` defines `onfill`, `axes`, `pointer` and four fill tints.** `onfill`, for
   text and strokes drawn on a colour fill, is black in both themes. `axes` is darkgray in the light
