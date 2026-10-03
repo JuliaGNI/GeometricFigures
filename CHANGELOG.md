@@ -53,11 +53,12 @@ package's site.
 * **`geometricfigures.sty` defines `onfill`, `axes`, `pointer` and four fill tints.** `onfill`, for
   text and strokes drawn on a colour fill, is black in both themes. `axes` is darkgray in the light
   theme and gray in the dark theme. `pointer`, for an arrow from a label to a point on a colour
-  fill, is `blue!40!fg` in the light theme and `blue!60!white` in the dark theme. `morangetint`, `mbluetint`, `mpurpletint` and `mredtint` are 40 % of
-  their palette colour in the light theme and 70 % in the dark theme.
+  fill, is `blue!40!fg` in the light theme and `blue!60!white` in the dark theme. `morangetint`,
+  `mbluetint`, `mpurpletint` and `mredtint` are 40 % of their palette colour in the light theme
+  and 70 % in the dark theme.
 
-* **`scripts/compare.jl` compares every figure with its original sources, and `scripts/check-dark.jl`
-  checks the dark themes.** `compare.jl` reads the originals from `scripts/references.toml`,
+* **`scripts/compare.jl` compares every figure with its original sources, and
+  `scripts/check-dark.jl` checks the dark themes.** `compare.jl` reads the originals from `scripts/references.toml`,
   compiles each one with its old engine, as many times as its old build ran it, on its
   repository's `origin/main`, and prints the number of differing pixels at the old resolution.
   `check-dark.jl` counts the opaque pixels of each dark PNG that are darker than 25 % grey and not
