@@ -71,14 +71,9 @@ what makes the images tightly cropped and free of figure padding. A child scene 
 never been rendered has no content, so `CairoMakie.save` on it writes a fully transparent image —
 the render pass is what this call is for, and it has to happen before the `Axis` is added.
 
-This used to be `display(fig)`, from when the script ran under GLMakie and displaying a figure and
-then drawing into the live window was the idiom. CairoMakie has no interactive backend, so `display`
-falls through to the file-based show stack, which writes a temporary image and hands it to the system
-viewer: 34 Preview windows on macOS on every documentation build, every one of them blank, because
-the call sits between `Figure()` and the `plot_image!` that fills it.
-
-`colorbuffer` is the same render pass without the display stack, and is pixel-identical to what
-`display` produced — verified over all 34 images. `Makie.update_state_before_display!` is *not* a
+`colorbuffer` is the render pass without the display stack. `display(fig)` renders too, but
+CairoMakie has no interactive backend, so `display` writes a temporary image and hands it to the
+system viewer, once for each of the 34 figures. `Makie.update_state_before_display!` is *not* a
 substitute despite the name: it leaves the child scenes empty and the saved images blank.
 """
 force_render!(figure) = (colorbuffer(figure); nothing)

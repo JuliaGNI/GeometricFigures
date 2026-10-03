@@ -50,9 +50,10 @@ package's site.
   light theme, and the dark themes of `pendulum`, `double-pendulum` and `mnist-visualization`, are
   pixel-identical to the old sources at the old resolution. The other 11 dark themes are new.
 
-* **`geometricfigures.sty` defines `onfill`, `axes` and four fill tints.** `onfill`, for text and
-  strokes drawn on a colour fill, is black in both themes. `axes` is darkgray in the light theme and
-  gray in the dark theme. `morangetint`, `mbluetint`, `mpurpletint` and `mredtint` are 40 % of
+* **`geometricfigures.sty` defines `onfill`, `axes`, `pointer` and four fill tints.** `onfill`, for
+  text and strokes drawn on a colour fill, is black in both themes. `axes` is darkgray in the light
+  theme and gray in the dark theme. `pointer`, for an arrow from a label to a point on a colour
+  fill, is `blue!40!fg` in the light theme and `blue!60!white` in the dark theme. `morangetint`, `mbluetint`, `mpurpletint` and `mredtint` are 40 % of
   their palette colour in the light theme and 70 % in the dark theme.
 
 * **`scripts/compare.jl` compares every figure with its original sources, and `scripts/check-dark.jl`
