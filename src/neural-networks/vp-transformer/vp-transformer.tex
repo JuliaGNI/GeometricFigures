@@ -44,7 +44,6 @@
 \coordinate[left of=add1, xshift=-.8cm] (leftofadd1);
 
 \node[fit=(attresidual)(att)(add2)(leftofadd2)(leftofadd1),draw, ultra thick, rounded corners, label=left:$\mathrm{L\times}$] (encoder) {};
-%\draw[arrow, black!30] (attresidual)-|(leftofadd1)--(add1);
 \draw[arrow] (ffnnresidual)-|(leftofadd2)--(add2);
 
 \draw[arrow] (input) -- (att);

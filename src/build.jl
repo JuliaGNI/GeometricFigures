@@ -48,8 +48,9 @@ of the log when a run fails.
 
 Where the source's directory holds a script `<name>.jl`, that script runs first, in a new
 anonymous module, with `workdir` as the working directory: it writes the figure's raster inputs
-there. A script that throws, as on a `using` of a package that the active environment lacks,
-makes `compile` throw an error that names the figure.
+there, and it can `include` a file beside it. A script that throws, as on a `using` of a package
+that the active environment lacks, makes `compile` throw an error that names the figure and quotes
+the script's error; an `InterruptException` stays an `InterruptException`.
 """
 function compile(f::Figure, theme::AbstractString, workdir::AbstractString)
     for file in readdir(source_dir(f))
@@ -58,8 +59,12 @@ function compile(f::Figure, theme::AbstractString, workdir::AbstractString)
     script = joinpath(workdir, f.name * ".jl")
     if isfile(script)
         try
-            cd(() -> Base.include(Module(), script), workdir)
+            m = Module()
+            Core.eval(m, :(include(path) = Base.include($m, path)))
+            cd(() -> Base.include(m, script), workdir)
         catch e
+            cause = e isa LoadError ? e.error : e
+            cause isa InterruptException && throw(cause)
             error("the script $(f.name).jl of the figure $(f.name) throws:\n" *
                   sprint(showerror, e))
         end
@@ -110,8 +115,9 @@ to write its raster inputs; the active environment must hold the packages that s
 
 Needs the engine of each figure, `xelatex` or `pdflatex`, and `pdftocairo` from Poppler. Throws an
 `ArgumentError` for an unknown name, an error that names a needed tool that is not on the `PATH`,
-and an error that names the figure and quotes the last 20 lines of its log when a source does not
-compile or whose script throws. Throws in a shallow clone (see `source_date_epoch`).
+an error that names the figure and quotes the last 20 lines of its log when a source does not
+compile, and an error that names the figure and quotes the script's error when its script throws.
+Throws in a shallow clone (see `source_date_epoch`).
 """
 function build(outdir::AbstractString; names = [f.name for f in figures()])
     selected = [figure(string(name)) for name in names]
