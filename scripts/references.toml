@@ -1,0 +1,170 @@
+# The original sources that `scripts/compare.jl` compares the figures with. One [[reference]] table
+# per original source of one theme of one figure; a figure and theme can have several.
+#
+#   name        the figure's name in src/figures.toml
+#   theme       "light" or "dark"
+#   repository  the name of the checkout that holds the original, found in the directories of
+#               GEOMETRICFIGURES_CHECKOUTS (see scripts/compare.jl)
+#   path        the original .tex on that repository's origin/main
+#   engine      the engine that compiled the original: "xelatex" or "pdflatex"
+#   dpi         the resolution at which the original was rendered to PNG
+#   untracked   optional: files or directories, relative to the directory of `path`, that the
+#               local working tree has and origin/main lacks
+
+[[reference]]
+name = "dogleg-tikz"
+theme = "light"
+repository = "SimpleSolvers"
+path = "docs/src/trust_region/dogleg_tikz_light.tex"
+engine = "pdflatex"
+dpi = 300
+
+[[reference]]
+name = "dogleg-tikz"
+theme = "dark"
+repository = "SimpleSolvers"
+path = "docs/src/trust_region/dogleg_tikz_dark.tex"
+engine = "pdflatex"
+dpi = 300
+
+# solver.tex has no build step on origin/main; it takes the engine and the DPI of the other
+# SimpleSolvers figure.
+[[reference]]
+name = "solver"
+theme = "light"
+repository = "SimpleSolvers"
+path = "docs/src/tikz/solver.tex"
+engine = "pdflatex"
+dpi = 300
+
+[[reference]]
+name = "commuting-diagram"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/commuting-diagram.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "omega-orthogonal-projection"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/omega-orthogonal-projection.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "post-projection"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/post-projection.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "post-projection-unstable"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/post-projection-unstable.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "standard-projection"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/standard-projection.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "symmetric-projection-minus"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/symmetric-projection-minus.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "symmetric-projection-plus"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/symmetric-projection-plus.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "symplectic-projection-unstable"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/symplectic-projection-unstable.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "variation-continuous"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/variation-continuous.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "variation-discrete"
+theme = "light"
+repository = "GeometricIntegrators"
+path = "docs/src/images/variation-discrete.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "pendulum"
+theme = "light"
+repository = "GeometricProblems"
+path = "docs/src/images/pendulum.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "pendulum"
+theme = "dark"
+repository = "GeometricProblems"
+path = "docs/src/images/pendulum_dark.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "double-pendulum"
+theme = "light"
+repository = "GeometricProblems"
+path = "docs/src/images/double-pendulum.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "double-pendulum"
+theme = "dark"
+repository = "GeometricProblems"
+path = "docs/src/images/double-pendulum_dark.tex"
+engine = "xelatex"
+dpi = 150
+
+# The rasters come from mnist_visualization.jl, and final_image.pdf from final_image.tex; the
+# Makefile on origin/main makes them, and none is committed there.
+[[reference]]
+name = "mnist-visualization"
+theme = "light"
+repository = "GMLDatasets"
+path = "docs/src/mnist/mnist_visualization.tex"
+engine = "xelatex"
+dpi = 120
+untracked = ["final_image.pdf", "original", "split", "flatten", "final"]
+
+[[reference]]
+name = "mnist-visualization"
+theme = "dark"
+repository = "GMLDatasets"
+path = "docs/src/mnist/mnist_visualization_dark.tex"
+engine = "xelatex"
+dpi = 120
+untracked = ["final_image.pdf", "original", "split", "flatten", "final"]
