@@ -12,13 +12,13 @@ asset, so that the reader sees the one that matches the Documenter theme:
 ```julia
 makedocs(;
     format = Documenter.HTML(;
-        assets = [asset("https://juliagni.github.io/GeometricFigures/figures.css"; islocal = false)]),
+        assets = [asset("https://juliagni.github.io/GeometricFigures.jl/figures.css"; islocal = false)]),
     ...)
 ```
 
 ```markdown
-![The dogleg path.](https://juliagni.github.io/GeometricFigures/figures/solvers/dogleg-tikz/dogleg-tikz_light.svg)
-![The dogleg path.](https://juliagni.github.io/GeometricFigures/figures/solvers/dogleg-tikz/dogleg-tikz_dark.svg)
+![The dogleg path.](https://juliagni.github.io/GeometricFigures.jl/figures/solvers/dogleg-tikz/dogleg-tikz_light.svg)
+![The dogleg path.](https://juliagni.github.io/GeometricFigures.jl/figures/solvers/dogleg-tikz/dogleg-tikz_dark.svg)
 ```
 
 [`figure_url`](@ref) returns each address. The addresses are not versioned, and the name of a

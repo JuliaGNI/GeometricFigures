@@ -2,7 +2,7 @@ using GeometricFigures
 using GeometricFigures: figures
 using Test
 
-const SITE = "https://juliagni.github.io/GeometricFigures/figures"
+const SITE = "https://juliagni.github.io/GeometricFigures.jl/figures"
 
 @testset "the URL of the seed figure" begin
     dir = "$SITE/solvers/dogleg-tikz"

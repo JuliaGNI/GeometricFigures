@@ -33,10 +33,10 @@ The published address of the figure `name` in the `theme` `"light"` or `"dark"`,
 
 ```julia
 figure_url("dogleg-tikz"; theme = "dark", format = "svg")
-# "https://juliagni.github.io/GeometricFigures/figures/solvers/dogleg-tikz/dogleg-tikz_dark.svg"
+# "https://juliagni.github.io/GeometricFigures.jl/figures/solvers/dogleg-tikz/dogleg-tikz_dark.svg"
 
 figure_url("dogleg-tikz"; theme = "light", format = "png", dpi = 300)
-# "https://juliagni.github.io/GeometricFigures/figures/solvers/dogleg-tikz/png300/dogleg-tikz_light.png"
+# "https://juliagni.github.io/GeometricFigures.jl/figures/solvers/dogleg-tikz/png300/dogleg-tikz_light.png"
 ```
 
 Throws an `ArgumentError` for an unknown name, theme or format, for a PNG without a `dpi` of 150,

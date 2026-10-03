@@ -76,7 +76,7 @@ makedocs(;
 )
 
 deploydocs(;
-    repo = "github.com/JuliaGNI/GeometricFigures.git",
+    repo = "github.com/JuliaGNI/GeometricFigures.jl.git",
     devbranch = "main",
     versions = nothing
 )

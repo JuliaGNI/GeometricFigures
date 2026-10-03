@@ -20,7 +20,7 @@ const SOURCE_DIR = @__DIR__
 const MANIFEST = joinpath(SOURCE_DIR, "figures.toml")
 
 "The address of the published figures."
-const SITE = "https://juliagni.github.io/GeometricFigures/figures"
+const SITE = "https://juliagni.github.io/GeometricFigures.jl/figures"
 
 const THEMES = ("light", "dark")
 const FORMATS = ("pdf", "svg", "png")
