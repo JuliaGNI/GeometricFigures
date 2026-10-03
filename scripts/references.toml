@@ -3,10 +3,12 @@
 #
 #   name        the figure's name in src/figures.toml
 #   theme       "light" or "dark"
-#   repository  the name of the checkout that holds the original, found in the directories of
-#               GEOMETRICFIGURES_CHECKOUTS (see scripts/compare.jl)
+#   repository  the name of the checkout that holds the original, in ~/Research/Packages or
+#               ~/Research/Experiments
 #   path        the original .tex on that repository's origin/main
 #   engine      the engine that compiled the original: "xelatex" or "pdflatex"
+#   runs        optional: how many times the original's build ran the engine, a positive integer;
+#               1 where it is not given
 #   dpi         the resolution at which the original was rendered to PNG
 #   untracked   optional: files or directories, relative to the directory of `path`, that the
 #               local working tree has and origin/main lacks

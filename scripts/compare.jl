@@ -6,15 +6,14 @@
 # `scripts/references.toml`. Compiles each figure with `GeometricFigures.build` in both themes.
 # Compiles each original of `references.toml` the old way: in a copy of its source's directory on
 # its repository's `origin/main`, so that `\input`, a `.sty` and raster inputs resolve, with the
-# entry's `untracked` files copied in from the local working tree, by the entry's engine, once.
-# Renders the new and the old PDF alike, `pdftocairo -png -transp -r <dpi> -singlefile`, at the
+# entry's `untracked` files copied in from the local working tree, by the entry's engine, `runs`
+# times in that directory (1 where the entry gives no `runs`). Renders the new and the old PDF alike, `pdftocairo -png -transp -r <dpi> -singlefile`, at the
 # entry's DPI, which can be outside the 150, 300 and 600 of `build`. Prints
 # `magick compare -metric AE`, the number of pixels that differ, for each entry, and
 # "no original" for a theme that has no entry. Exits 1 unless every AE is 0.
 #
-# The checkout of an entry's `repository` is the directory of that name in one of the directories
-# of `GEOMETRICFIGURES_CHECKOUTS`, separated as in `PATH`; by default `~/Research/Packages` and
-# `~/Research/Experiments`. The script reads `origin/main` as the checkout last fetched it.
+# The checkout of an entry's `repository` is the directory of that name in `~/Research/Packages`
+# or `~/Research/Experiments`. The script reads `origin/main` as the checkout last fetched it.
 #
 # Needs `xelatex`, `pdflatex`, `pdftocairo`, `magick`, `git` and `tar`. Compile both on one
 # machine: TeX Live of another version renders other pixels.
@@ -24,20 +23,14 @@ using GeometricFigures: THEMES, figure, figure_path
 using TOML
 
 const REFERENCES = TOML.parsefile(joinpath(@__DIR__, "references.toml"))["reference"]
-const CHECKOUTS = split(
-    get(ENV, "GEOMETRICFIGURES_CHECKOUTS",
-        join(
-            [joinpath(homedir(), "Research", "Packages"),
-                joinpath(homedir(), "Research", "Experiments")],
-            Sys.iswindows() ? ';' : ':')),
-    Sys.iswindows() ? ';' : ':'; keepempty = false)
+const CHECKOUTS = [joinpath(homedir(), "Research", d) for d in ("Packages", "Experiments")]
 
 "The local checkout of the repository `name`, in one of the directories of `CHECKOUTS`."
 function checkout(name)
     found = filter(isdir, [joinpath(dir, name) for dir in CHECKOUTS])
     length(found) == 1 ||
         error("the checkout $(name) is in $(length(found)) of the directories " *
-              "$(join(CHECKOUTS, ", ")); set GEOMETRICFIGURES_CHECKOUTS to name one")
+              "$(join(CHECKOUTS, ", "))")
     return only(found)
 end
 
@@ -54,7 +47,9 @@ function old_pdf(ref, dir)
         cp(joinpath(repo, sourcedir, path), joinpath(dir, path); force = true)
     end
     cmd = `$(ref["engine"]) -no-shell-escape -interaction=nonstopmode -halt-on-error $(file)`
-    run(pipeline(Cmd(cmd; dir); stdout = devnull))
+    for _ in 1:get(ref, "runs", 1)
+        run(pipeline(Cmd(cmd; dir); stdout = devnull))
+    end
     return joinpath(dir, first(splitext(file)) * ".pdf")
 end
 
