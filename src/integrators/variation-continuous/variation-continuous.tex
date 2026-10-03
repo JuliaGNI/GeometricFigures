@@ -13,14 +13,14 @@
 \begin{document}
 \begin{tikzpicture}[scale=2]%
 
-\begin{scope}[fill = blue!60!bg]
+\begin{scope}[fill = blue!60]
 \clip (4.2, 0.0) rectangle (4.8,1.0);
 \fill
    (3.8, 0.0) .. controls (4.2, 1.1) and (4.6, 0.8)  .. (4.8, 0.6)
 -- (4.8, 0.6) .. controls (4.6, 0.72) and (4.3, 0.73) .. (4.2, 0.7);
 \end{scope}
 
-\draw [shading=axis, outer color=blue!40!bg, inner color=blue!05!bg]
+\draw [shading=axis, outer color=blue!40, inner color=blue!05]
    (4.8, 0.6) .. controls (4.3, 1.3) and  (1.2, 2.5) .. (0.0, 0.0)
 -- (0.0, 0.0) .. controls (1.0, 0.5) and (2.0, 0.5)  .. (3.8, 0.0)
 -- (3.8, 0.0) .. controls (4.2, 1.1) and (4.6, 0.8)  .. (4.8, 0.6);
@@ -28,27 +28,27 @@
 \draw [name path=out4] (4.2, 0.7) .. controls (4.3, 0.73) and (4.6, 0.72) .. (4.8, 0.6);
 
 %\clip (4.2, 0.7);
-%\draw [fill=blue!40!bg] 
+%\draw [fill=blue!40]
 %   (3.8, 0.0) .. controls (4.2, 1.1) and (4.6, 0.8)  .. (4.8, 0.6)
 %-- (4.8, 0.6) .. controls (4.6, 0.72) and (4.3, 0.73) .. (4.2, 0.7);
 
 
-%\draw [name intersections={of=line1 and line2, by=x}, fill=blue!40!bg]
+%\draw [name intersections={of=line1 and line2, by=x}, fill=blue!40]
 %   (3.8, 0.0) .. controls (4.2, 1.1) and (4.6, 0.8)  .. (4.8, 0.6)
 %-- (4.8, 0.6) .. controls (4.6, 0.72) and (4.3, 0.73) .. (4.2, 0.7)
 %-- (x);
 
 
-\draw [fg, name path=curve1] (0.7, 0.6) .. controls (1.7, 1.5) and (2.9, 1.5) .. (3.5, 0.5);
+\draw [onfill, name path=curve1] (0.7, 0.6) .. controls (1.7, 1.5) and (2.9, 1.5) .. (3.5, 0.5);
 \draw [red,   name path=curve2] (0.7, 0.6) .. controls (1.7, 1.2) and (2.9, 1.2) .. (3.5, 0.5);
-\draw [fg, name path=curve3] (0.7, 0.6) .. controls (1.7, 0.9) and (2.9, 0.9) .. (3.5, 0.5);
+\draw [onfill, name path=curve3] (0.7, 0.6) .. controls (1.7, 0.9) and (2.9, 0.9) .. (3.5, 0.5);
 
-\draw [latex-] (2.30, 1.25) .. controls (2.26, 1.18) and (2.24, 1.15) .. (2.233,1.06);
-\draw [latex-] (2.22, 0.82) .. controls (2.22, 0.90) and (2.22, 0.95) .. (2.229,1.01);
+\draw [onfill, latex-] (2.30, 1.25) .. controls (2.26, 1.18) and (2.24, 1.15) .. (2.233,1.06);
+\draw [onfill, latex-] (2.22, 0.82) .. controls (2.22, 0.90) and (2.22, 0.95) .. (2.229,1.01);
 
 
-\filldraw [fg, fill=red] (0.7, 0.6) circle (1.2pt) node[fg, anchor=north west] {$q_0$}
-                            (3.5, 0.5) circle (1.2pt) node[fg, anchor=north west] {$q_T$};
+\filldraw [onfill, fill=red] (0.7, 0.6) circle (1.2pt) node[onfill, anchor=north west] {$q_0$}
+                            (3.5, 0.5) circle (1.2pt) node[onfill, anchor=north west] {$q_T$};
 
 
 \draw [to-, line width=.6pt, blue!40!fg] (2.5, 1.07) -- (2.7, 1.7) node[fg, anchor=south] {$\quad q(t)$};

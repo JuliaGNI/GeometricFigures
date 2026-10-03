@@ -50,13 +50,14 @@ package's site.
   light theme, and the dark themes of `pendulum`, `double-pendulum` and `mnist-visualization`, are
   pixel-identical to the old sources at the old resolution. The other 11 dark themes are new.
 
-* **`geometricfigures.sty` defines `axes` and four fill tints.** `axes` is darkgray in the light
-  theme and gray in the dark theme. `morangetint`, `mbluetint`, `mpurpletint` and `mredtint` are
-  40 % of their palette colour in the light theme and 70 % in the dark theme.
+* **`geometricfigures.sty` defines `onfill`, `axes` and four fill tints.** `onfill`, the text and
+  the border of a colour fill, is black in both themes. `axes` is darkgray in the light theme and
+  gray in the dark theme. `morangetint`, `mbluetint`, `mpurpletint` and `mredtint` are 40 % of
+  their palette colour in the light theme and 70 % in the dark theme.
 
 * **`scripts/compare.jl` compares every figure with its original sources, and `scripts/check-dark.jl`
   checks the dark themes.** `compare.jl` reads the originals from `scripts/references.toml`,
-  compiles each one with its old engine on its repository's `origin/main`, and prints the number
-  of differing pixels at the old resolution. `check-dark.jl` counts the opaque pixels of each dark
-  PNG that are darker than 25 % grey and not a colour fill. Each script exits with status 1 on a
-  difference or a dark pixel.
+  compiles each one with its old engine, as many times as its old build ran it, on its
+  repository's `origin/main`, and prints the number of differing pixels at the old resolution.
+  `check-dark.jl` counts the opaque pixels of each dark PNG that are darker than 25 % grey and not
+  a colour fill. Each script exits with status 1 on a difference or a dark pixel.
