@@ -35,3 +35,22 @@
 \definecolor{mgreen}{RGB}{44,160,44}
 \definecolor{mred}{RGB}{214,39,40}
 \definecolor{mpurple}{RGB}{148,103,189}
+
+% Theme colours of a few figures:
+%
+%   axes                the axes of a plot: darkgray in the light theme, gray in the dark theme
+%   m<colour>tint       a palette colour as the fill of a box with text: 40 % of the colour in the
+%                       light theme, 70 % in the dark theme, for morange, mblue, mpurple and mred
+\ifdefined\darkmode
+    \colorlet{axes}{gray}
+    \colorlet{morangetint}{morange!70}
+    \colorlet{mbluetint}{mblue!70}
+    \colorlet{mpurpletint}{mpurple!70}
+    \colorlet{mredtint}{mred!70}
+\else
+    \colorlet{axes}{darkgray}
+    \colorlet{morangetint}{morange!40}
+    \colorlet{mbluetint}{mblue!40}
+    \colorlet{mpurpletint}{mpurple!40}
+    \colorlet{mredtint}{mred!40}
+\fi

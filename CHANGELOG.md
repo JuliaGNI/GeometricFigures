@@ -41,3 +41,22 @@ package's site.
   `https://juliagni.github.io/GeometricFigures.jl/`.** The earlier address
   `https://juliagni.github.io/GeometricFigures/` served the site only in the minutes between the
   first deployment and the rename, and GitHub Pages does not redirect it.
+
+* **The 14 TikZ figures of GeometricIntegrators, GeometricProblems, SimpleSolvers and GMLDatasets
+  are figures of the package.** The topic `integrators` holds the ten projection and variation
+  figures of GeometricIntegrators, `problems` holds `pendulum` and `double-pendulum`, `solvers`
+  holds `solver`, and `data` holds `mnist-visualization` with its raster inputs, the Julia script
+  that writes them and the TeX source of `final_image.pdf`. Each source renders both themes. Each
+  light theme, and the dark themes of `pendulum`, `double-pendulum` and `mnist-visualization`, are
+  pixel-identical to the old sources at the old resolution. The other 11 dark themes are new.
+
+* **`geometricfigures.sty` defines `axes` and four fill tints.** `axes` is darkgray in the light
+  theme and gray in the dark theme. `morangetint`, `mbluetint`, `mpurpletint` and `mredtint` are
+  40 % of their palette colour in the light theme and 70 % in the dark theme.
+
+* **`scripts/compare.jl` compares every figure with its original sources, and `scripts/check-dark.jl`
+  checks the dark themes.** `compare.jl` reads the originals from `scripts/references.toml`,
+  compiles each one with its old engine on its repository's `origin/main`, and prints the number
+  of differing pixels at the old resolution. `check-dark.jl` counts the opaque pixels of each dark
+  PNG that are darker than 25 % grey and not a colour fill. Each script exits with status 1 on a
+  difference or a dark pixel.
