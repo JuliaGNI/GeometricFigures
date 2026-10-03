@@ -77,3 +77,173 @@ caption = "The mathematical pendulum: a point mass m on a massless rod of length
 name = "double-pendulum"
 topic = "problems"
 caption = "The double pendulum: two point masses m₁ and m₂ on massless rods of lengths l₁ and l₂, the second attached to the first."
+
+[[figure]]
+name = "convex-recombination"
+topic = "neural-networks"
+caption = "Visualization of the reweighting of the input sequence. Here the different coefficients are mostly independent of each other and could in theory produce the same reweighting for each output vector."
+
+[[figure]]
+name = "gml-venn"
+topic = "neural-networks"
+caption = "Geometric machine learning (GML) like traditional geometric numerical integration (GNI) and other structure-preserving numerical methods aims at building models that share properties with the analytic solution of a differential equation."
+
+[[figure]]
+name = "linear-symplectic-transformer"
+topic = "neural-networks"
+caption = "Visualization of the linear symplectic transformer architecture. In this figure the number of SympNet layers per transformer block is two."
+
+[[figure]]
+name = "mha"
+topic = "neural-networks"
+caption = "A representation of a multihead attention layer with three heads."
+
+[[figure]]
+name = "multiple-parameters"
+topic = "neural-networks"
+caption = "Two trajectories of a parameter-dependent ODE with the same initial condition."
+
+[[figure]]
+name = "skew-sym-mapping"
+topic = "neural-networks"
+caption = "The lower-triangular part is copied to the upper-triangular part and the respective entries are negated."
+
+[[figure]]
+name = "structs-visualization"
+topic = "neural-networks"
+caption = "Visualization of how the packages interact."
+
+[[figure]]
+name = "structure-preservation-hierarchy"
+topic = "neural-networks"
+caption = "Symplectic neural networks are a more restrictive class of architectures than volume-preserving ones. But by construction they only work in even dimensions."
+
+[[figure]]
+name = "sympnet-architecture"
+topic = "neural-networks"
+caption = "Visualization of the SympNet architecture."
+
+[[figure]]
+name = "transformer-encoder"
+topic = "neural-networks"
+caption = "Visualization of the standard transformer. It consists of two components: a multihead attention layer and a feedforward neural network."
+
+[[figure]]
+name = "transformer-upscaling"
+topic = "neural-networks"
+caption = "If the transformer dimension is not equal to the system dimension, then we add two more neural network layers. One that maps up to the space whose dimension is the transformer dimension and one that maps down again to the space whose dimension is the system dimension."
+
+[[figure]]
+name = "vp-feedforward"
+topic = "neural-networks"
+caption = "Visualization of how the keywords in the constructor are interpreted."
+
+[[figure]]
+name = "vp-transformer"
+topic = "neural-networks"
+caption = "Visualization of the Volume-Preserving Transformer architecture."
+
+[[figure]]
+name = "adam-optimizer"
+topic = "optimizers"
+caption = "Schematic representation of the Adam optimizer. The first Adam step updates the first and second moments, and the second Adam step outputs the final velocity."
+
+[[figure]]
+name = "general-optimization"
+topic = "optimizers"
+caption = "Schematic visualization of an optimizer step on a manifold: the gradient is mapped to the horizontal component, updated with the cache and retracted."
+
+[[figure]]
+name = "general-optimization-with-boundary"
+topic = "optimizers"
+caption = "Schematic visualization of neural network optimizers to homogeneous spaces."
+
+[[figure]]
+name = "grassmann-sampling"
+topic = "manifolds"
+caption = "We can build a neural network that creates new samples from an unknown distribution."
+
+[[figure]]
+name = "skew-sym-visualization"
+topic = "manifolds"
+caption = "The elements of a skew-symmetric matrix (and other special matrices) are stored as a vector. The elements of the big vector are the entries on the lower left of the matrix, stored row-wise."
+
+[[figure]]
+name = "tangent-vector"
+topic = "manifolds"
+caption = "Weights can be put on manifolds to achieve structure preservation or improved stability."
+
+[[figure]]
+name = "ingredients"
+topic = "reduced-order-modeling"
+caption = "The three ingredients that go into neural network-based machine learning."
+
+[[figure]]
+name = "lpH-equivalence"
+topic = "reduced-order-modeling"
+caption = "We can derive full lpH systems from reduced lpH systems and vice-versa (in some cases). The solid arrows indicate that we have an explicit construction available, the dashed arrow indicates that in this specific case we do not yet know if a structure-preserving reduction is possible."
+
+[[figure]]
+name = "offline-online"
+topic = "reduced-order-modeling"
+caption = "The offline phase in reduced order modeling consists of finding the reduction and the reconstruction. In the online phase we solve the reduced model."
+
+[[figure]]
+name = "reduced-order-modeling-idea"
+topic = "reduced-order-modeling"
+caption = "Schematic representation of a reduced order modeling framework. The width of the individual blocks represent how long it takes to perform a simulation."
+
+[[figure]]
+name = "sae-venn"
+topic = "reduced-order-modeling"
+caption = "Venn diagram visualizing that a symplectic autoencoder (SAE) is symplectic, can change dimension and is nonlinear."
+
+[[figure]]
+name = "solution-manifold-2"
+topic = "reduced-order-modeling"
+caption = "A representation of a two-dimensional solution manifold embedded in three-dimensional Euclidean space."
+
+[[figure]]
+name = "symplectic-autoencoder"
+topic = "reduced-order-modeling"
+caption = "A visualization of the symplectic autoencoder architecture. It is a composition of SympNet layers and PSD-like layers."
+
+[[figure]]
+name = "symplectic-autoencoder-architecture"
+topic = "reduced-order-modeling"
+caption = "Example of a symplectic autoencoder. The SympNet layers are in green, the PSD-like layers are in blue."
+
+[[figure]]
+name = "tensor"
+topic = "data"
+caption = "The three axes of the snapshot tensor are (i) dimension, (ii) time and (iii) parameters."
+
+[[figure]]
+name = "tensor-sampling"
+topic = "data"
+caption = "Visualization of sampling from a tensor. Here the batch size was specified as four, i.e. we sample four blocks."
+
+[[figure]]
+name = "coupled-harmonic-oscillator"
+topic = "problems"
+caption = "Visualization of the coupled harmonic oscillator."
+
+[[figure]]
+name = "third-degree-spline"
+topic = "problems"
+caption = "Third degree spline."
+
+[[figure]]
+name = "logo"
+topic = "logos"
+caption = "The logo of GeometricMachineLearning.jl, a neural network."
+
+[[figure]]
+name = "logo-with-name"
+topic = "logos"
+caption = "The logo of GeometricMachineLearning.jl with the package name."
+
+[[figure]]
+name = "logo-with-name-without-jl"
+topic = "logos"
+caption = "The logo of GeometricMachineLearning.jl with the package name, without the .jl suffix."

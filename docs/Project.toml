@@ -1,4 +1,5 @@
 [deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GeometricFigures = "da7f2503-3a89-49d8-bde7-5251f87a3c1b"
 
@@ -6,4 +7,5 @@ GeometricFigures = "da7f2503-3a89-49d8-bde7-5251f87a3c1b"
 GeometricFigures = {path = ".."}
 
 [compat]
+CairoMakie = "0.15"
 Documenter = "1"

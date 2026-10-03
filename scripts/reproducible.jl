@@ -1,6 +1,6 @@
 # Check that two consecutive builds give the same bytes.
 #
-#   julia --project=. scripts/reproducible.jl [<name> ...]
+#   julia --project=docs scripts/reproducible.jl [<name> ...]
 #
 # Runs `GeometricFigures.build` twice, into two directories, for the figures named, or for every
 # figure without a name. Runs `cmp` on each of the 10 files of each figure: the PDF, the SVG and

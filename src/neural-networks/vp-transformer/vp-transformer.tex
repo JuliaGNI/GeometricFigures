@@ -1,0 +1,57 @@
+\documentclass{standalone}
+\usepackage{geometricfigures}
+\usetikzlibrary{calc, decorations, fit, shapes}
+
+\usepackage{soul}
+\usepackage{xcolor}
+
+\newcommand\ppbb{path picture bounding box}
+
+% The fills are light in the light theme and dark in the dark theme. The grey fill is fg on bg.
+\ifdefined\darkmode
+    \def\filltint{90}
+    \def\greytint{60}
+\else
+    \def\filltint{40}
+    \def\greytint{10}
+\fi
+
+\begin{document}
+\begin{tikzpicture}[module/.style={draw, very thick, rounded corners, minimum width=15ex},
+    attmodule/.style={module, fill=morange!\filltint},
+    ffnnmodule/.style={module, fill=mblue!\filltint},
+    addmodule1/.style={module, fill=fg!\greytint!bg,
+                     path picture={\draw (\ppbb.north west) -- (\ppbb.south east)
+                                         (\ppbb.south west) -- (\ppbb.north east);
+                                         } % <---
+                      },
+    addmodule2/.style={module, fill=mpurple!40},
+    crossout/.style = {draw, inner sep=0pt, cross out, fit=#1},
+    arrow/.style={-stealth, thick, rounded corners},
+]
+\node (input) {Input};
+\node[above of=input, attmodule, align=center, yshift=.3cm] (att) {Volume-Preserving\\Attention};
+\node[above of=att, addmodule1, align=center] (add1) {Add};
+\node[above of=add1, ffnnmodule, align=center, yshift=.1cm] (ffnn) {Volume-Preserving\\Feed Forward};
+\node[above of=ffnn, addmodule2, align=center] (add2) {Add};
+\node[above of=add2] (output) {Output};
+
+%\node[crossout=(addmodule1)] {};
+
+\coordinate (attresidual) at ($(att.south)!0.5!(input.north)$);
+\coordinate (ffnnresidual) at ($(ffnn.south)!0.5!(add1.north)$);
+\coordinate[left of=add2, xshift=-.8cm] (leftofadd2);
+\coordinate[left of=add1, xshift=-.8cm] (leftofadd1);
+
+\node[fit=(attresidual)(att)(add2)(leftofadd2)(leftofadd1),draw, ultra thick, rounded corners, label=left:$\mathrm{L\times}$] (encoder) {};
+%\draw[arrow, black!30] (attresidual)-|(leftofadd1)--(add1);
+\draw[arrow] (ffnnresidual)-|(leftofadd2)--(add2);
+
+\draw[arrow] (input) -- (att);
+\draw[arrow] (att) -- (add1); 
+\draw[arrow] (add1) -- (ffnn);
+\draw[arrow] (ffnn) -- (add2); 
+\draw[arrow] (add2) -- (output);
+
+\end{tikzpicture}
+\end{document}

@@ -62,3 +62,31 @@ package's site.
   repository's `origin/main`, and prints the number of differing pixels at the old resolution.
   `check-dark.jl` counts the opaque pixels of each dark PNG that are darker than 25 % grey and not
   a colour fill. Each script exits with status 1 on a difference or a dark pixel.
+
+* **The 34 figures of GeometricMachineLearning are figures of GeometricFigures.** They include the
+  three that GeometricOptimizers holds and the two that GeometricProblems holds, on the topic pages
+  `neural-networks`, `optimizers`, `manifolds`, `reduced-order-modeling`, `data`, `problems` and
+  `logos`. Each has one source for both themes, and `scripts/references.toml` lists the old sources
+  it replaces. Against them, every figure renders pixel-identical at the old resolution, except
+  where a cause is stated: `solution-manifold-2` has black tick labels in the light theme, where
+  the original's were white, and a white box in the dark theme, where the original's was black;
+  `third-degree-spline` takes GeometricMachineLearning's `very thick` lines, which
+  GeometricProblems' version lacks. `general-optimization`, `logo` and
+  `logo-with-name-without-jl` had no dark version and gain one. `grassmann-sampling` keeps
+  GeometricMachineLearning's `rosenbrock_plot.jl` as `grassmann-sampling.jl`, the script that
+  writes its raster input `rosenbrock_naked.png`; the build runs it, no longer TeX through
+  `\write18`, and the PNG is not committed.
+
+* **`GeometricFigures.build` runs a figure's Julia script before TeX.** Where a figure's directory
+  holds `<name>.jl`, `build` runs it in a new module, in the build copy of that directory, so that
+  it writes the figure's raster inputs there. A script that throws makes `build` throw, naming the
+  figure. The scripts load their packages from the active environment: `docs/Project.toml` holds
+  CairoMakie, and `scripts/compare.jl`, `scripts/check-dark.jl` and `scripts/reproducible.jl` run
+  with `--project=docs`.
+
+* **`transformer-upscaling`, `logo`, `logo-with-name` and `logo-with-name-without-jl` load the
+  `neuralnetwork` package of the TeX distribution.** No copy of it is in the repository, so the
+  build needs the package installed (TeX Live `collection-pictures`). A neuron's text is `onfill`.
+  `transformer-upscaling` draws its transformer box itself, as a `fit` node over the neurons it
+  encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
+  `\maketransformerwhite`.

@@ -1,6 +1,6 @@
 # Check that the dark theme of figures draws no dark foreground.
 #
-#   julia --project=. scripts/check-dark.jl [<name> ...]
+#   julia --project=docs scripts/check-dark.jl [<name> ...]
 #
 # Compiles the figures named, or every figure without a name, with `GeometricFigures.build`, and
 # reads the dark PNG at 300 dpi of each. Counts its pixels that are opaque (alpha = 1) and darker
