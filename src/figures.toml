@@ -11,3 +11,69 @@ name = "dogleg-tikz"
 topic = "solvers"
 caption = "The dogleg path of a trust-region step, from the Cauchy point to the Newton point."
 engine = "pdflatex"
+
+[[figure]]
+name = "solver"
+topic = "solvers"
+caption = "The fields of a NonlinearSolver: its method, problem, Jacobian, cache, options, line-search state and status."
+engine = "pdflatex"
+
+[[figure]]
+name = "commuting-diagram"
+topic = "integrators"
+caption = "Commuting Diagram"
+
+[[figure]]
+name = "omega-orthogonal-projection"
+topic = "integrators"
+caption = "Gradient of the constraint function φ orthogonal and Ω-orthogonal to constant surfaces of φ(q, p) = p − √(p₀² − q²) for p₀ ∈ {1, 2, 3}."
+
+[[figure]]
+name = "post-projection"
+topic = "integrators"
+caption = "Illustration of the post projection method."
+
+[[figure]]
+name = "post-projection-unstable"
+topic = "integrators"
+caption = "The post projection method with a solution that moves away from the constraint submanifold Δ."
+
+[[figure]]
+name = "standard-projection"
+topic = "integrators"
+caption = "Illustration of the standard projection method"
+
+[[figure]]
+name = "symmetric-projection-minus"
+topic = "integrators"
+caption = "Symmetric Projection -"
+
+[[figure]]
+name = "symmetric-projection-plus"
+topic = "integrators"
+caption = "Symmetric Projection +"
+
+[[figure]]
+name = "symplectic-projection-unstable"
+topic = "integrators"
+caption = "The symplectic projection method with a solution that moves away from the constraint submanifold Δ."
+
+[[figure]]
+name = "variation-continuous"
+topic = "integrators"
+caption = "Variations of the continuous trajectory"
+
+[[figure]]
+name = "variation-discrete"
+topic = "integrators"
+caption = "Variations of the discrete trajectory"
+
+[[figure]]
+name = "pendulum"
+topic = "problems"
+caption = "The mathematical pendulum: a point mass m on a massless rod of length l, at the angle θ, in a gravitational field g."
+
+[[figure]]
+name = "double-pendulum"
+topic = "problems"
+caption = "The double pendulum: two point masses m₁ and m₂ on massless rods of lengths l₁ and l₂, the second attached to the first."

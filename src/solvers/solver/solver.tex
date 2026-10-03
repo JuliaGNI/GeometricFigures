@@ -1,0 +1,23 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{geometricfigures}
+\usetikzlibrary{positioning, mindmap}
+
+\begin{document}
+\begin{tikzpicture}[mindmap, concept color=fg, text=bg,%
+                   level 1 concept/.append style={sibling angle=50},%
+                   level 2 concept/.append style={sibling angle=50}]
+  \path[mindmap,concept color=fg,text=bg]
+    node[concept, text=bg] {\texttt{NonlinearSolver <: \\AbstractSolver}}
+    [clockwise from=0]
+    % note that `sibling angle' can only be defined in
+    % `level 1 concept/.append style={}'
+    % note that the `concept color' is passed to the `child'(!)
+    child[concept color=mred] {node[concept] {\texttt{method::\\Nonlinear-\\Method}} }
+    child[concept color=mblue] {node[concept] {\texttt{nonlinear-\\problem::\\Nonlinear-\\Problem}} [clockwise from=-30] child { node[concept] {\texttt{j::Jacobian}}}}
+    child[concept color=mgreen] {node[concept] {\texttt{jacobian::\\Jacobian}} }
+    child[concept color=morange] {node[concept] {\texttt{cache::\\NewtonSolver-\\Cache}} }
+    child[concept color=mpurple] {node[concept] {\texttt{config::\\Options}}}
+    child[concept color=morange!50!mgreen] {node[concept] {\texttt{linesearch::\\Linesearch-\\State}}}
+    child[concept color=morange!50!mblue] {node[concept] {\texttt{status::\\Nonlinear-\\Solver-\\Status}}};
+\end{tikzpicture}
+\end{document}
