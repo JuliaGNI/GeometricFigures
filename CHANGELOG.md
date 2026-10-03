@@ -36,3 +36,7 @@ package's site.
 * **The site deploys unversioned to the `gh-pages` root.** The figures are under
   `https://juliagni.github.io/GeometricFigures/figures/`, and `figures.css` beside them is the
   theme switch that a Documenter manual loads as a remote asset.
+
+* **The repository is `JuliaGNI/GeometricFigures.jl`, so the site and every figure URL are under
+  `https://juliagni.github.io/GeometricFigures.jl/`.** The site never served the earlier address
+  `https://juliagni.github.io/GeometricFigures/`, so no published link changes.
