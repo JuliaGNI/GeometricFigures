@@ -48,9 +48,10 @@ of the log when a run fails.
 
 Where the source's directory holds a script `<name>.jl`, that script runs first, in a new
 anonymous module, with `workdir` as the working directory: it writes the figure's raster inputs
-there, and it can `include` a file beside it. A script that throws, as on a `using` of a package
-that the active environment lacks, makes `compile` throw an error that names the figure and quotes
-the script's error; an `InterruptException` stays an `InterruptException`.
+there, and it can `include` a file beside it and `eval` in its module. A script that throws, as on
+a `using` of a package that the active environment lacks, makes `compile` throw an error that names
+the figure and quotes the script's error; an `InterruptException` stays an `InterruptException`,
+also from a file that the script includes.
 """
 function compile(f::Figure, theme::AbstractString, workdir::AbstractString)
     for file in readdir(source_dir(f))
@@ -59,11 +60,21 @@ function compile(f::Figure, theme::AbstractString, workdir::AbstractString)
     script = joinpath(workdir, f.name * ".jl")
     if isfile(script)
         try
+            # `Module()` lacks the `eval` and `include` that a `module` block defines.
             m = Module()
-            Core.eval(m, :(include(path) = Base.include($m, path)))
+            Core.eval(m,
+                quote
+                    eval(x) = Core.eval($m, x)
+                    include(path) = Base.include($m, path)
+                    include(mapexpr::Function, path) = Base.include(mapexpr, $m, path)
+                end)
             cd(() -> Base.include(m, script), workdir)
         catch e
-            cause = e isa LoadError ? e.error : e
+            # Each `include` level wraps the error in one more `LoadError`.
+            cause = e
+            while cause isa LoadError
+                cause = cause.error
+            end
             cause isa InterruptException && throw(cause)
             error("the script $(f.name).jl of the figure $(f.name) throws:\n" *
                   sprint(showerror, e))

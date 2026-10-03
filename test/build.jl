@@ -63,10 +63,31 @@ end
 end
 
 @testset "a figure's script can include a file beside it" begin
-    with_fixture("helped-figure", "include(\"helper.jl\")\n",
-        ["helper.jl" => "write(\"marker\", \"\")\n"]) do f, workdir
+    # The helper includes a second helper, which defines a global in the script's module.
+    with_fixture("helped-figure",
+        "include(\"helper.jl\")\nisdefined(@__MODULE__, :defined_by_a_helper) && " *
+        "write(\"marker\", \"\")\n",
+        ["helper.jl" => "include(\"inner.jl\")\n",
+            "inner.jl" => "defined_by_a_helper = 1\n"]) do f, workdir
         @test compile(f, "light", workdir) == joinpath(workdir, "helped-figure_light.pdf")
     end
+    @test !isdefined(Main, :defined_by_a_helper)
+    @test !isdefined(GeometricFigures, :defined_by_a_helper)
+    # The two-argument form applies its function to each expression of the helper.
+    with_fixture(
+        "mapped-figure", "include(_ -> :(write(\"marker\", \"\")), \"helper.jl\")\n",
+        ["helper.jl" => "nothing\n"]) do f, workdir
+        @test compile(f, "light", workdir) == joinpath(workdir, "mapped-figure_light.pdf")
+    end
+end
+
+@testset "a figure's script can eval in its own module" begin
+    with_fixture("eval-figure",
+        "eval(:(defined_by_eval = 1))\n@eval write(\"marker\", \"\")\n") do f, workdir
+        @test compile(f, "light", workdir) == joinpath(workdir, "eval-figure_light.pdf")
+    end
+    @test !isdefined(Main, :defined_by_eval)
+    @test !isdefined(GeometricFigures, :defined_by_eval)
 end
 
 @testset "build runs no Julia for a figure without a script" begin
@@ -88,6 +109,12 @@ end
 
 @testset "an interrupt in a script stays an interrupt" begin
     with_fixture("interrupted-figure", "throw(InterruptException())\n") do f, workdir
+        @test_throws InterruptException compile(f, "light", workdir)
+    end
+    # Each `include` adds a `LoadError` around it.
+    with_fixture("nested-interrupt", "include(\"helper.jl\")\n",
+        ["helper.jl" => "include(\"inner.jl\")\n",
+            "inner.jl" => "throw(InterruptException())\n"]) do f, workdir
         @test_throws InterruptException compile(f, "light", workdir)
     end
 end
