@@ -1,0 +1,13 @@
+# The manifest of the figures. One [[figure]] table per figure, whose source is
+# src/<topic>/<name>/<name>.tex:
+#
+#   name     the figure's name, also its URL; no underscore, and permanent once deployed
+#   topic    the site page that shows it
+#   caption  one sentence
+#   engine   "xelatex" (the default when absent) or "pdflatex"
+
+[[figure]]
+name = "dogleg-tikz"
+topic = "solvers"
+caption = "The dogleg path of a trust-region step, from the Cauchy point to the Newton point."
+engine = "pdflatex"

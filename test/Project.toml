@@ -1,0 +1,13 @@
+[deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+GeometricFigures = "da7f2503-3a89-49d8-bde7-5251f87a3c1b"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[sources]
+GeometricFigures = {path = ".."}
+
+[compat]
+Aqua = "0.8"
+SafeTestsets = "0.1.0"
+Test = "1"

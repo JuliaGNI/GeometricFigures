@@ -1,0 +1,68 @@
+# The canonical documentation workflow, plus the TeX toolchain that compiles the figures.
+# GeometricFigures is in DOCS_EXCEPTIONS in install-workflows.sh for that reason, so the installer
+# leaves this file alone rather than overwriting it with the template.
+#
+# The one addition to the canonical body is the `Install the TeX toolchain` step: docs/make.jl
+# calls GeometricFigures.build, which runs xelatex or pdflatex and pdftocairo on every figure
+# before Documenter runs.
+#
+# Keep the rest in step with Environment/Harness/githooks/workflows/Documenter.yml: take any
+# other change from there rather than editing it here. GeometricFigures is in DOCS_ADDITIONS in
+# verify-workflows.jl, whose `documenter_additions_intact` requires every behavioural line of the
+# template to survive inside this file, in order. Comments are ignored, so this header is free to
+# differ; a canonical step that is dropped, reordered or edited here is not.
+#
+# DOCTESTS ARE NOT HERE. They run in CI.yml, in a job pinned to one OS and one Julia version, so
+# that they produce a required status check of their own.
+
+name: Documentation
+
+on:
+    push:
+        branches:
+            - main
+            - master
+        tags: ["*"]
+    pull_request:
+    workflow_dispatch:
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+    build:
+        name: Documentation
+        runs-on: ubuntu-latest
+        timeout-minutes: 90
+        permissions:
+            actions: write
+            contents: write
+            statuses: write
+        env:
+            # GR needs a headless backend on the runner. Harmless where the docs use CairoMakie.
+            GKSwstype: "100"
+        steps:
+            - uses: actions/checkout@v7
+            # The engines (xelatex, pdflatex), the TikZ and science packages the sources load, and
+            # pdftocairo. No step runs a TeX engine with shell escape.
+            - name: Install the TeX toolchain the figures need
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-pictures \
+                                          texlive-science poppler-utils
+            - uses: julia-actions/setup-julia@v3
+              with:
+                  version: "1"
+            - uses: julia-actions/cache@v3
+            - name: Instantiate the documentation environment
+              run: |
+                  julia --project=docs -e '
+                    using Pkg
+                    Pkg.develop(PackageSpec(path = pwd()))
+                    Pkg.instantiate()'
+            - uses: julia-actions/julia-buildpkg@v1
+            - uses: julia-actions/julia-docdeploy@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}

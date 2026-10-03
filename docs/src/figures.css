@@ -1,0 +1,24 @@
+/* The theme switch for the figures of GeometricFigures.
+ *
+ * A consumer manual includes each figure twice, `<name>_light.svg` and `<name>_dark.svg` (or the
+ * PNGs), one after the other, and loads this file as a remote asset. It hides whichever image does
+ * not belong to the active Documenter theme.
+ *
+ * The rules key on Documenter's own `theme--documenter-dark` class rather than on
+ * `prefers-color-scheme`, so they follow the in-page theme switcher. They match on the
+ * `_light`/`_dark` suffix alone, so an image without the suffix stays visible in both themes. */
+
+img[src$="_dark.png"],
+img[src$="_dark.svg"] {
+    display: none;
+}
+
+html.theme--documenter-dark img[src$="_dark.png"],
+html.theme--documenter-dark img[src$="_dark.svg"] {
+    display: initial;
+}
+
+html.theme--documenter-dark img[src$="_light.png"],
+html.theme--documenter-dark img[src$="_light.svg"] {
+    display: none;
+}
