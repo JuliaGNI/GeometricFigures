@@ -1,0 +1,46 @@
+\documentclass[tikz]{standalone}
+\usepackage{geometricfigures}
+
+\usetikzlibrary{fit}
+
+\usepackage{neuralnetwork}
+
+\newcommand{\symplecticlayer}[1][] { \layer[bias=true,nodeclass={symplectic neuron},#1] }
+\newcommand{\autoencoderlayer}[1][] { \layer[bias=true,nodeclass={autoencoder neuron},#1] }
+
+\newcommand{\xin}[2]{$x_#2$}
+\newcommand{\xout}[2]{$\hat x_#2$}
+
+\begin{document}
+
+\begin{neuralnetwork}[height=8, layertitleheight=30, toprow=true]
+
+  % The package's styles, as this figure needs them: a neuron's text reads on its colour fill
+  % in both themes, and a link title sits low with an almost transparent ground.
+  \tikzset{
+    neuron/.append style={text=onfill},
+    linkstitle/.append style={text=gray, fill opacity=0.05, yshift=-1.8cm},
+  }
+
+  \tikzstyle{input neuron}=[neuron, fill=morange];
+  \tikzstyle{hidden neuron}=[neuron, fill=mred];
+  \tikzstyle{output neuron}=[neuron, fill=mgreen];
+  \tikzstyle{symplectic neuron}=[neuron, fill=mblue];
+  \tikzstyle{autoencoder neuron}=[neuron, fill=mpurple];
+
+  \inputlayer[count=4, bias=false, text=\xin]
+
+  \autoencoderlayer[count=6, bias=false]
+  \linklayers[title=$\Psi^\mathrm{up}$]
+
+  \hiddenlayer[count=6, bias=false]
+  \linklayers%[title=$\psi^2_\mathrm{symp}$]
+  % The transformer box encloses layer 1 (six neurons) and layer 2 (six neurons).
+  \node[fit=(L1-1) (L1-6) (L2-1) (L2-6), draw, ultra thick, rounded corners, color=fg,
+        label=above:Transformer] {};
+
+  \outputlayer[count=4, text=\xout]%, title=Output Layer
+  \linklayers[title=$\Psi^\mathrm{down}$]
+  % \node[fit=\thislayer,draw, ultra thick, rounded corners, label=left:Transformer] (transformer) {};
+\end{neuralnetwork}
+\end{document}

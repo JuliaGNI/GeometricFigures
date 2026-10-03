@@ -150,3 +150,688 @@ repository = "GeometricProblems"
 path = "docs/src/images/double-pendulum_dark.tex"
 engine = "xelatex"
 dpi = 150
+
+# The figures of GeometricMachineLearning, at the resolutions of the `png` target of its
+# docs/src/tikz/Makefile: 150 dpi, and 200, 100 and 180 dpi for the four figures it names.
+
+[[reference]]
+name = "convex-recombination"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/convex_recombination_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "convex-recombination"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/convex_recombination_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "gml-venn"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/gml_venn_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "gml-venn"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/gml_venn_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "linear-symplectic-transformer"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/linear_symplectic_transformer_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "linear-symplectic-transformer"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/linear_symplectic_transformer_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "mha"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/mha_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "mha"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/mha_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "multiple-parameters"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/multiple_parameters_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "multiple-parameters"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/multiple_parameters_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "skew-sym-mapping"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/skew_sym_mapping_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "skew-sym-mapping"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/skew_sym_mapping_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "structs-visualization"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/structs_visualization_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 100
+
+[[reference]]
+name = "structs-visualization"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/structs_visualization_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 100
+
+[[reference]]
+name = "structure-preservation-hierarchy"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/structure_preservation_hierarchy_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "structure-preservation-hierarchy"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/structure_preservation_hierarchy_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "sympnet-architecture"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/sympnet_architecture_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 200
+
+[[reference]]
+name = "sympnet-architecture"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/sympnet_architecture_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 200
+
+[[reference]]
+name = "transformer-encoder"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/transformer_encoder_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "transformer-encoder"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/transformer_encoder_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "transformer-upscaling"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/transformer_upscaling_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "transformer-upscaling"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/transformer_upscaling_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "vp-feedforward"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/vp_feedforward_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "vp-feedforward"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/vp_feedforward_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "vp-transformer"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/vp_transformer_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "vp-transformer"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/vp_transformer_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "adam-optimizer"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/adam_optimizer_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "adam-optimizer"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/adam_optimizer_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "adam-optimizer"
+theme = "light"
+repository = "GeometricOptimizers"
+path = "docs/src/tikz/adam_optimizer_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "adam-optimizer"
+theme = "dark"
+repository = "GeometricOptimizers"
+path = "docs/src/tikz/adam_optimizer_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+# general_optimization has no dark original.
+[[reference]]
+name = "general-optimization"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/general_optimization_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "general-optimization-with-boundary"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/general_optimization_with_boundary_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "general-optimization-with-boundary"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/general_optimization_with_boundary_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "general-optimization-with-boundary"
+theme = "light"
+repository = "GeometricOptimizers"
+path = "docs/src/tikz/general_optimization_with_boundary_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "general-optimization-with-boundary"
+theme = "dark"
+repository = "GeometricOptimizers"
+path = "docs/src/tikz/general_optimization_with_boundary_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+# rosenbrock_naked.png is untracked in GeometricMachineLearning: its source runs
+# rosenbrock_plot.jl through \write18 to make it.
+[[reference]]
+name = "grassmann-sampling"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/grassmann_sampling_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+untracked = ["rosenbrock_naked.png"]
+
+[[reference]]
+name = "grassmann-sampling"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/grassmann_sampling_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+untracked = ["rosenbrock_naked.png"]
+
+[[reference]]
+name = "skew-sym-visualization"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/skew_sym_visualization_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "skew-sym-visualization"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/skew_sym_visualization_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "skew-sym-visualization"
+theme = "light"
+repository = "GeometricOptimizers"
+path = "docs/src/tikz/skew_sym_visualization_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "skew-sym-visualization"
+theme = "dark"
+repository = "GeometricOptimizers"
+path = "docs/src/tikz/skew_sym_visualization_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "tangent-vector"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/tangent_vector_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "tangent-vector"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/tangent_vector_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "ingredients"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/ingredients_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "ingredients"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/ingredients_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "lpH-equivalence"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/lpH_equivalence_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "lpH-equivalence"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/lpH_equivalence_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "offline-online"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/offline_online_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 200
+
+[[reference]]
+name = "offline-online"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/offline_online_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 200
+
+[[reference]]
+name = "reduced-order-modeling-idea"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/reduced_order_modeling_idea_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "reduced-order-modeling-idea"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/reduced_order_modeling_idea_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "sae-venn"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/sae_venn_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "sae-venn"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/sae_venn_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "solution-manifold-2"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/solution_manifold_2_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "solution-manifold-2"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/solution_manifold_2_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "symplectic-autoencoder"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/symplectic_autoencoder_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "symplectic-autoencoder"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/symplectic_autoencoder_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "symplectic-autoencoder-architecture"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/symplectic_autoencoder_architecture_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "symplectic-autoencoder-architecture"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/symplectic_autoencoder_architecture_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "tensor"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/tensor_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "tensor"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/tensor_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "tensor-sampling"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/tensor_sampling_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 180
+
+[[reference]]
+name = "tensor-sampling"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/tensor_sampling_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 180
+
+[[reference]]
+name = "coupled-harmonic-oscillator"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/coupled_harmonic_oscillator_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "coupled-harmonic-oscillator"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/coupled_harmonic_oscillator_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+# GeometricProblems renders coupled_harmonic_oscillator at 250 dpi (docs/src/images/Makefile).
+[[reference]]
+name = "coupled-harmonic-oscillator"
+theme = "light"
+repository = "GeometricProblems"
+path = "docs/src/images/coupled_harmonic_oscillator.tex"
+engine = "xelatex"
+dpi = 250
+
+[[reference]]
+name = "coupled-harmonic-oscillator"
+theme = "dark"
+repository = "GeometricProblems"
+path = "docs/src/images/coupled_harmonic_oscillator_dark.tex"
+engine = "xelatex"
+dpi = 250
+
+[[reference]]
+name = "third-degree-spline"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/third_degree_spline_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "third-degree-spline"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/third_degree_spline_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+# The light original of GeometricProblems lacks the `very thick` lines of GeometricMachineLearning's,
+# whose version the figure takes: a non-zero AE is expected against it.
+[[reference]]
+name = "third-degree-spline"
+theme = "light"
+repository = "GeometricProblems"
+path = "docs/src/images/third_degree_spline.tex"
+engine = "xelatex"
+dpi = 150
+
+[[reference]]
+name = "third-degree-spline"
+theme = "dark"
+repository = "GeometricProblems"
+path = "docs/src/images/third_degree_spline_dark.tex"
+engine = "xelatex"
+dpi = 150
+
+# The logos: logo.tex and logo_with_name_without_jl.tex have no dark original. The Makefile
+# renders logo at 150 dpi and the two logos with a name to SVG and PDF only; they are compared
+# at 150 dpi.
+[[reference]]
+name = "logo"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/logo.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "logo-with-name"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/logo_with_name_light.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "logo-with-name"
+theme = "dark"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/logo_with_name_dark.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150
+
+[[reference]]
+name = "logo-with-name-without-jl"
+theme = "light"
+repository = "GeometricMachineLearning"
+path = "docs/src/tikz/logo_with_name_without_jl.tex"
+engine = "xelatex"
+runs = 2
+dpi = 150

@@ -5,7 +5,8 @@ using Test
 const ENTRIES = figures()
 const NAMES = [f.name for f in ENTRIES]
 
-# A source is `src/<topic>/<name>/<name>.tex`; any other file of that directory is an input.
+# A source is `src/<topic>/<name>/<name>.tex`; any other file of that directory is an input, or
+# the script `<name>.jl` that writes one.
 const SOURCES = [(topic, name)
                  for topic in readdir(SOURCE_DIR)
                  if isdir(joinpath(SOURCE_DIR, topic))

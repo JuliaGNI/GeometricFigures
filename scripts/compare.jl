@@ -1,6 +1,6 @@
 # Compare figures with the original sources they replace, pixel by pixel.
 #
-#   julia --project=. scripts/compare.jl [<name> ...]
+#   julia --project=docs scripts/compare.jl [<name> ...]
 #
 # Takes the figures named, or without a name every figure that has an entry in
 # `scripts/references.toml`. Compiles each figure with `GeometricFigures.build` in both themes.

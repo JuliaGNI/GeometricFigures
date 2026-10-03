@@ -45,10 +45,40 @@ takes a name relative to the source. The copy keeps the absolute path of the wor
 the PDF: both engines hash the path of their output into its `/ID`. The dark theme has
 `\\def\\darkmode{}` prepended. Throws an error that names the figure and quotes the last 20 lines
 of the log when a run fails.
+
+Where the source's directory holds a script `<name>.jl`, that script runs first, in a new
+anonymous module, with `workdir` as the working directory: it writes the figure's raster inputs
+there, and it can `include` a file beside it and `eval` in its module. A script that throws, as on
+a `using` of a package that the active environment lacks, makes `compile` throw an error that names
+the figure and quotes the script's error; an `InterruptException` stays an `InterruptException`,
+also from a file that the script includes.
 """
 function compile(f::Figure, theme::AbstractString, workdir::AbstractString)
     for file in readdir(source_dir(f))
         cp(joinpath(source_dir(f), file), joinpath(workdir, file))
+    end
+    script = joinpath(workdir, f.name * ".jl")
+    if isfile(script)
+        try
+            # `Module()` lacks the `eval` and `include` that a `module` block defines.
+            m = Module()
+            Core.eval(m,
+                quote
+                    eval(x) = Core.eval($m, x)
+                    include(path) = Base.include($m, path)
+                    include(mapexpr::Function, path) = Base.include(mapexpr, $m, path)
+                end)
+            cd(() -> Base.include(m, script), workdir)
+        catch e
+            # Each `include` level wraps the error in one more `LoadError`.
+            cause = e
+            while cause isa LoadError
+                cause = cause.error
+            end
+            cause isa InterruptException && throw(cause)
+            error("the script $(f.name).jl of the figure $(f.name) throws:\n" *
+                  sprint(showerror, e))
+        end
     end
     job = "$(f.name)_$(theme)"
     prefix = theme == "dark" ? "\\def\\darkmode{}" : ""
@@ -90,10 +120,15 @@ which is the layout of the published `figures/` directory (see [`figure_url`](@r
 of the same commit on one machine give the same bytes: `SOURCE_DATE_EPOCH` is the commit time of
 the figure's last change.
 
+A figure whose directory holds a script `<name>.jl` runs it before TeX, in each theme's build copy,
+to write its raster inputs; the active environment must hold the packages that script loads, as
+`docs/Project.toml` holds CairoMakie.
+
 Needs the engine of each figure, `xelatex` or `pdflatex`, and `pdftocairo` from Poppler. Throws an
 `ArgumentError` for an unknown name, an error that names a needed tool that is not on the `PATH`,
-and an error that names the figure and quotes the last 20 lines of its log when a source does not
-compile. Throws in a shallow clone (see `source_date_epoch`).
+an error that names the figure and quotes the last 20 lines of its log when a source does not
+compile, and an error that names the figure and quotes the script's error when its script throws.
+Throws in a shallow clone (see `source_date_epoch`).
 """
 function build(outdir::AbstractString; names = [f.name for f in figures()])
     selected = [figure(string(name)) for name in names]

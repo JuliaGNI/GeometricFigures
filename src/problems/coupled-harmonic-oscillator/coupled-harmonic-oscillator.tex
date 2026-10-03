@@ -1,0 +1,79 @@
+\documentclass[border=0.2cm]{standalone}
+ 
+% Required package and libraries
+\usepackage{geometricfigures}
+\usetikzlibrary{decorations.pathmorphing,patterns}
+
+\usepackage{xcolor}
+
+% The hatching of the support: the default pattern in the light theme, drawn in fg in the dark
+% theme, where the default pattern is black.
+\ifdefined\darkmode
+    \tikzset{support/.style={fg}}
+\else
+    \tikzset{support/.style={}}
+\fi
+
+\begin{document}
+
+
+\begin{tikzpicture}[
+    fg,
+    thick,
+    spring/.style={decoration={
+        coil,
+        aspect=0.3, 
+        segment length=1.2mm, 
+        amplitude=2mm, 
+        pre length=1mm,
+        post length=1mm}}]
+ 
+% Supporting structure
+\fill [pattern = north west lines, support] (-1.8, 0) rectangle (0.1, .2);
+\draw[thick] (-2,0) -- (.3,0);
+ 
+% Mass 1
+    \node[draw,
+    fill=mpurple!60,
+    minimum width=1cm,
+    minimum height=0.75cm,
+    anchor=north,
+    label=south:$m_1$] (mass1) at (-1.7,-2) {};
+
+    % Mass 2
+\node[draw,
+    fill=morange!60,
+    minimum width=1cm,
+    minimum height=0.75cm,
+    anchor=north,
+    label=south:$m_2$] (mass2) at (0,-3) {};
+ 
+% q1 arrow
+\draw[very thick,
+    mpurple,
+    |-|] (-2.5, 0) -- (-2.5,-2.375)
+    node[midway,left]{\small \color{fg} $q_1$};
+ 
+% q2 arrow
+\draw [very thick,
+    morange,
+    |-|] (0.9, 0) -- (0.9, -3.375)
+    node[midway, right]{\small \color{fg}$q_2$};
+ 
+% Spring 
+\draw
+[spring, decorate] (-1.7,0) -- (-1.7,-2) 
+    node[midway,right=0.12cm,fg]{$k_1$}; 
+
+    % Spring 
+\draw
+[spring, decorate] (0,0) -- (0,-3) 
+    node[midway,right=0.12cm,fg]{$k_2$}; 
+
+    \draw
+    [spring, decorate] (-1.2,-2.75) -- (-.5,-3) 
+        node[midway, above=0.12cm, xshift=.1cm, fg]{$k$}; 
+
+\end{tikzpicture}
+ 
+\end{document}
