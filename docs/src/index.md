@@ -27,8 +27,10 @@ figure does not change once it is published.
 ## Adding a figure
 
 A figure is one source, `src/<topic>/<name>/<name>.tex`, with its raster inputs beside it, and one
-entry in `src/figures.toml`. The source loads `geometricfigures.sty`, which defines the theme
-colours `fg`, `bg` and `muted` and the shared palette. The build compiles each source twice, the
+entry in `src/figures.toml`. A raster input that a Julia script generates is not committed: the
+script is `<name>.jl` beside the source, and the build runs it before LaTeX. The source loads
+`geometricfigures.sty`, which defines the theme colours `fg`, `bg` and `muted` and the shared
+palette. The build compiles each source twice, the
 second time with `\def\darkmode{}` prepended, so a source takes every colour that depends on the
 theme from the package and never writes `white` or `black`.
 
