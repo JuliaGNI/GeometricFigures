@@ -1,5 +1,11 @@
 # GeometricFigures
 
+[![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://JuliaGNI.github.io/GeometricFigures.jl/)
+[![Build Status](https://github.com/JuliaGNI/GeometricFigures.jl/workflows/CI/badge.svg)](https://github.com/JuliaGNI/GeometricFigures.jl/actions)
+[![Documentation](https://github.com/JuliaGNI/GeometricFigures.jl/workflows/Documentation/badge.svg)](https://github.com/JuliaGNI/GeometricFigures.jl/actions)
+[![Coverage](https://codecov.io/gh/JuliaGNI/GeometricFigures.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaGNI/GeometricFigures.jl)
+[![Aqua QA](https://juliatesting.github.io/Aqua.jl/dev/assets/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
 TikZ figures of the JuliaGNI packages, compiled in light and dark themes.
 
 Each figure is one source, `src/<topic>/<name>/<name>.tex`, listed in `src/figures.toml`. The
