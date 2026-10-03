@@ -38,5 +38,6 @@ package's site.
   theme switch that a Documenter manual loads as a remote asset.
 
 * **The repository is `JuliaGNI/GeometricFigures.jl`, so the site and every figure URL are under
-  `https://juliagni.github.io/GeometricFigures.jl/`.** The site never served the earlier address
-  `https://juliagni.github.io/GeometricFigures/`, so no published link changes.
+  `https://juliagni.github.io/GeometricFigures.jl/`.** The earlier address
+  `https://juliagni.github.io/GeometricFigures/` served the site only in the minutes between the
+  first deployment and the rename, and GitHub Pages does not redirect it.
