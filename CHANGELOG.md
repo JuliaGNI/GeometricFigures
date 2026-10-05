@@ -93,15 +93,15 @@ package's site.
 
 * **26 TikZ figures of a symplectic autoencoder trained on the pendulum are figures of the topic
   `pendulum-autoencoder`.** They accompany the paper on symplectic autoencoders
-  (arXiv:2312.10004). Each loads
-  `geometricfigures.sty` and takes `fg` for black and `bg` for white, with `black!<p>` as
-  `fg!<p>!bg` and a palette tint `<colour>!<p>` as `<colour>!<p>!bg`, so that the light theme
-  renders pixel-identical to the original at 150 dpi and the dark theme is new. They compile with `pdflatex` and need no data file: the coordinates generated from trained
+  (arXiv:2312.10004). Each loads `geometricfigures.sty` and takes `fg` for black and `bg` for
+  white, with `black!<p>` as `fg!<p>!bg` and a palette tint `<colour>!<p>` as `<colour>!<p>!bg`,
+  so that the light theme renders pixel-identical to the original at 150 dpi and the dark theme is
+  new. They compile with `pdflatex` and need no data file: the coordinates generated from trained
   weights are written into the sources. `scripts/references.toml` has no entry for them.
 
 * **A topic page can open with a tracked introduction.** `docs/make.jl` writes
   `docs/topic-intros/<topic>.md`, where it exists, between the page's heading and its figures; the
   file is outside `docs/src/`, so Documenter does not publish it as a page of its own. The
-  introduction of `pendulum-autoencoder` names the figures' source and revision, and an info box
-  lists the figures that draw trained weights or the training set, which must be regenerated in the
-  paper repository and resynced after a re-training.
+  introduction of `pendulum-autoencoder` names the paper (arXiv:2312.10004), and an info box lists
+  the figures that draw trained weights or the training set, which must be regenerated from the
+  re-trained network and resynced after a re-training.
