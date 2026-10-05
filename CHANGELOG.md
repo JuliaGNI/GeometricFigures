@@ -101,5 +101,8 @@ package's site.
   to before. Eight dark renders change: the open markers of the six projection figures of
   `integrators`, the text on the central node of `solver`, and the grey fill of `vp-transformer`,
   which is lighter and no longer pixel-identical to GeometricMachineLearning's dark original
-  (`scripts/references.toml` says so). The dark previews of the site are on `#1F2424`, and
-  `scripts/check-dark.jl` counts no pixel of the colour `bg` itself (within 2 per channel).
+  (`scripts/references.toml` says so). The dark previews of the site are on `#1F2424`.
+  `scripts/check-dark.jl` now counts the opaque, unsaturated pixels darker than `bg` (HSL
+  lightness below 0.11, where `bg` has 0.13) instead of those darker than 25 % grey: with a grey
+  `bg`, a mask, a grey `fg!<p>!bg` and a tint `<colour>!<p>!bg` are as light as the page or lighter,
+  and a faint tint mixed with it has too little saturation to pass as a colour fill.
