@@ -90,3 +90,23 @@ package's site.
   `transformer-upscaling` draws its transformer box itself, as a `fit` node over the neurons it
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
+
+* **14 figures of homogeneous spaces, Lie groups and tangent spaces from the talk *Geometric
+  Machine Learning* (LMU, September 2026).** Twelve are in the topic `manifolds`:
+  `homogeneous-space`, `homogeneous-space-action`, `lie-group-venn`, `lie-group`, `lie-algebra`,
+  `lie-algebra-representation`, `projected-diagram`, `tangent-space`,
+  `manifold-with-tangent-space`, `manifold-with-tangent-spaceE`, `homogeneous-geodesics` and
+  `skew-sym-projection`. Two are in `optimizers`: `general-optimization-notation` and
+  `manifold-optimization-motivation`. Names are the talk's file names with `-` for `_`, with three
+  exceptions:
+  - the talk's `manifold` is `homogeneous-space-action`, because a generic name is permanent once
+    deployed;
+  - its `skew_sym_visualization`, a different picture from the existing `skew-sym-visualization`
+    (a general matrix projected onto a skew-symmetric one), is `skew-sym-projection`;
+  - its `general_optimizer` is `general-optimization-notation`, because it is
+    `general-optimization-with-boundary` with mathematical notation in place of code names.
+
+  Each loads `geometricfigures.sty` and takes `fg` for black, `bg` for white, `muted` for gray and
+  `<colour>!<p>!bg` for a tint used as a fill. The light theme renders pixel-identical to the
+  original compiled with `xelatex` at 150 dpi. The animated variants of four of them are left out:
+  they are multi-page PDFs, and each static figure is the last frame of its animation.

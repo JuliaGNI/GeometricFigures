@@ -159,6 +159,16 @@ topic = "optimizers"
 caption = "Schematic visualization of neural network optimizers to homogeneous spaces."
 
 [[figure]]
+name = "general-optimization-notation"
+topic = "optimizers"
+caption = "One optimization step on a homogeneous space in mathematical notation: the Riemannian gradient in T_Y M, its global representation in 𝔤^hor, the Adam update, the retraction to G and the action Λ back to M."
+
+[[figure]]
+name = "manifold-optimization-motivation"
+topic = "optimizers"
+caption = "Physical constraints and orthogonality constraints, two independent reasons to put the weights of a neural network on a manifold."
+
+[[figure]]
 name = "grassmann-sampling"
 topic = "manifolds"
 caption = "We can build a neural network that creates new samples from an unknown distribution."
@@ -172,6 +182,66 @@ caption = "The elements of a skew-symmetric matrix (and other special matrices) 
 name = "tangent-vector"
 topic = "manifolds"
 caption = "Weights can be put on manifolds to achieve structure preservation or improved stability."
+
+[[figure]]
+name = "homogeneous-space"
+topic = "manifolds"
+caption = "A two-dimensional manifold M embedded in ℝ³, the surface on which the homogeneous-space figures are drawn."
+
+[[figure]]
+name = "homogeneous-space-action"
+topic = "manifolds"
+caption = "A homogeneous space: group elements g and g′ carry the same point a to two different targets b and b′, so the action is transitive."
+
+[[figure]]
+name = "lie-group-venn"
+topic = "manifolds"
+caption = "Every Lie group is a homogeneous space, but not conversely: SO(n) and 𝕋ⁿ are Lie groups, while Sⁿ, Gr(n, N) and St(n, N) are only homogeneous spaces."
+
+[[figure]]
+name = "lie-group"
+topic = "manifolds"
+caption = "A Lie group G drawn as a torus, with its identity 𝕀."
+
+[[figure]]
+name = "lie-algebra"
+topic = "manifolds"
+caption = "The Lie algebra 𝔤 ≃ T_𝕀 G as a plane through the origin 𝕆, with an element X."
+
+[[figure]]
+name = "lie-algebra-representation"
+topic = "manifolds"
+caption = "The Lie algebra 𝔤 as the tangent space of the Lie group G at the identity, and the exponential map that sends X ∈ 𝔤 to an element g of G."
+
+[[figure]]
+name = "projected-diagram"
+topic = "manifolds"
+caption = "The projection π: G → M of a homogeneous space, the fibres H = π⁻¹(E) and H_Y = π⁻¹(Y), and a section λ with λ(Y)⁻¹ carrying H_Y onto H."
+
+[[figure]]
+name = "tangent-space"
+topic = "manifolds"
+caption = "The tangent space T_Y M at a point Y of a manifold, with a tangent vector v."
+
+[[figure]]
+name = "manifold-with-tangent-space"
+topic = "manifolds"
+caption = "A manifold M with the tangent space T_Y M at Y, a tangent vector v, and the curve exp(t·log(g)) from Y to b."
+
+[[figure]]
+name = "manifold-with-tangent-spaceE"
+topic = "manifolds"
+caption = "A manifold M with the tangent space T_E M at the distinguished point E, a tangent vector v, and the curve exp(t·log(g)) from E to b."
+
+[[figure]]
+name = "homogeneous-geodesics"
+topic = "manifolds"
+caption = "A geodesic on a homogeneous space: X ∈ 𝔤^hor is exponentiated to the curve exp(tX) in G, which π maps to the geodesic γ_M(t) in M."
+
+[[figure]]
+name = "skew-sym-projection"
+topic = "manifolds"
+caption = "A general n × n matrix and its projection onto the skew-symmetric matrices, which keeps the lower triangle and negates it into the upper one."
 
 [[figure]]
 name = "ingredients"

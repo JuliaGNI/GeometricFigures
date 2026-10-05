@@ -1,0 +1,60 @@
+% A homogeneous space M: the group acts transitively, so the one point a is carried to two
+% different targets b and b' by two different group elements g and g'.
+\documentclass{standalone}
+\usepackage{geometricfigures}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+\begin{tikzpicture}
+    \begin{axis}[
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        grid=major,
+        view={-30}{30}, % Adjust the view for better visibility
+        colormap/viridis, % Use the viridis colormap
+    ]
+        % (ii) Plot the 2D manifold with the Julia-like (viridis) colormap
+        \addplot3[
+            surf,
+            shader=interp,
+            domain=-5:5,
+            y domain=-5:5,
+            samples=50,
+            opacity=0.9, % Make the surface slightly transparent
+        ]{sin(deg(.5*x)) * cos(deg(.5*y))};
+
+        % ---- the orbit of a: two targets, two group elements ------------------
+        % g . a = b,   along (-4,4) -> (4,-4)
+        \addplot3[
+            domain=0:1, samples=100, samples y=0, color=mred, thick, opacity=.9,
+        ]({-4 + 8*x}, {4 - 8*x}, {sin(deg(.5*(-4 + 8*x))) * cos(deg(.5*(4 - 8*x)))});
+        % g' . a = b',  along (-4,4) -> (0,-4).  Both targets are on the front edge
+        % y = -4, which is the only edge this view (-30/30) does not fold into the
+        % middle of the picture: the corners (-4,-4) and (4,4) project inside the
+        % surface and a point put there lands on top of the other curve.
+        \addplot3[
+            domain=0:1, samples=100, samples y=0, color=mpurple, thick, opacity=.9,
+        ]({-4 + 4*x}, {4 - 8*x}, {sin(deg(.5*(-4 + 4*x))) * cos(deg(.5*(4 - 8*x)))});
+
+        % (i) the source point and the two images
+        \addplot3[only marks, mark=*, mark size=3pt, color=mred] coordinates {
+            (-4, 4, {sin(deg(-2)) * cos(deg(2))})   % a
+            (4, -4, {sin(deg(2)) * cos(deg(-2))})   % b
+        };
+        \addplot3[only marks, mark=*, mark size=3pt, color=mpurple] coordinates {
+            (0, -4, {0 * cos(deg(-2))})             % b'
+        };
+
+        \node[above right, color=mred]    at (axis cs:-4,4,{sin(deg(-2)) * cos(deg(2))}) {$a$};
+        \node[above right, color=mred]    at (axis cs:4,-4,{sin(deg(2)) * cos(deg(-2))}) {$b$};
+        \node[below right, color=mpurple] at (axis cs:0,-4,0) {$b'$};
+        \node[above right, color=fg]   at (axis cs:4,-4,-.8) {$\mathcal{M}$};
+
+        % each curve carries the element that realises it
+        \node[color=mred]    at (axis cs: 1.0,-1.0,.95)   {${\color{mred}g}$};
+        \node[color=mpurple] at (axis cs:-3.3,-1.0,-.95) {${\color{mpurple}g'}$};
+    \end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,46 @@
+% A point X of g^hor, exponentiated into G, and the same motion pushed down to M by pi:
+% gamma_M(t) = exp(tX).E.
+%
+% The labels sit on a second, undrawn copy of each curve (`\path ... node[pos=0.8]'), and the
+% bounding box is pinned, so that an animated version that grows the red paths keeps the same
+% page and labels.
+\documentclass[border=0pt]{standalone}
+\usepackage{geometricfigures}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usetikzlibrary{positioning, fit, calc, arrows.meta, shapes.geometric}
+
+\usepackage{xcolor}
+
+\begin{document}
+\begin{tikzpicture}[
+    arrow/.style={->, >=Stealth, thick},
+    path/.style={thick, color=mred}
+]
+    % The bounding box, pinned, so that an animated version crops every frame to this page.
+    % The numbers are the picture's own natural box, read out of \pgf@picminx and its
+    % three siblings: -114.51 .. 118.66 pt by -24.39 .. 124.18 pt, i.e. what follows in cm.
+    \path[use as bounding box] (-4.03,-0.86) rectangle (4.18,4.37);
+
+    \node[rectangle, draw, minimum width=5cm, minimum height=1.2cm,
+          label={[yshift=2mm]above:{\textbf{Lie Algebra $\mathfrak{g}$}}}] (g_box) at (0, 3) {};
+    \node[fill=mred!10!bg, minimum height=1.2cm, minimum width=2.5cm, anchor=west, font=\large] at (g_box.west) (ghor) {$\mathfrak{g}^\mathrm{hor}$};
+    \node[fill=mblue!10!bg, minimum height=1.2cm, minimum width=2.5cm, anchor=east, font=\large] at (g_box.east) (h) {$\mathfrak{g}^\mathrm{ver}$};
+    \node[circle, fill, inner sep=1.5pt, label=below:$X$] (X) at ($(ghor.center) + (0.3,-.2)$) {};
+
+    \node[ellipse, draw, minimum width=3cm, minimum height=1.5cm, label=left:$G$] (G) at (-2,-0.1) {};
+    \node[ellipse, draw, minimum width=3cm, minimum height=1.5cm, label=right:$\mathcal{M}$] (M) at (2,-0.1) {};
+
+    \draw[arrow, mblue!90!fg, dashed] (X) -- (G.north) node[midway, left, yshift=2mm] {$\exp$};
+    \draw[arrow] (G) -- node[midway, above] {$\pi$} (M);
+
+    % the two travelling paths
+    \draw[arrow, path] (G.160) to[bend right=28] (G.20);
+    \draw[arrow, path] (M.160) to[bend right=15] (M.20);
+
+    % their labels, on an undrawn copy of the same two curves
+    \path (G.160) to[bend right=28] node[pos=0.8, below] {$\exp(tX)$} (G.20);
+    \path (M.160) to[bend right=15] node[pos=0.8, below] {$\gamma_\mathcal{M}(t)$} (M.20);
+\end{tikzpicture}
+\end{document}

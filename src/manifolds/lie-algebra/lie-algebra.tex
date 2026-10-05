@@ -1,0 +1,25 @@
+\documentclass[tikz]{standalone}
+\usepackage{geometricfigures}
+
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usetikzlibrary{calc,arrows.meta,positioning}
+
+\begin{document}
+\begin{tikzpicture}[
+                remember picture, % Enable referencing nodes from this tikzpicture later
+                transform shape
+            ]
+
+                % Position it below the identity, roughly aligned
+                \coordinate (zero_point) at (0, 0);
+                \node[above of=zero_point, yshift=-2em] {$\mathbb{O}$};
+                \draw[thick, muted, fill=muted!20!bg, opacity=0.8] ($(zero_point) + (-1.0, 0.0)$) -- ($(zero_point) + (2.5, -0.0)$) -- ($(zero_point) + (1.5, -2.5)$) -- ($(zero_point) + (-2.0, -2.5)$) -- cycle;
+                \node[muted] at ($(zero_point) + (0.5, -2.2)$) {$\mathfrak{g} \simeq T_\mathbb{I} G$};
+
+                % Example element in Lie Algebra
+                \coordinate (arrow_tip) at ($(zero_point) + (0.5, -1.5)$);
+                \draw[->, thick, fg] (zero_point) -- (arrow_tip) node[midway, xshift=1.5em] {$X \in \mathfrak{g}$};
+\end{tikzpicture}
+
+\end{document}
