@@ -90,3 +90,14 @@ package's site.
   `transformer-upscaling` draws its transformer box itself, as a `fit` node over the neurons it
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
+
+* **Six overview diagrams of the talk "Geometric Machine Learning" (LMU, September 2026) are
+  figures of the topic `overview`.** `numerics-triangle`, `two-directions`,
+  `solution-vs-structure`, `derived-vs-learned`, `mathematical-landscape` and
+  `juliagni-ecosystem` each load `geometricfigures.sty` and take `fg` for black, `bg` for white,
+  `black!<p>` as `fg!<p>!bg`, a grey `gray!<p>` as `muted!<p>!bg` and a palette tint
+  `<colour>!<p>` as `<colour>!<p>!bg`, so that the light theme renders pixel-identical to the
+  original at 150 dpi and the dark theme is new. They compile with `xelatex`, as the originals do,
+  and load only `amsmath` and `amsfonts` beside TikZ. The animated versions the talk plays are not
+  added: each is a multi-page PDF whose last frame is the static figure. `juliagni-ecosystem` shows
+  the registered versions of September 2026. `scripts/references.toml` has no entry for them.

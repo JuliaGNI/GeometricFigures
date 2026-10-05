@@ -1,0 +1,75 @@
+% The JuliaGNI ecosystem as a layered dependency graph.
+%
+% Every node is a registered package of https://github.com/JuliaGNI and every solid arrow is an
+% entry of the target's [deps]; the dashed arrow is a [weakdeps] entry (a package extension).
+% Versions are the registered ones as of September 2026, read from the General registry.
+%
+% Layout invariant: columns are dependency depth -- a package depends only on packages to its
+% left. Nodes are placed at absolute coordinates. Column centres are 1.36 / 5.24 / 8.82 /
+% 12.47 cm and the row centres -0.50 / -1.60 / -2.70 / -4.00 cm, for a natural width of 13.90 cm.
+%
+% Long-range arrows are omitted where they would only add ink: GeometricMachineLearning also
+% depends on GeometricBase, GeometricEquations and GeometricSolutions, GeometricOptimizers on
+% GeometricBase, GeometricProblems on EulerLagrange. Omitted, never invented.
+\documentclass[10pt,border=1pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc}
+\usepackage{geometricfigures}
+
+% #1 first line, #2 second line, #3 registered version
+\newcommand{\pkg}[3]{#1\\#2\\[.05em]{\tiny\color{fg!55!bg}v#3}}
+\newcommand{\pkgone}[2]{\\#1\\[.05em]{\tiny\color{fg!55!bg}v#2}}
+
+\begin{document}
+\begin{tikzpicture}[
+    pkg/.style     = {draw, semithick, rounded corners=2pt, align=center,
+                      minimum height=.95cm, inner xsep=.10cm,
+                      font=\scriptsize\ttfamily},
+    dep/.style     = {-{Stealth[length=4pt,width=3pt]}, semithick, fg!50!bg},
+    weak/.style    = {dep, dashed, dash pattern=on 2pt off 1.5pt},
+    key/.style     = {font=\scriptsize, inner sep=1pt},
+  ]
+
+  %---- foundations (blue) -------------------------------------------------
+  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (1.36,-0.50) (base) {\pkg{Geometric}{Base.jl}{0.14.11}};
+  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (5.24,-0.50) (eqns) {\pkg{Geometric}{Equations.jl}{0.21.4}};
+  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (8.82,-0.50) (sols) {\pkg{Geometric}{Solutions.jl}{0.6.5}};
+
+  %---- problems & integrators (orange) ------------------------------------
+  \node[pkg, draw=morange, fill=morange!7!bg] at (12.47,-0.50) (prob) {\pkg{Geometric}{Problems.jl}{0.9.0}};
+  \node[pkg, draw=morange, fill=morange!7!bg] at (12.47,-1.60) (gint) {\pkg{Geometric}{Integrators.jl}{0.18.5}};
+
+  %---- numerics (red) -----------------------------------------------------
+  \node[pkg, draw=mred,    fill=mred!7!bg]    at (5.24,-1.60) (simp) {\pkgone{SimpleSolvers.jl}{0.14.0}};
+  \node[pkg, draw=mred,    fill=mred!7!bg]    at (8.82,-2.70) (gopt) {\pkg{Geometric}{Optimizers.jl}{0.8.0}};
+
+  %---- networks (purple) --------------------------------------------------
+  \node[pkg, draw=mpurple, fill=mpurple!7!bg] at (1.36,-4.00) (ann)  {\pkg{Abstract}{NeuralNetworks.jl}{0.8.0}};
+  \node[pkg, draw=mpurple, fill=mpurple!7!bg] at (5.24,-2.70) (snn)  {\pkg{Symbolic}{NeuralNetworks.jl}{0.8.1}};
+
+  %---- GeometricMachineLearning (green) -----------------------------------
+  \node[pkg, draw=mgreen,  fill=mgreen!10!bg, very thick]
+                                           at (12.47,-4.00) (gml)  {\pkg{Geometric}{MachineLearning.jl}{0.7.0}};
+
+  %---- dependencies -------------------------------------------------------
+  \draw[dep] (base) -- (eqns);                 % GeometricEquations  <- GeometricBase
+  \draw[dep] (base) -- (simp);                 % SimpleSolvers       <- GeometricBase
+  \draw[dep] (eqns) -- (sols);                 % GeometricSolutions  <- GeometricEquations
+  \draw[dep] (sols) -- (prob);                 % GeometricProblems   <- GeometricSolutions
+  \draw[dep] (sols) -- (gint);                 % GeometricIntegrators<- GeometricSolutions
+  \draw[dep] (simp) -- (gint);                 % GeometricIntegrators<- SimpleSolvers
+  \draw[dep] (simp) -- (gopt);                 % GeometricOptimizers <- SimpleSolvers
+  \draw[dep] (ann)  -- (snn);                  % SymbolicNN          <- AbstractNN
+  \draw[weak] (ann) to[out=6,in=205] (gopt);                 % GeometricOptimizers <- AbstractNN  [weakdeps]
+  \draw[dep] (snn)  -- (gml);                  % GML                 <- SymbolicNN
+  \draw[dep] (gopt) -- (gml);                  % GML                 <- GeometricOptimizers
+  \draw[dep] (ann)  -- (gml);                  % GML                 <- AbstractNN
+
+  %---- key ----------------------------------------------------------------
+  \node[key, anchor=west, mblue]   at (0.00,-4.90) (k1) {$\bullet$~foundations};
+  \node[key, anchor=west, morange] at ($(k1.east)+(.35,0)$) (k2) {$\bullet$~problems \& integrators};
+  \node[key, anchor=west, mred]    at ($(k2.east)+(.35,0)$) (k3) {$\bullet$~numerics};
+  \node[key, anchor=west, mpurple] at ($(k3.east)+(.35,0)$) (k4) {$\bullet$~networks};
+  \node[key, anchor=east, fg!55!bg] at (13.90,-4.90) {\textit{dashed: package extension}};
+\end{tikzpicture}
+\end{document}
