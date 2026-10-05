@@ -1,16 +1,20 @@
 % The JuliaGNI ecosystem as a layered dependency graph.
 %
-% Every node is a registered package of https://github.com/JuliaGNI and every solid arrow is an
-% entry of the target's [deps]; the dashed arrow is a [weakdeps] entry (a package extension).
-% Versions are the registered ones as of September 2026, read from the General registry.
+% Every node is one of the main registered packages of https://github.com/JuliaGNI, and every
+% solid arrow is an entry of the target's [deps]; the dashed arrow is a [weakdeps] entry (a package
+% extension). Versions are the latest registered ones as of 5 October 2026, read from the General
+% registry.
 %
 % Layout invariant: columns are dependency depth -- a package depends only on packages to its
 % left. Nodes are placed at absolute coordinates. Column centres are 1.36 / 5.24 / 8.82 /
 % 12.47 cm and the row centres -0.50 / -1.60 / -2.70 / -4.00 cm, for a natural width of 13.90 cm.
 %
 % Long-range arrows are omitted where they would only add ink: GeometricMachineLearning also
-% depends on GeometricBase, GeometricEquations and GeometricSolutions, GeometricOptimizers on
-% GeometricBase, GeometricProblems on EulerLagrange. Omitted, never invented.
+% depends on GeometricBase, GeometricEquations and GeometricSolutions; GeometricIntegrators on
+% GeometricBase, GeometricEquations and GeometricIntegratorsBase; GeometricSolutions on
+% GeometricBase; GeometricProblems on GeometricBase, GeometricEquations and EulerLagrange;
+% GeometricOptimizers on GeometricBase. GeometricIntegratorsBase and EulerLagrange are not drawn.
+% Omitted, never invented.
 \documentclass[10pt,border=1pt]{standalone}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, calc}
@@ -31,25 +35,25 @@
   ]
 
   %---- foundations (blue) -------------------------------------------------
-  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (1.36,-0.50) (base) {\pkg{Geometric}{Base.jl}{0.14.11}};
-  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (5.24,-0.50) (eqns) {\pkg{Geometric}{Equations.jl}{0.21.4}};
-  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (8.82,-0.50) (sols) {\pkg{Geometric}{Solutions.jl}{0.6.5}};
+  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (1.36,-0.50) (base) {\pkg{Geometric}{Base.jl}{0.15.0}};
+  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (5.24,-0.50) (eqns) {\pkg{Geometric}{Equations.jl}{0.21.5}};
+  \node[pkg, draw=mblue,   fill=mblue!7!bg]   at (8.82,-0.50) (sols) {\pkg{Geometric}{Solutions.jl}{0.6.6}};
 
   %---- problems & integrators (orange) ------------------------------------
-  \node[pkg, draw=morange, fill=morange!7!bg] at (12.47,-0.50) (prob) {\pkg{Geometric}{Problems.jl}{0.9.0}};
-  \node[pkg, draw=morange, fill=morange!7!bg] at (12.47,-1.60) (gint) {\pkg{Geometric}{Integrators.jl}{0.18.5}};
+  \node[pkg, draw=morange, fill=morange!7!bg] at (12.47,-0.50) (prob) {\pkg{Geometric}{Problems.jl}{0.9.1}};
+  \node[pkg, draw=morange, fill=morange!7!bg] at (12.47,-1.60) (gint) {\pkg{Geometric}{Integrators.jl}{0.18.6}};
 
   %---- numerics (red) -----------------------------------------------------
-  \node[pkg, draw=mred,    fill=mred!7!bg]    at (5.24,-1.60) (simp) {\pkgone{SimpleSolvers.jl}{0.14.0}};
+  \node[pkg, draw=mred,    fill=mred!7!bg]    at (5.24,-1.60) (simp) {\pkgone{SimpleSolvers.jl}{0.14.1}};
   \node[pkg, draw=mred,    fill=mred!7!bg]    at (8.82,-2.70) (gopt) {\pkg{Geometric}{Optimizers.jl}{0.8.0}};
 
   %---- networks (purple) --------------------------------------------------
-  \node[pkg, draw=mpurple, fill=mpurple!7!bg] at (1.36,-4.00) (ann)  {\pkg{Abstract}{NeuralNetworks.jl}{0.8.0}};
+  \node[pkg, draw=mpurple, fill=mpurple!7!bg] at (1.36,-4.00) (ann)  {\pkg{Abstract}{NeuralNetworks.jl}{0.9.0}};
   \node[pkg, draw=mpurple, fill=mpurple!7!bg] at (5.24,-2.70) (snn)  {\pkg{Symbolic}{NeuralNetworks.jl}{0.8.1}};
 
   %---- GeometricMachineLearning (green) -----------------------------------
   \node[pkg, draw=mgreen,  fill=mgreen!10!bg, very thick]
-                                           at (12.47,-4.00) (gml)  {\pkg{Geometric}{MachineLearning.jl}{0.7.0}};
+                                           at (12.47,-4.00) (gml)  {\pkg{Geometric}{MachineLearning.jl}{0.8.0}};
 
   %---- dependencies -------------------------------------------------------
   \draw[dep] (base) -- (eqns);                 % GeometricEquations  <- GeometricBase

@@ -277,4 +277,4 @@ caption = "The mathematics of geometric machine learning: differential geometry,
 [[figure]]
 name = "juliagni-ecosystem"
 topic = "overview"
-caption = "The registered JuliaGNI packages as a dependency graph, from GeometricBase.jl to GeometricMachineLearning.jl, with their versions as of September 2026."
+caption = "The main registered JuliaGNI packages as a dependency graph, from GeometricBase.jl to GeometricMachineLearning.jl, with their latest versions as of 5 October 2026."

@@ -98,6 +98,11 @@ package's site.
   `black!<p>` as `fg!<p>!bg`, a grey `gray!<p>` as `muted!<p>!bg` and a palette tint
   `<colour>!<p>` as `<colour>!<p>!bg`, so that the light theme renders pixel-identical to the
   original at 150 dpi and the dark theme is new. They compile with `xelatex`, as the originals do,
-  and load only `amsmath` and `amsfonts` beside TikZ. The animated versions the talk plays are not
-  added: each is a multi-page PDF whose last frame is the static figure. `juliagni-ecosystem` shows
-  the registered versions of September 2026. `scripts/references.toml` has no entry for them.
+  and load only `amsmath` and `amsfonts` beside TikZ. Two code changes keep the output unchanged:
+  `derived-vs-learned` renames its layer `bg` to `background`, because `bg` is now the theme
+  colour, and `numerics-triangle` drops the colours `labET`, `labTS` and `labES`, which only its
+  animation used. The animated versions the talk plays are not added: each is a multi-page PDF
+  whose last frame is the static figure. `juliagni-ecosystem` shows the main registered JuliaGNI
+  packages with their latest versions as of 5 October 2026, newer than the talk's, so its version
+  labels are the one place where the light theme differs from the original.
+  `scripts/references.toml` has no entry for them.
