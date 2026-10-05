@@ -1,5 +1,6 @@
 # Build the site: compile every figure into docs/src/figures/, write one page per topic into
-# docs/src/topics/, and run Documenter. Both directories are build products and are gitignored.
+# docs/src/topics/, each opened by docs/topic-intros/<topic>.md where that file exists, and run
+# Documenter. docs/src/figures/ and docs/src/topics/ are build products and are gitignored.
 #
 #   julia --project=docs docs/make.jl
 #
@@ -12,6 +13,9 @@ using GeometricFigures: DPIS, THEMES, figure_path
 const SRC = joinpath(@__DIR__, "src")
 const FIGURES = joinpath(SRC, "figures")
 const TOPICS = joinpath(SRC, "topics")
+# An optional tracked introduction of a topic page, written below its heading. It is outside src/,
+# so that Documenter does not also publish it as a page of its own.
+const INTROS = joinpath(@__DIR__, "topic-intros")
 
 # With pretty URLs a topic page is topics/<topic>/index.html, else topics/<topic>.html.
 const PRETTY = get(ENV, "CI", nothing) == "true"
@@ -59,6 +63,8 @@ topics = sort!(unique(f.topic for f in GeometricFigures.figures()))
 for topic in topics
     open(joinpath(TOPICS, "$(topic).md"), "w") do io
         println(io, "# $(topic)\n")
+        intro = joinpath(INTROS, "$(topic).md")
+        isfile(intro) && println(io, read(intro, String))
         for f in GeometricFigures.figures()
             f.topic == topic || continue
             println(io, "## `$(f.name)`\n")

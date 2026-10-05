@@ -213,6 +213,20 @@ name = "symplectic-autoencoder-architecture"
 topic = "reduced-order-modeling"
 caption = "Example of a symplectic autoencoder. The SympNet layers are in green, the PSD-like layers are in blue."
 
+# The versions of the two figures above in the paper on symplectic autoencoders (arXiv:2312.10004): inputs z_i, and the decoder of the experiments (GradientQ(2N, 2N) and
+# PSDLayer(2n, 2N)) with the labels P and R.
+[[figure]]
+name = "sae-paper-autoencoder"
+topic = "reduced-order-modeling"
+caption = "The symplectic autoencoder of the paper on symplectic autoencoders: SympNet layers alternate with PSD-like layers, which reduce the dimension in the encoder and increase it in the decoder."
+engine = "pdflatex"
+
+[[figure]]
+name = "sae-paper-architecture"
+topic = "reduced-order-modeling"
+caption = "The architecture of the experiments of the paper on symplectic autoencoders in GeometricMachineLearning.jl syntax: SympNet layers in green, PSD-like layers in blue."
+engine = "pdflatex"
+
 [[figure]]
 name = "tensor"
 topic = "data"
@@ -247,3 +261,161 @@ caption = "The logo of GeometricMachineLearning.jl with the package name."
 name = "logo-with-name-without-jl"
 topic = "logos"
 caption = "The logo of GeometricMachineLearning.jl with the package name, without the .jl suffix."
+
+# A symplectic autoencoder trained on the pendulum, and its latent space at the separatrix
+# (the paper on symplectic autoencoders, arXiv:2312.10004).
+[[figure]]
+name = "pendulum-phase-portrait"
+topic = "pendulum-autoencoder"
+caption = "The phase portrait of the pendulum: librating orbits (blue) around θ = π, rotating orbits (orange), and the separatrix (red, dashed) through the unstable equilibria."
+engine = "pdflatex"
+
+[[figure]]
+name = "pendulum-solution-manifold"
+topic = "pendulum-autoencoder"
+caption = "The solution manifold of the lifted pendulum, the phase portrait with its edges θ = 0 and θ = 2π glued into a cylinder."
+engine = "pdflatex"
+
+[[figure]]
+name = "angle-atlas"
+topic = "pendulum-autoencoder"
+caption = "Angle charts on the pendulum's cylinder: a librating orbit fits in one chart, a rotating orbit needs two."
+engine = "pdflatex"
+
+[[figure]]
+name = "librating-area"
+topic = "pendulum-autoencoder"
+caption = "The angular action of a librating pendulum orbit, the area it encloses."
+engine = "pdflatex"
+
+[[figure]]
+name = "rotating-area"
+topic = "pendulum-autoencoder"
+caption = "The angular action of a rotating pendulum orbit, the area under its branch down to p = 0."
+engine = "pdflatex"
+
+[[figure]]
+name = "separatrix-limit-below"
+topic = "pendulum-autoencoder"
+caption = "The librating limit at the separatrix: the area enclosed by both separatrix branches, 16."
+engine = "pdflatex"
+
+[[figure]]
+name = "separatrix-limit-above"
+topic = "pendulum-autoencoder"
+caption = "The rotating limit at the separatrix: the area under one separatrix branch, 8."
+engine = "pdflatex"
+
+[[figure]]
+name = "covered-half"
+topic = "pendulum-autoencoder"
+caption = "The pendulum's cylinder with the sampled families of training orbits marked, and the hatched half that carries no trajectory."
+engine = "pdflatex"
+
+[[figure]]
+name = "rotating-cap"
+topic = "pendulum-autoencoder"
+caption = "The exact encodings of the two rotating families of the pendulum, each a family of closed curves around a cap, at true area."
+engine = "pdflatex"
+
+[[figure]]
+name = "cylinder-to-poloidal"
+topic = "pendulum-autoencoder"
+caption = "The pendulum's cut-off cylinder mapped to a planar chart, with librating orbits, the separatrix branches and a rotating level."
+engine = "pdflatex"
+
+[[figure]]
+name = "two-charts"
+topic = "pendulum-autoencoder"
+caption = "A librating orbit, the separatrix and a rotating orbit of the pendulum in the angular representation and in the latent plane of a trained symplectic autoencoder."
+engine = "pdflatex"
+
+[[figure]]
+name = "obstruction-cases"
+topic = "pendulum-autoencoder"
+caption = "The two cases of the separatrix obstruction: the rotating family outside or inside the pair of separatrix images."
+engine = "pdflatex"
+
+[[figure]]
+name = "pinched-pair"
+topic = "pendulum-autoencoder"
+caption = "The two layouts of exactly reconstructed separatrix images, side by side and nested."
+engine = "pdflatex"
+
+[[figure]]
+name = "atlas-vs-chart"
+topic = "pendulum-autoencoder"
+caption = "The pendulum's cylinder charted two ways: by the action-angle atlas and by a single latent chart of a trained encoder."
+engine = "pdflatex"
+
+[[figure]]
+name = "branch-invariants"
+topic = "pendulum-autoencoder"
+caption = "The latent invariant of a trained symplectic autoencoder against the angular action, on both rotating branches of the pendulum."
+engine = "pdflatex"
+
+[[figure]]
+name = "upper-branch"
+topic = "pendulum-autoencoder"
+caption = "Where a trained encoder sends the rotating level sets of the pendulum with positive momentum."
+engine = "pdflatex"
+
+[[figure]]
+name = "threshold-actions-paper"
+topic = "pendulum-autoencoder"
+caption = "The angular action across the separatrix with the error bars of the nearest librating and rotating training levels, for the paper's training grid."
+engine = "pdflatex"
+
+[[figure]]
+name = "threshold-actions-sep"
+topic = "pendulum-autoencoder"
+caption = "The angular action across the separatrix with the error bars of the nearest librating and rotating training levels, for a grid placed relative to the separatrix."
+engine = "pdflatex"
+
+[[figure]]
+name = "threshold-map"
+topic = "pendulum-autoencoder"
+caption = "The error threshold of an embedding as a function of the distances of the two training levels from the separatrix, on logarithmic axes."
+engine = "pdflatex"
+
+[[figure]]
+name = "threshold-split-paper"
+topic = "pendulum-autoencoder"
+caption = "The errors an embedding can make on the two training orbits nearest the separatrix, with the excluded region hatched, for the paper's training grid."
+engine = "pdflatex"
+
+[[figure]]
+name = "threshold-split-sep"
+topic = "pendulum-autoencoder"
+caption = "The errors an embedding can make on the two training orbits nearest the separatrix, with the excluded region hatched, for a grid placed relative to the separatrix."
+engine = "pdflatex"
+
+[[figure]]
+name = "fold-current"
+topic = "pendulum-autoencoder"
+caption = "Images of librating level sets and of the separatrix branches under a trained encoder whose librating images are nested."
+engine = "pdflatex"
+
+[[figure]]
+name = "fold-separatrix"
+topic = "pendulum-autoencoder"
+caption = "Images of librating level sets and of the separatrix branches under an encoder trained on a grid placed relative to the separatrix, where the librating images cross."
+engine = "pdflatex"
+
+[[figure]]
+name = "magnetic-well"
+topic = "pendulum-autoencoder"
+caption = "The pendulum potential as the magnetic well along a field line, with a trapped and a passing particle."
+engine = "pdflatex"
+
+[[figure]]
+name = "banana-layout"
+topic = "pendulum-autoencoder"
+caption = "The same curves of the pendulum's cylinder in three symplectic charts, on one scale."
+engine = "pdflatex"
+
+[[figure]]
+name = "banana-any-chart"
+topic = "pendulum-autoencoder"
+caption = "The same curves in two continuous injective charts that are neither round nor symplectic."
+engine = "pdflatex"

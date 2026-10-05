@@ -90,3 +90,29 @@ package's site.
   `transformer-upscaling` draws its transformer box itself, as a `fit` node over the neurons it
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
+
+* **26 TikZ figures of a symplectic autoencoder trained on the pendulum are figures of the topic
+  `pendulum-autoencoder`.** They accompany the paper on symplectic autoencoders
+  (arXiv:2312.10004). Each loads
+  `geometricfigures.sty` and takes `fg` for black and `bg` for white, with `black!<p>` as
+  `fg!<p>!bg` and a palette tint `<colour>!<p>` as `<colour>!<p>!bg`, so that the light theme
+  renders pixel-identical to the original at 150 dpi and the dark theme is new. They compile with `pdflatex` and need no data file: the coordinates generated from trained
+  weights are written into the sources. `scripts/references.toml` has no entry for them.
+
+* **The paper's own versions of two symplectic-autoencoder figures are figures of the topic
+  `reduced-order-modeling`: `sae-paper-autoencoder` and `sae-paper-architecture`.** They differ in content from `symplectic-autoencoder` and
+  `symplectic-autoencoder-architecture`: the paper labels the inputs $z_i$ where those have
+  $x_i$, and its decoder ends in `PSDLayer(2n, 2N)` and `GradientQ(2N, 2N, tanh)`, with the encoder
+  and the decoder labelled $\mathcal{P}$ and $\mathcal{R}$, where
+  `symplectic-autoencoder-architecture` ends in `PSDLayer(2n, 2M)`, two gradient layers on `2M`
+  and `PSDLayer(2M, 2N)`, labelled $\Psi^e$ and $\Psi^d$. They take the theme colours as those
+  two do. The paper's third figure is `third-degree-spline`
+  except for the `very thick` lines that figure took from GeometricMachineLearning, so it is not
+  added again.
+
+* **A topic page can open with a tracked introduction.** `docs/make.jl` writes
+  `docs/topic-intros/<topic>.md`, where it exists, between the page's heading and its figures; the
+  file is outside `docs/src/`, so Documenter does not publish it as a page of its own. The
+  introduction of `pendulum-autoencoder` names the figures' source and revision, and an info box
+  lists the figures that draw trained weights or the training set, which must be regenerated in the
+  paper repository and resynced after a re-training.

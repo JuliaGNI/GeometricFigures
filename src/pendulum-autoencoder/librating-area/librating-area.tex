@@ -1,0 +1,34 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+
+\begin{document}
+\begin{tikzpicture}[baseline]
+\begin{axis}[width=7.4cm,height=5.2cm,xmin=0,xmax=6.2832,ymin=-2.6,ymax=2.6,
+  xtick={0,3.1416,6.2832},xticklabels={$0$,$\pi$,$2\pi$},
+  xlabel={$\theta$},ylabel={$p_\theta$},axis lines=left,title style={at={(0.5,0)},anchor=north,yshift=-3.5em},   % panel label below the panel
+  title={\small librating: area \emph{enclosed}},
+  every axis plot/.append style={smooth,samples=200}]
+  % H = 0.5 turns at theta = arccos(0.5) = pi/3 and 2pi - pi/3, and the curve is
+  % drawn only between them. Running the domain to 0:2pi instead would leave the
+  % clamped sqrt sitting at zero outside the loop and draw a spurious horizontal
+  % line along p_theta = 0 -- see the note in pendulum-phase-portrait.
+  \addplot[lib,thick,name path=U,domain=1.0472:5.2360]
+    { sqrt(max(0,2*(0.5-cos(deg(x)))))};
+  \addplot[lib,thick,name path=L,domain=1.0472:5.2360]
+    {-sqrt(max(0,2*(0.5-cos(deg(x)))))};
+  \addplot[lib!25!bg]fill between[of=U and L];
+  \addplot[sep,dashed,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
+  \addplot[sep,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
+\end{axis}
+\end{tikzpicture}
+\end{document}

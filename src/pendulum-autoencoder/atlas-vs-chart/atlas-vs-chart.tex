@@ -1,0 +1,174 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,patterns,calc}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+\definecolor{up}{HTML}{7A5AA8}
+
+% ---------------------------------------------------------------------------
+% One solution manifold, charted two ways. Middle: M, in the projection and
+% with the conventions of pendulum-solution-manifold (u = theta - pi, stable
+% equilibrium at the front), with the three regimes shaded instead of orbits
+% drawn. Left: the action-angle atlas, one planar chart per regime, each in
+% Cartesian form (X,Y) = sqrt(2I)(cos phi, -sin phi), so orbits are round
+% circles enclosing exactly their action J = 2 pi I. Right: the one chart the
+% network learns, drawn schematically with round circles.
+%
+% Unlike two_charts.tex, every plane here is on ONE scale, \s cm per unit of
+% length, and every circle is drawn at its true area: radius = \s*sqrt(A/pi).
+% So areas CAN be compared by eye across all four planes.
+%   atlas:   librating disk 16; rotating holes 8; orbits H = 0.91 (14.758),
+%            H = 1.60 (10.935), H = 4 (17.701) -- the angular actions.
+%   learned: gamma_- 14.7889, gamma_+ 1.8373 (so the crescent is 12.9516),
+%            rotating orbits H = 1.60 (16.97) and H = 4 (22.32), the measured
+%            J_latent.
+% The learned panel keeps only the areas: the real curves are panel (ii) of two-charts.
+\newcommand{\s}{0.50}
+\pgfmathdeclarefunction{arad}{1}{\pgfmathparse{\s*sqrt((#1)/pi)}}
+
+\newcommand{\cylR}{1.25}
+\newcommand{\cylC}{0.40}
+\newcommand{\cylS}{0.55}
+\newcommand{\cylP}{3.30}
+\pgfmathdeclarefunction{cylx}{1}{\pgfmathparse{\cylR*sin(#1)}}
+\pgfmathdeclarefunction{cyly}{2}{\pgfmathparse{-\cylC*\cylR*cos(#1)+\cylS*(#2)}}
+\pgfmathdeclarefunction{cylorb}{2}{\pgfmathparse{sqrt(max(0,2*((#2)+cos(#1))))}}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  hidden/.style={dash pattern=on 2.2pt off 2.2pt,opacity=0.38},
+  notin/.style={sep,thick,dash pattern=on 2.5pt off 1.8pt},
+  orbit/.style={thin},
+  tag/.style={font=\scriptsize,inner sep=1.5pt},
+  num/.style={font=\scriptsize},
+  say/.style={font=\scriptsize,align=right,anchor=east},
+  map/.style={->,fg!55!bg,thick,shorten >=3pt,shorten <=3pt},
+  head/.style={font=\small,anchor=north}]
+
+% ===========================================================================
+% M itself, the three regimes shaded
+% ===========================================================================
+\begin{scope}
+  \fill[fg!4!bg]
+    plot[domain=90:270,samples=60,smooth] ({cylx(\x)},{cyly(\x,\cylP)})
+    -- plot[domain=-90:90,samples=60,smooth] ({cylx(\x)},{cyly(\x,\cylP)}) -- cycle;
+  \fill[up!16!bg]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))})
+    -- plot[domain=90:-90,samples=80,smooth] ({cylx(\x)},{cyly(\x,\cylP)}) -- cycle;
+  \fill[lib!16!bg]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))})
+    -- plot[domain=90:-90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))}) -- cycle;
+  \fill[rot!16!bg]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))})
+    -- plot[domain=90:-90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-\cylP)}) -- cycle;
+  \draw[fg!25!bg,densely dotted]
+    plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,\cylP)});
+  \draw[fg!25!bg,densely dotted]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-\cylP)});
+  \draw[fg!25!bg] ({-\cylR},{-\cylS*\cylP}) -- ({-\cylR},{\cylS*\cylP});
+  \draw[fg!25!bg] ({\cylR},{-\cylS*\cylP}) -- ({\cylR},{\cylS*\cylP});
+
+  \draw[sep,very thick,hidden]
+    plot[domain=90:270,samples=120,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))});
+  \draw[sep,very thick,hidden]
+    plot[domain=90:270,samples=120,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))});
+  \draw[sep,very thick]
+    plot[domain=-90:90,samples=110,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))});
+  \draw[sep,very thick]
+    plot[domain=-90:90,samples=110,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))});
+  \fill[sep] (0,{\cylC*\cylR}) circle (1.5pt);
+
+  \node[tag,up]  at (0,{cyly(0,2.95)}) {$R_+$};
+  \node[tag,lib] at (0,{cyly(0,0)}) {$L$};
+  \node[tag,rot] at (0,{cyly(0,-2.95)}) {$R_-$};
+  \node[tag,sep,anchor=west] at ({\cylR+0.02},{cyly(90,1.4142)}) {$\ell_+$};
+  \node[tag,sep,anchor=west] at ({\cylR+0.02},{cyly(90,-1.4142)}) {$\ell_-$};
+  \node[head] at (0,{cyly(0,-\cylP)-0.08}) {$\mathcal{M}$};
+\end{scope}
+
+% ===========================================================================
+% (a) the action-angle atlas: three planes, one per regime
+% ===========================================================================
+\def\ax{-4.35}
+
+% R_+ : the exterior of a hole of area 8
+\begin{scope}[shift={(\ax,2.75)}]
+  \fill[up!16!bg] (0,0) circle ({arad(17.701)});
+  \fill[bg] (0,0) circle ({arad(8)});
+  \draw[up,orbit] (0,0) circle ({arad(10.935)});
+  \draw[up,orbit] (0,0) circle ({arad(17.701)});
+  \draw[notin] (0,0) circle ({arad(8)});
+  \node[num,fg!60!bg] at (0,0) {$8$};
+  \node[say,up] at (-1.35,0)
+    {$R_+$: $H>1$, $p_\theta>0$\\ hole of area $8$,\\ where $\ell_+$ would be};
+\end{scope}
+
+% L : a disk of area 16
+\begin{scope}[shift={(\ax,0)}]
+  \fill[lib!16!bg] (0,0) circle ({arad(16)});
+  \draw[lib,orbit] (0,0) circle ({arad(14.758)});
+  \draw[notin] (0,0) circle ({arad(16)});
+  \fill[lib] (0,0) circle (1.2pt);
+  \node[num,lib,anchor=south] at (0,0.05) {$16$};
+  \node[say,lib] at (-1.35,0)
+    {$L$: $H<1$\\ disk of area $16$,\\ its rim all of $\ell$};
+\end{scope}
+
+% R_- : the exterior of a hole of area 8
+\begin{scope}[shift={(\ax,-2.75)}]
+  \fill[rot!16!bg] (0,0) circle ({arad(17.701)});
+  \fill[bg] (0,0) circle ({arad(8)});
+  \draw[rot,orbit] (0,0) circle ({arad(10.935)});
+  \draw[rot,orbit] (0,0) circle ({arad(17.701)});
+  \draw[notin] (0,0) circle ({arad(8)});
+  \node[num,fg!60!bg] at (0,0) {$8$};
+  \node[say,rot] at (-1.35,0)
+    {$R_-$: $H>1$, $p_\theta<0$\\ hole of area $8$,\\ where $\ell_-$ would be};
+\end{scope}
+
+\draw[map] (-0.55,{cyly(0,2.7)}) to[out=160,in=0] node[tag,above,fg!60!bg,fill=bg]{$(X,Y)$} (\ax+1.25,2.75);
+\draw[map] (-0.45,{cyly(-30,0.5)}) to[out=180,in=0] node[tag,above,fg!60!bg]{$(X,Y)$} (\ax+1.25,0);
+\draw[map] (-0.55,{cyly(0,-2.75)}) to[out=200,in=0] node[tag,below,fg!60!bg,fill=bg]{$(X,Y)$} (\ax+1.25,-2.75);
+
+% ===========================================================================
+% (b) the learned chart: one plane for all of M^-
+% ===========================================================================
+\def\bx{4.05}
+\pgfmathsetmacro{\Rg}{arad(14.7889)}
+\pgfmathsetmacro{\Rp}{arad(1.8373)}
+\begin{scope}[shift={(\bx,0)}]
+  \fill[rot!16!bg,even odd rule] (0,0) circle ({arad(22.32)}) (0,0) circle (\Rg);
+  \fill[lib!16!bg,even odd rule] (0,0) circle (\Rg) (0,{\Rp-\Rg}) circle (\Rp);
+  \fill[pattern=north east lines,pattern color=up!55!bg] (0,{\Rp-\Rg}) circle (\Rp);
+  \draw[rot,orbit] (0,0) circle ({arad(16.97)});
+  \draw[rot,orbit] (0,0) circle ({arad(22.32)});
+  \draw[sep,very thick] (0,0) circle (\Rg);
+  \draw[sep,very thick] (0,{\Rp-\Rg}) circle (\Rp);
+  \fill[sep] (0,-\Rg) circle (1.5pt);
+  \node[tag,sep,anchor=north,fill=bg,fill opacity=0.85,text opacity=1] at (0,{-\Rg-0.04}) {$P$};
+  \node[tag,sep,anchor=south west] at (45:\Rg) {$\gamma_-$};
+  \node[tag,sep,anchor=west] at ({\Rp+0.03},{\Rp-\Rg+0.12}) {$\gamma_+$};
+  \node[num,lib] at (0,0.42) {$12.95$};
+\end{scope}
+\node[font=\scriptsize,anchor=north] (btab) at (\bx,-1.62) {%
+  \renewcommand{\arraystretch}{1.1}\setlength{\tabcolsep}{3pt}%
+  \begin{tabular}{@{}lrr@{}}
+    & learned & (a) \\ \hline
+    \textcolor{lib}{$L$}: the crescent $U$     & $12.95$ & $16$ \\
+    \textcolor{rot}{$R_-$}: its hole, in $\gamma_-$ & $14.79$ & $8$ \\
+    \textcolor{up}{$R_+$}: its limit, $\gamma_+$ & $1.84$  & $8$ \\
+  \end{tabular}};
+
+\draw[map] (0.55,{cyly(-20,-0.2)}) to[out=0,in=180] node[tag,above,fg!60!bg]{$\Psi^\mathrm{enc}$} (\bx-1.4,0);
+
+% Panel labels below their panels, on one baseline under the lowest disk of (a).
+\node[head] at (\ax,{-2.75-arad(17.701)-0.12}) {\textbf{(a)} the action--angle atlas};
+\node[head] at (\bx,{-2.75-arad(17.701)-0.12}) {\textbf{(b)} the learned chart};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,98 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+\definecolor{up}{HTML}{7A5AA8}
+
+% The cylinder in the projection and with the conventions of
+% pendulum-solution-manifold -- u = theta - pi, so u=0 (the stable equilibrium) is at
+% the front and u=+-180 (the unstable one) at the back. This picture adds the one
+% thing that one leaves out: which invariant families the training set samples.
+% The current training momenta are the fractions {0, +-2/5, +-3/4, -1, -2, -3} of
+% the separatrix momentum, so every |fraction| > 1 is negative and the p_theta > 0
+% half above l_+ contains no trajectory at all.
+\newcommand{\cylR}{2.10}
+\newcommand{\cylC}{0.40}
+\newcommand{\cylS}{0.74}
+\newcommand{\cylP}{3.40}
+\pgfmathdeclarefunction{cylx}{1}{\pgfmathparse{\cylR*sin(#1)}}
+\pgfmathdeclarefunction{cyly}{2}{\pgfmathparse{-\cylC*\cylR*cos(#1)+\cylS*(#2)}}
+\pgfmathdeclarefunction{cylorb}{2}{\pgfmathparse{sqrt(max(0,2*((#2)+cos(#1))))}}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  hidden/.style={dash pattern=on 2.2pt off 2.2pt,opacity=0.38},
+  say/.style={font=\small,align=left}]
+
+  % --- the cylinder ---------------------------------------------------------
+  \fill[fg!4!bg]
+    plot[domain=-90:90,samples=60,smooth] ({cylx(\x)},{cyly(\x,-\cylP)})
+    -- plot[domain=90:270,samples=60,smooth] ({cylx(\x)},{cyly(\x,\cylP)})
+    -- cycle;
+  % the p_theta > 0 rotating half: hatched, because no trajectory covers it
+  \fill[pattern=north east lines,pattern color=up!30!bg]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))})
+    -- plot[domain=90:-90,samples=80,smooth] ({cylx(\x)},{cyly(\x,\cylP)})
+    -- cycle;
+  \draw[fg!25!bg,densely dotted]
+    plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,\cylP)});
+  \draw[fg!25!bg,densely dotted]
+    plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,-\cylP)});
+  \draw[fg!25!bg] ({-\cylR},{-\cylS*\cylP}) -- ({-\cylR},{\cylS*\cylP});
+  \draw[fg!25!bg] ({\cylR},{-\cylS*\cylP}) -- ({\cylR},{\cylS*\cylP});
+
+  % --- far side, dashed: the two separatrix branches only -------------------
+  \draw[sep,very thick,hidden]
+    plot[domain=90:270,samples=140,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))});
+  \draw[sep,very thick,hidden]
+    plot[domain=90:270,samples=140,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))});
+  \draw[rot,thick,hidden]
+    plot[domain=90:270,samples=110,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.60))});
+  \draw[up,thick,hidden]
+    plot[domain=90:270,samples=110,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.60))});
+
+  % --- near side ------------------------------------------------------------
+  \draw[lib,thick]
+    plot[domain=-53.13:53.13,samples=60,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,-0.60))})
+    -- plot[domain=53.13:-53.13,samples=60,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,-0.60))}) -- cycle;
+  \draw[lib,thick]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,0.45))});
+  \draw[lib,thick]
+    plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,0.45))});
+  \draw[sep,very thick]
+    plot[domain=-90:90,samples=110,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))});
+  \draw[sep,very thick]
+    plot[domain=-90:90,samples=110,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))});
+  \draw[up,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.60))});
+  \draw[rot,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.60))});
+  \draw[rot,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,2.60))});
+
+  \fill[sep] (0,{\cylC*\cylR}) circle (1.6pt);
+  \fill[lib] (0,{-\cylC*\cylR}) circle (1.6pt);
+
+  \node[sep,font=\scriptsize,anchor=east,inner sep=1.5pt,
+        fill=bg,fill opacity=0.85,text opacity=1]
+    at (-2.16,{\cylS*1.4142}) {$\ell_+$};
+  \node[sep,font=\scriptsize,anchor=east,inner sep=1.5pt,
+        fill=bg,fill opacity=0.85,text opacity=1]
+    at (-2.16,{-\cylS*1.4142}) {$\ell_-$};
+
+  \draw[->,fg!50!bg] (-2.72,1.70) -- (-2.72,2.75)
+    node[above,font=\small,fg,inner sep=1pt] {$p_\theta$};
+
+  % --- what the picture says ------------------------------------------------
+  \node[say,up,anchor=north west] at (2.70,3.05)
+    {\textbf{(iii) $p_\theta>0$, $H>1$}: no trajectories.};
+  \node[say,rot,anchor=south west] at (2.70,-3.05)
+    {\textbf{(ii) $p_\theta<0$, $H>1$}: rotating data.};
+  \node[say,lib,anchor=north east,align=right] at (-2.95,-0.55)
+    {\textbf{(i) $H<1$}: librating data.\\ \textcolor{sep}{\textbf{$H=1$}: arcs of $\ell_-$.}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,112 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,patterns,calc}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+
+% The exact encodings of the two rotating families, schematically.
+%   (a) family (ii), p<0, in the latent chart r^2/2 = -p_theta at polar angle theta: the orbit at
+%       energy H is r(theta) = sqrt(2 sqrt(2(H - cos theta))) and encloses exactly its action.
+%       Inside r_b = 1.4496 (r_b^2/2 = 1.05, rho_1 = 1.45 in the cap) the decoder is the upper cap.
+%   (c) family (iii), p>0, its mirror image under S(q1,q2,p1,p2) = (-q1,q2,-p1,p2), which sends
+%       iota(theta,p) to iota(-theta,-p): the chart r^2/2 = p_theta at polar angle -theta, the
+%       same curves reflected, with the lower cap inside r_b. Both latent panels at true area,
+%       1 unit = 0.55cm.
+%   (b) the decoders' images: the cylinder M of pendulum-solution-manifold for p_theta <= -1.05, closed
+%       above by the upper cap, and for p_theta >= 1.05, closed below by the lower cap; the strip
+%       |p_theta| < 1.05 between the rims is in neither (dotted). The caps live in R^4 and are drawn
+%       as domes over their rims. Same projection as pendulum-solution-manifold: page (X, Y) = (x', hc p + se y'),
+%       x' = -R cos(theta+beta), y' = -R sin(theta+beta); an arc is solid where y' < 0, theta in
+%       (30, 210).
+% Levels: H = 1.6 and H = 4 on each family.
+\pgfmathsetmacro{\bet}{-30}
+\pgfmathsetmacro{\se}{0.42}
+\pgfmathsetmacro{\hc}{1.2}
+\pgfmathsetmacro{\R}{2.0}
+\pgfmathsetmacro{\pb}{1.05}    % the rims are at p_theta = -1.05 and +1.05
+\pgfmathsetmacro{\pc}{3.3}     % where the picture stops, at -3.3 and +3.3
+\pgfmathsetmacro{\rb}{1.4496}
+\pgfmathsetmacro{\dh}{1.15}    % height of the drawn domes
+\pgfmathdeclarefunction{pr}{2}{\pgfmathparse{sqrt(2*((#2)-cos(#1)))}}             % |p| on a rotating orbit
+\pgfmathdeclarefunction{rl}{2}{\pgfmathparse{sqrt(2*sqrt(2*((#2)-cos(#1))))}}     % latent radius
+\pgfmathdeclarefunction{X}{1}{\pgfmathparse{-\R*cos((#1)+\bet)}}
+\pgfmathdeclarefunction{Y}{2}{\pgfmathparse{\hc*(#2)-\se*\R*sin((#1)+\bet)}}
+
+% \latent{sign}{cap label}: a latent panel, polar angle sign*theta
+\newcommand{\latent}[2]{%
+  \fill[pattern=north east lines,pattern color=rot!60!bg,smooth,samples=180,domain=0:360,variable=\t]
+    plot ({rl(\t,1.6)*cos(#1*\t+\bet+180)},{rl(\t,1.6)*sin(#1*\t+\bet+180)}) -- cycle;
+  \fill[net!14!bg] (0,0) circle (\rb);
+  \draw[net,thick,dashed] (0,0) circle (\rb);
+  \foreach \H/\w in {1.6/very thick,4/thick}{
+    \draw[rot,\w,smooth,samples=180,domain=0:360,variable=\t]
+      plot ({rl(\t,\H)*cos(#1*\t+\bet+180)},{rl(\t,\H)*sin(#1*\t+\bet+180)}) -- cycle;}
+  \node[net,lab,align=center] at (0,0) {#2};}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,x=0.55cm,y=0.55cm,
+  hidden/.style={dash pattern=on 2pt off 2pt,opacity=0.38},
+  lab/.style={font=\footnotesize,inner sep=1pt}]
+
+% ================================================================ (a) family (ii)
+\begin{scope}
+  \latent{1}{upper\\cap}
+  \node[rot,lab,anchor=south east] at ({(rl(-15,4)+0.05)*cos(135)},{(rl(-15,4)+0.05)*sin(135)}) {$H=4$};
+  \draw[fg!50!bg] ({0.5*(\rb+rl(200,1.6))*cos(200+\bet+180)},{0.5*(\rb+rl(200,1.6))*sin(200+\bet+180)})
+    -- (0.6,-3.4) node[lab,fg,anchor=north,align=center] {area $J_\mathrm{angular}$ of $H=1.6$};
+\end{scope}
+
+% ================================================================ (b) the two decoders' images
+\begin{scope}[shift={(11.0,0)}]
+  % the strip |p| < 1.05, in neither image
+  \draw[fg!30!bg,densely dotted] ({-\R},{-\hc*\pb}) -- ({-\R},{\hc*\pb});
+  \draw[fg!30!bg,densely dotted] ({\R},{-\hc*\pb}) -- ({\R},{\hc*\pb});
+  % the two bands of M
+  \foreach \lo/\hi in {-\pc/-\pb,\pb/\pc}{
+    \fill[fg!4!bg]
+      plot[domain=30:210,samples=60,smooth] ({X(\x)},{Y(\x,\lo)})
+      -- plot[domain=210:390,samples=60,smooth] ({X(\x)},{Y(\x,\hi)}) -- cycle;
+    \draw[fg!25!bg] ({-\R},{\hc*\lo}) -- ({-\R},{\hc*\hi});
+    \draw[fg!25!bg] ({\R},{\hc*\lo}) -- ({\R},{\hc*\hi});}
+  \draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,-\pc)});
+  \draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,\pc)});
+  % the caps: the upper one over the rim at -1.05, the lower one under the rim at +1.05
+  \fill[net!14!bg] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,-\pb)}) -- cycle;
+  \fill[net!14!bg] ({-\R},{-\hc*\pb}) arc[start angle=180,end angle=0,x radius=\R,y radius=\dh];
+  \draw[net,thick] ({-\R},{-\hc*\pb}) arc[start angle=180,end angle=0,x radius=\R,y radius=\dh];
+  \fill[net!14!bg] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,\pb)}) -- cycle;
+  \fill[net!14!bg] ({-\R},{\hc*\pb}) arc[start angle=180,end angle=360,x radius=\R,y radius=\dh];
+  \draw[net,thick] ({-\R},{\hc*\pb}) arc[start angle=180,end angle=360,x radius=\R,y radius=\dh];
+  \draw[net,thick,dashed] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,-\pb)});
+  \draw[net,thick,dashed] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,\pb)});
+  % the orbits, solid in front, dashed behind: family (ii) below, family (iii) above
+  \foreach \s in {-1,1}{
+    \foreach \H/\w in {1.6/very thick,4/thick}{
+      \draw[rot,\w,smooth,samples=91,domain=30:210,variable=\t] plot ({X(\t)},{Y(\t,\s*pr(\t,\H))});
+      \draw[rot,\w,hidden,smooth,samples=91,domain=210:390,variable=\t] plot ({X(\t)},{Y(\t,\s*pr(\t,\H))});}}
+  \node[lab,anchor=west] at ({\R+0.15},{\hc*0.5*(\pb+\pc)+0.3}) {(iii)};
+  \node[lab,net,anchor=west] at ({\R+0.15},{\hc*\pb-0.55}) {lower cap};
+  \node[lab,net,anchor=west] at ({\R+0.15},{-\hc*\pb+0.55}) {upper cap};
+  \node[lab,anchor=west] at ({\R+0.15},{-\hc*0.5*(\pb+\pc)-0.3}) {(ii)};
+\end{scope}
+
+% ================================================================ (c) family (iii)
+\begin{scope}[shift={(22.6,0)}]
+  \latent{-1}{lower\\cap}
+  \node[rot,lab,anchor=south west] at ({(rl(-15,4)+0.05)*cos(45)},{(rl(-15,4)+0.05)*sin(45)}) {$H=4$};
+\end{scope}
+
+\draw[->,thick,fg!60!bg] (3.6,0.3) -- (8.3,0.3) node[midway,above,lab,fg] {decoder};
+\draw[->,thick,fg!60!bg] (19.3,0.3) -- (15.9,0.3) node[midway,above,lab,fg] {decoder};
+
+% panel labels below the panels, on one line under the lowest thing drawn
+\coordinate (bot) at ($(current bounding box.south)+(0,-0.35)$);
+\node[font=\footnotesize,anchor=north] at (0,0 |- bot) {(a)};
+\node[font=\footnotesize,anchor=north] at (11.0,0 |- bot) {(b)};
+\node[font=\footnotesize,anchor=north] at (22.6,0 |- bot) {(c)};
+\end{tikzpicture}
+\end{document}

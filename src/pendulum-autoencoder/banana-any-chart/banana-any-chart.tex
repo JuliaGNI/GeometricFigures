@@ -1,0 +1,86 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{calc}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+
+% The curves of banana-layout restricted to N_delta = {H < 1 + delta}, delta = 0.3, drawn through
+% two charts that are continuous and injective but neither symplectic nor round. Each is
+%   (theta, p) -> r(theta, p) (-cos phi(theta), -sin phi(theta)),
+% with phi strictly monotone in theta and r > 0 strictly monotone in p at fixed theta, so each is
+% injective on the cylinder; areas are distorted freely.
+%   (a) r decreasing in p: the p < 0 edge of N_delta outside;
+%   (b) r increasing in p and phi reversed: the p > 0 edge outside, and orientation reversed.
+% The shaded region is E(N_delta); the grey disk is the hole K inside its inner edge.
+
+% the p of each family as a function of the angle t (degrees)
+\pgfmathdeclarefunction{pl}{2}{\pgfmathparse{sqrt(max(0,2*((#2)-cos(#1))))}}
+\pgfmathdeclarefunction{ps}{1}{\pgfmathparse{2*abs(sin((#1)/2))}}
+% chart (a)
+\pgfmathdeclarefunction{phA}{1}{\pgfmathparse{#1+20*sin(#1)}}
+\pgfmathdeclarefunction{rA}{2}{\pgfmathparse{(0.7+0.35*(2.3-(#2))+0.06*(2.3-(#2))*(2.3-(#2)))*(1+0.18*cos(2*phA(#1)+40))}}
+\pgfmathdeclarefunction{ax}{2}{\pgfmathparse{-rA(#1,#2)*cos(phA(#1))}}
+\pgfmathdeclarefunction{ay}{2}{\pgfmathparse{-rA(#1,#2)*sin(phA(#1))}}
+% chart (b)
+\pgfmathdeclarefunction{phB}{1}{\pgfmathparse{-(#1)+12.5*sin(2*(#1))}}
+\pgfmathdeclarefunction{rB}{2}{\pgfmathparse{(0.9+0.5*(2.3+(#2))+0.04*(2.3+(#2))*(2.3+(#2)))*(1+0.15*sin(3*phB(#1)))}}
+\pgfmathdeclarefunction{bx}{2}{\pgfmathparse{-rB(#1,#2)*cos(phB(#1))}}
+\pgfmathdeclarefunction{by}{2}{\pgfmathparse{-rB(#1,#2)*sin(phB(#1))}}
+
+% \region{x-chart}{y-chart}{sign of p on the outer edge}: E(N_delta) shaded, the hole K grey
+\newcommand{\region}[3]{%
+  \addplot[draw=none,fill=sep!7!bg,domain=0:360] ({#1(x,(#3)*pl(x,1.3))},{#2(x,(#3)*pl(x,1.3))}) -- cycle;
+  \addplot[draw=none,fill=fg!10!bg,domain=0:360] ({#1(x,-(#3)*pl(x,1.3))},{#2(x,-(#3)*pl(x,1.3))}) -- cycle;}
+% \orbits{x-chart}{y-chart}: every curve of the figure through one chart
+\newcommand{\orbits}[2]{%
+  \foreach \H/\ta/\tb in {0.5/60/300, 0.95/18.19/341.81}{
+    \addplot[lib,thick,domain=\ta:\tb,samples=200]
+      ({#1(x,pl(x,\H))},{#2(x,pl(x,\H))});
+    \addplot[lib,thick,domain=\ta:\tb,samples=200]
+      ({#1(x,-pl(x,\H))},{#2(x,-pl(x,\H))});
+  }
+  \addplot[fg!70!bg,densely dotted,thick,domain=0:360] ({#1(x,0)},{#2(x,0)});
+  \addplot[sep,very thick,domain=0:360] ({#1(x,ps(x))},{#2(x,ps(x))});
+  \addplot[sep,very thick,domain=0:360] ({#1(x,-ps(x))},{#2(x,-ps(x))});
+  % the two edges of N_delta, on the rotating level H = 1.3
+  \addplot[rot,thick,domain=0:360] ({#1(x,-pl(x,1.3))},{#2(x,-pl(x,1.3))});
+  \addplot[rot,thick,dashed,domain=0:360] ({#1(x,pl(x,1.3))},{#2(x,pl(x,1.3))});
+  \foreach \t in {60,300,18.19,341.81}{
+    \addplot[only marks,mark=*,mark size=1.4pt,lib] coordinates {({#1(\t,0)},{#2(\t,0)})};
+  }
+  \addplot[only marks,mark=*,mark size=1.5pt,fg] coordinates {({#1(180,0)},{#2(180,0)})};
+  \addplot[only marks,mark=*,mark size=1.9pt,sep] coordinates {({#1(0,0)},{#2(0,0)})};
+}
+
+\begin{document}
+\begin{tikzpicture}
+\pgfplotsset{every axis/.style={x=0.62cm,y=0.62cm,hide axis,clip=false},
+  every axis plot/.append style={smooth,samples=240,variable=x}}
+
+% ---------------------------------------------------------------- (a)
+\begin{axis}[name=A,xmin=-4.5,xmax=4.5,ymin=-4.3,ymax=4.3]
+  \region{ax}{ay}{-1}
+  \orbits{ax}{ay}
+  \node[sep,font=\scriptsize,left] at (axis cs:{ax(0,0)},{ay(0,0)}) {$P$};
+  \node[font=\scriptsize,fg!60!bg] at (axis cs:0,0) {$K$};
+  \node[font=\footnotesize,anchor=north] at (axis cs:0,-4.3)
+    {(a) $p_\theta<0$ edge outside};
+\end{axis}
+
+% ---------------------------------------------------------------- (b)
+\begin{axis}[name=B,at={($(A.east)+(0.9cm,0)$)},anchor=west,
+  xmin=-4.5,xmax=4.5,ymin=-4.3,ymax=4.3]
+  \region{bx}{by}{1}
+  \orbits{bx}{by}
+  \node[sep,font=\scriptsize,left] at (axis cs:{bx(0,0)},{by(0,0)}) {$P$};
+  \node[font=\scriptsize,fg!60!bg] at (axis cs:0,0) {$K$};
+  \node[font=\footnotesize,anchor=north] at (axis cs:0,-4.3)
+    {(b) $p_\theta>0$ edge outside, mirrored};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,165 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,patterns,calc}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+
+% From the cut-off cylinder to the round chart, in three steps.
+%   (a) the band |p| < 2.6 of M, the round cylinder of pendulum-solution-manifold, of radius sqrt(2a).
+%   (b) the same band with the circle at height p given the radius rho(p), rho^2/2 = a - p
+%       (kappa = 1, a = 3.2, as in banana-layout). Height is kept, so the band becomes a
+%       ring of the paraboloid p = a - rho^2/2, a dome with apex rho = 0, p = a. The top p > 2.6
+%       above the band is not in M; seen from above it is the hole K (in a tokamak, the core).
+%   (c) (b) seen from straight above, which forgets p: the round chart.
+% A point (theta, p) of a panel sits at (x', y', p) with x' = -r cos(theta+beta),
+% y' = -r sin(theta+beta), r = sqrt(2a) in (a) and rho(p) in (b, c); beta turns the stable
+% equilibrium theta = pi to the front right. The 3d panels are orthographic, from elevation e:
+% page (X, Y) = (x', hc p + se y'). An arc is drawn solid where it faces the viewer: y' < 0 on
+% the cylinder, y' < se/hc on the paraboloid (its normal (rho cos, rho sin, 1/h) makes the test
+% exact, because the paraboloid is convex). Otherwise it is dashed.
+\pgfmathsetmacro{\a}{3.2}
+\pgfmathsetmacro{\pc}{2.6}            % where the band is cut
+\pgfmathsetmacro{\bet}{-30}
+\pgfmathsetmacro{\se}{0.42}
+\pgfmathsetmacro{\hc}{0.85}
+\pgfmathsetmacro{\Rc}{sqrt(2*\a)}      % cylinder radius = rho(0)
+\pgfmathsetmacro{\Rb}{sqrt(2*(\a+\pc))} % bottom rim of the dome
+\pgfmathsetmacro{\Rt}{sqrt(2*(\a-\pc))} % top rim of the dome = edge of the core
+\pgfmathsetmacro{\thr}{\se/\hc}        % visibility threshold on the dome
+\pgfmathsetmacro{\pap}{\a-\thr*\thr/2} % top of the dome's silhouette
+\pgfmathdeclarefunction{pl}{2}{\pgfmathparse{sqrt(max(0,2*((#2)-cos(#1))))}}
+\pgfmathdeclarefunction{ps}{1}{\pgfmathparse{2*abs(sin((#1)/2))}}
+% radius of the circle at height #1: \cyl = 1 on the cylinder, 0 on the dome
+\pgfmathdeclarefunction{rr}{1}{\pgfmathparse{\cyl*\Rc+(1-\cyl)*sqrt(2*max(0,\a-(#1)))}}
+\pgfmathdeclarefunction{xp}{2}{\pgfmathparse{-rr(#2)*cos((#1)+\bet)}}
+\pgfmathdeclarefunction{yp}{2}{\pgfmathparse{-rr(#2)*sin((#1)+\bet)}}
+\pgfmathdeclarefunction{pY}{2}{\pgfmathparse{\hc*(#2)+\se*yp(#1,#2)}}
+
+% \orb{style}{domain}{p as a function of x}: one curve on a 3d panel, solid in front, dashed behind
+\newcommand{\orb}[3]{%
+  \addplot[#1,domain=#2] ({xp(x,#3)},{yp(x,#3)<\vis ? pY(x,#3) : nan});
+  \addplot[#1,hidden,domain=#2] ({xp(x,#3)},{yp(x,#3)<\vis ? nan : pY(x,#3)});}
+% \top{style}{domain}{p}: the same curve on the top view
+\newcommand{\topv}[3]{\addplot[#1,domain=#2] ({xp(x,#3)},{yp(x,#3)});}
+
+% every orbit drawn, on whichever panel
+\newcommand{\orbits}[1]{%
+  #1{rot,thick}{0:360}{-pl(x,1.6)}
+  #1{rot,thick,densely dashed}{0:360}{pl(x,1.6)}
+  #1{fg!70!bg,densely dotted,thick}{0:360}{0}
+  #1{sep,very thick}{0:360}{ps(x)}
+  #1{sep,very thick}{0:360}{-ps(x)}
+  #1{lib,thick}{60:300}{pl(x,0.5)}
+  #1{lib,thick}{60:300}{-pl(x,0.5)}
+  #1{lib,thick}{120:240}{pl(x,-0.5)}
+  #1{lib,thick}{120:240}{-pl(x,-0.5)}}
+
+\pgfplotsset{panel/.style={x=0.5cm,y=0.5cm,hide axis,clip=false,anchor=origin,
+  unbounded coords=jump,
+  every axis plot/.append style={smooth,samples=181,variable=x}}}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,x=0.5cm,y=0.5cm,
+  hidden/.style={dash pattern=on 2pt off 2pt,opacity=0.38},
+  lab/.style={font=\scriptsize,inner sep=1pt}]
+
+% markers: #1 is yp or pY. The stable equilibrium and the bounce point at theta = pi/3 are in
+% front on both 3d panels, P and the bounce point at 5pi/3 behind.
+\newcommand{\eqmarks}[2]{%
+  \addplot[only marks,mark=*,mark size=1.3pt,lib] coordinates {({xp(180,0)},{#1(180,0)})};
+  \addplot[only marks,mark=*,mark size=1.3pt,sep,opacity=#2] coordinates {({xp(0,0)},{#1(0,0)})};
+  \addplot[only marks,mark=*,mark size=1pt,fg] coordinates {({xp(60,0)},{#1(60,0)})};
+  \addplot[only marks,mark=*,mark size=1pt,fg,opacity=#2] coordinates {({xp(300,0)},{#1(300,0)})};}
+
+% ================================================================ (a) the cut-off cylinder
+\def\cyl{1}\def\vis{0}
+\fill[fg!4!bg]
+  plot[domain=30:210,samples=60,smooth] ({xp(\x,-\pc)},{pY(\x,-\pc)})
+  -- plot[domain=210:390,samples=60,smooth] ({xp(\x,\pc)},{pY(\x,\pc)}) -- cycle;
+\draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=120,smooth] ({xp(\x,\pc)},{pY(\x,\pc)});
+\draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=120,smooth] ({xp(\x,-\pc)},{pY(\x,-\pc)});
+\draw[fg!25!bg] ({-\Rc},{-\hc*\pc}) -- ({-\Rc},{\hc*\pc});
+\draw[fg!25!bg] ({\Rc},{-\hc*\pc}) -- ({\Rc},{\hc*\pc});
+\begin{axis}[panel]
+  \orbits{\orb}
+  \eqmarks{pY}{0.4}
+\end{axis}
+\node[lab,anchor=south] at (0,{\hc*\pc+\se*\Rc+0.1}) {cut at $p_\theta=+2.6$};
+\node[lab,anchor=north] at (0,{-\hc*\pc-\se*\Rc-0.1}) {cut at $p_\theta=-2.6$};
+\node[lab,sep,anchor=south east,opacity=0.6] at ({xp(0,0)},{pY(0,0)}) {$P$};
+\node[lab,anchor=north east] at ({xp(45,0)},{pY(40,0)}) {$\nu$};
+
+% ================================================================ (b) the dome
+\def\cyl{0}\def\vis{\thr}
+\begin{scope}[shift={(12.6,0)}]
+  % the projection of the dome down to the bottom rim: silhouettes and the front of the rim
+  \fill[fg!4!bg]
+    plot[domain=-\pc:\pap,samples=60,smooth] ({sqrt(max(0,2*(\a-\x)-\thr*\thr))},{\hc*\x+\se*\thr})
+    -- plot[domain=\pap:-\pc,samples=60,smooth] ({-sqrt(max(0,2*(\a-\x)-\thr*\thr))},{\hc*\x+\se*\thr})
+    -- plot[domain={180+asin(\thr/\Rb)-\bet}:{-asin(\thr/\Rb)-\bet},samples=60,smooth]
+         ({xp(\x,-\pc)},{pY(\x,-\pc)}) -- cycle;
+  % the top p > 2.6: the top rim and the silhouette above it
+  \fill[fg!14!bg] plot[domain=0:360,samples=80,smooth] ({xp(\x,\pc)},{pY(\x,\pc)}) -- cycle;
+  \fill[fg!14!bg]
+    plot[domain=\pc:\pap,samples=30,smooth] ({sqrt(max(0,2*(\a-\x)-\thr*\thr))},{\hc*\x+\se*\thr})
+    -- plot[domain=\pap:\pc,samples=30,smooth] ({-sqrt(max(0,2*(\a-\x)-\thr*\thr))},{\hc*\x+\se*\thr}) -- cycle;
+  \draw[fg!25!bg]
+    plot[domain=-\pc:\pap,samples=60,smooth] ({sqrt(max(0,2*(\a-\x)-\thr*\thr))},{\hc*\x+\se*\thr})
+    -- plot[domain=\pap:-\pc,samples=60,smooth] ({-sqrt(max(0,2*(\a-\x)-\thr*\thr))},{\hc*\x+\se*\thr});
+  \draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=120,smooth] ({xp(\x,-\pc)},{pY(\x,-\pc)});
+  \begin{axis}[panel]
+    \orb{fg!40!bg}{0:360}{\pc}
+    \orbits{\orb}
+    \eqmarks{pY}{0.4}
+    \addplot[only marks,mark=*,mark size=1.3pt,fg] coordinates {(0,{\hc*\a})};
+  \end{axis}
+  \draw[fg!50!bg] (0,{\hc*\a}) -- (1.7,{\hc*\a+1.3})
+    node[lab,fg,anchor=south west,align=left] {apex,\\$p_\theta=a$};
+  \draw[fg!50!bg] (-0.7,{\hc*\pc+0.1}) -- (-2.2,{\hc*\a+1.3})
+    node[lab,fg,anchor=south east,align=right] {top, not in $\mathcal{M}$,\\$p_\theta>2.6$};
+  \node[lab,sep,anchor=south east,opacity=0.6] at ({xp(0,0)},{pY(0,0)}) {$P$};
+  \node[lab,anchor=north east] at ({xp(45,0)},{pY(40,0)}) {$\nu$};
+  \node[lab,anchor=north] at (0,{-\hc*\pc-\se*\Rb-0.1}) {cut at $p_\theta=-2.6$; the dome goes on};
+\end{scope}
+
+% ================================================================ (c) seen from above
+\def\cyl{0}
+\begin{scope}[shift={(25.4,0)}]
+  \fill[fg!4!bg] (0,0) circle ({\Rb});
+  \fill[fg!14!bg] (0,0) circle ({\Rt});
+  \draw[fg!30!bg,densely dotted] (0,0) circle ({\Rb});
+  \draw[fg!40!bg] (0,0) circle ({\Rt});
+  % the line through both equilibria: theta = 0 (the HFS in a tokamak), theta = pi (the LFS)
+  \draw[fg!30!bg] ({xp(0,-4.0)},{yp(0,-4.0)}) -- ({xp(180,-4.0)},{yp(180,-4.0)});
+  \node[lab,anchor=south east] at ({xp(0,-4.0)},{yp(0,-4.0)}) {$\theta=0$};
+  \node[lab,anchor=north west] at ({xp(180,-4.0)},{yp(180,-4.0)}) {$\theta=\pi$};
+  \begin{axis}[panel]
+    \orbits{\topv}
+    \eqmarks{yp}{1}
+    \addplot[only marks,mark=*,mark size=1.3pt,fg] coordinates {(0,0)};
+  \end{axis}
+  \node[lab,fg!70!bg,anchor=north] at (0,-0.15) {apex};
+  \node[lab,fg!70!bg,anchor=south] at (0,0.15) {$K$};
+  \node[lab,sep,anchor=north east] at ({xp(0,0)},{yp(0,0)}) {$P$};
+  \node[lab,anchor=north east] at ({xp(45,0)},{yp(40,0)}) {$\nu$};
+\end{scope}
+
+% ================================================================ the two steps
+\draw[->,thick,fg!60!bg] (4.0,0) -- (7.4,0)
+  node[midway,above,lab,fg,align=center] {radius $\rho$ at\\height $p_\theta$,\\$\tfrac12\rho^2=a-p_\theta$};
+\draw[->,thick,fg!60!bg] (17.4,0) -- (20.8,0)
+  node[midway,above,lab,fg,align=center] {look down\\the axis,\\forget $p_\theta$};
+
+% panel labels below the panels, on one line under the lowest thing drawn
+\coordinate (bot) at ($(current bounding box.south)+(0,-0.35)$);
+\node[font=\footnotesize,anchor=north] at (0,0 |- bot) {(a) a cut-off piece of $\mathcal{M}$};
+\node[font=\footnotesize,anchor=north] at (12.6,0 |- bot) {(b) bent into a dome};
+\node[font=\footnotesize,anchor=north] at (25.4,0 |- bot) {(c) from above: the round chart};
+\end{tikzpicture}
+\end{document}
