@@ -90,3 +90,11 @@ package's site.
   `transformer-upscaling` draws its transformer box itself, as a `fit` node over the neurons it
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
+
+* **Two finite element exterior calculus figures of the talk "Geometric Machine Learning" (LMU,
+  September 2026) are figures of the topic `feec`: `de-rham-commuting-diagram` and
+  `feec-nn-swap`.** Each loads `geometricfigures.sty` and takes `fg` for black, a palette tint
+  `<colour>!<p>` as `<colour>!<p>!bg` and the grey `gray!55` as `muted!55!bg`, so that the light
+  theme renders pixel-identical to the original at 150 dpi and the dark theme is new. They compile
+  with `xelatex`, as the originals do, and load only TeX Live packages (`amsmath`, `amssymb`,
+  `amsfonts`, `pifont`). `scripts/references.toml` has no entry for them.

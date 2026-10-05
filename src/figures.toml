@@ -247,3 +247,15 @@ caption = "The logo of GeometricMachineLearning.jl with the package name."
 name = "logo-with-name-without-jl"
 topic = "logos"
 caption = "The logo of GeometricMachineLearning.jl with the package name, without the .jl suffix."
+
+# The finite element exterior calculus figures of the talk "Geometric Machine Learning" (LMU,
+# September 2026).
+[[figure]]
+name = "de-rham-commuting-diagram"
+topic = "feec"
+caption = "The de Rham complex and its finite element subcomplex, joined by cochain projections π_h^k that commute with d, so that the discrete complex inherits the cohomology."
+
+[[figure]]
+name = "feec-nn-swap"
+topic = "feec"
+caption = "Where a neural network can go in a finite element method: learning the basis loses the subcomplex, learning the Hodge star keeps d and the cohomology."
