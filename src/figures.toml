@@ -15,7 +15,7 @@ engine = "pdflatex"
 [[figure]]
 name = "solver"
 topic = "solvers"
-caption = "The fields of a NonlinearSolver: its method, problem, Jacobian, cache, options, line-search state and status."
+caption = "The fields of a NonlinearSolver: its nonlinear problem, linear problem, Jacobian, linear solver, line search, method, cache and options."
 engine = "pdflatex"
 
 [[figure]]
