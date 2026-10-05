@@ -32,7 +32,9 @@ script is `<name>.jl` beside the source, and the build runs it before LaTeX. The
 `geometricfigures.sty`, which defines the theme colours `fg`, `bg` and `muted` and the shared
 palette. The build compiles each source twice, the
 second time with `\def\darkmode{}` prepended, so a source takes every colour that depends on the
-theme from the package and never writes `white` or `black`.
+theme from the package and never writes `white` or `black`. In the dark theme `bg` is `#1F2424`,
+the page background of Documenter's `documenter-dark` theme, so that a mask or a tint mixed with
+`bg` matches the page the figure is shown on.
 
 ## Reference
 

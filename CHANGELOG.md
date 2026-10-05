@@ -90,3 +90,16 @@ package's site.
   `transformer-upscaling` draws its transformer box itself, as a `fit` node over the neurons it
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
+
+* **In the dark theme `bg` is `#1F2424`, the page background of Documenter's `documenter-dark`
+  theme, no longer black.** The figures are transparent, so `bg` shows only where a source fills
+  with it or mixes a colour with it: a label mask, an open marker, a grey `fg!<p>!bg`, a tint
+  `<colour>!<p>!bg`. On a `documenter-dark` page those were pitch-black patches; now a mask is the
+  page colour. The value is the `background-color` of `html.theme--documenter-dark` in
+  Documenter's `assets/html/themes/documenter-dark.css` (every release from 1.8.1 to 1.19.0).
+  `fg` stays white, which is also that theme's text colour. Every light render is byte-identical
+  to before. Eight dark renders change: the open markers of the six projection figures of
+  `integrators`, the text on the central node of `solver`, and the grey fill of `vp-transformer`,
+  which is lighter and no longer pixel-identical to GeometricMachineLearning's dark original
+  (`scripts/references.toml` says so). The dark previews of the site are on `#1F2424`, and
+  `scripts/check-dark.jl` counts no pixel of the colour `bg` itself (within 2 per channel).

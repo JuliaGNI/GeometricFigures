@@ -5,8 +5,13 @@
 % \def\darkmode{} prepended, for the dark theme. A source takes every colour that depends on the
 % theme from here, never a literal white or black:
 %
-%   fg      the foreground: black in the light theme, white in the dark theme
-%   bg      the background: white in the light theme, black in the dark theme
+%   fg      the foreground: black in the light theme; white in the dark theme, which is also the
+%           text colour of documenter-dark
+%   bg      the background: white in the light theme; in the dark theme #1F2424, the page
+%           background of Documenter's documenter-dark theme (the `background-color` of
+%           `html.theme--documenter-dark` in Documenter's assets/html/themes/documenter-dark.css,
+%           `darken($grey-darker, 4)` of its Darkly variables), so that a mask or a tint mixed
+%           with bg matches the page the figure is shown on
 %   muted   a secondary foreground: gray in the light theme, fg in the dark theme, so that a
 %           tint muted!<p> fades towards white in the light theme and stays white in the dark one
 %
@@ -19,7 +24,7 @@
 
 \ifdefined\darkmode
     \colorlet{fg}{white}
-    \colorlet{bg}{black}
+    \definecolor{bg}{HTML}{1F2424}
     \colorlet{muted}{fg}
     \tikzset{every picture/.append style={color=fg, every node/.append style={text=fg}}}
 \else

@@ -379,6 +379,8 @@ engine = "xelatex"
 runs = 2
 dpi = 150
 
+# The grey fill of the dark vp-transformer is fg!60!bg, white mixed with #1F2424, where the
+# original's black!40 mixes white with black: a non-zero AE is expected against it.
 [[reference]]
 name = "vp-transformer"
 theme = "dark"
