@@ -95,16 +95,18 @@ package's site.
   Machine Learning* (LMU, September 2026).** Twelve are in the topic `manifolds`:
   `homogeneous-space`, `homogeneous-space-action`, `lie-group-venn`, `lie-group`, `lie-algebra`,
   `lie-algebra-representation`, `projected-diagram`, `tangent-space`,
-  `manifold-with-tangent-space`, `manifold-with-tangent-spaceE`, `homogeneous-geodesics` and
+  `manifold-with-tangent-space`, `manifold-with-tangent-space-e`, `homogeneous-geodesics` and
   `skew-sym-projection`. Two are in `optimizers`: `general-optimization-notation` and
-  `manifold-optimization-motivation`. Names are the talk's file names with `-` for `_`, with three
+  `manifold-optimization-motivation`. Names are the talk's file names with `-` for `_`, with four
   exceptions:
   - the talk's `manifold` is `homogeneous-space-action`, because a generic name is permanent once
     deployed;
   - its `skew_sym_visualization`, a different picture from the existing `skew-sym-visualization`
-    (a general matrix projected onto a skew-symmetric one), is `skew-sym-projection`;
+    (a general matrix and the skew-symmetric matrix built from its strictly lower triangle), is `skew-sym-projection`;
   - its `general_optimizer` is `general-optimization-notation`, because it is
-    `general-optimization-with-boundary` with mathematical notation in place of code names.
+    `general-optimization-with-boundary` with mathematical notation in place of code names;
+  - its `manifold_with_tangent_spaceE` is `manifold-with-tangent-space-e`, so that every name is
+    lower case.
 
   Each loads `geometricfigures.sty` and takes `fg` for black, `bg` for white, `muted` for gray and
   `<colour>!<p>!bg` for a tint used as a fill. The light theme renders pixel-identical to the

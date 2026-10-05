@@ -196,7 +196,7 @@ caption = "A homogeneous space: group elements g and g′ carry the same point a
 [[figure]]
 name = "lie-group-venn"
 topic = "manifolds"
-caption = "Every Lie group is a homogeneous space, but not conversely: SO(n) and 𝕋ⁿ are Lie groups, while Sⁿ, Gr(n, N) and St(n, N) are only homogeneous spaces."
+caption = "Every Lie group is a homogeneous space, but not conversely: SO(n) and 𝕋ⁿ are Lie groups, while Sⁿ, Gr(n, N) and St(n, N) are homogeneous spaces that are in general not Lie groups."
 
 [[figure]]
 name = "lie-group"
@@ -229,7 +229,7 @@ topic = "manifolds"
 caption = "A manifold M with the tangent space T_Y M at Y, a tangent vector v, and the curve exp(t·log(g)) from Y to b."
 
 [[figure]]
-name = "manifold-with-tangent-spaceE"
+name = "manifold-with-tangent-space-e"
 topic = "manifolds"
 caption = "A manifold M with the tangent space T_E M at the distinguished point E, a tangent vector v, and the curve exp(t·log(g)) from E to b."
 
@@ -241,7 +241,7 @@ caption = "A geodesic on a homogeneous space: X ∈ 𝔤^hor is exponentiated to
 [[figure]]
 name = "skew-sym-projection"
 topic = "manifolds"
-caption = "A general n × n matrix and its projection onto the skew-symmetric matrices, which keeps the lower triangle and negates it into the upper one."
+caption = "A general n × n matrix and the skew-symmetric matrix built from its strictly lower triangle: the diagonal is zero and the upper triangle is the negated transpose of the lower one."
 
 [[figure]]
 name = "ingredients"
