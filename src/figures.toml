@@ -213,8 +213,9 @@ name = "symplectic-autoencoder-architecture"
 topic = "reduced-order-modeling"
 caption = "Example of a symplectic autoencoder. The SympNet layers are in green, the PSD-like layers are in blue."
 
-# The versions of the two figures above in the paper on symplectic autoencoders (arXiv:2312.10004): inputs z_i, and the decoder of the experiments (GradientQ(2N, 2N) and
-# PSDLayer(2n, 2N)) with the labels P and R.
+# The versions of the two figures above in the paper on symplectic autoencoders
+# (arXiv:2312.10004): inputs z_i, and the decoder of the experiments (PSDLayer(2n, 2N), then
+# GradientQ(2N, 2N)) with the labels P and R.
 [[figure]]
 name = "sae-paper-autoencoder"
 topic = "reduced-order-modeling"
