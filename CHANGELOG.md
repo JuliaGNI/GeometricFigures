@@ -99,17 +99,6 @@ package's site.
   renders pixel-identical to the original at 150 dpi and the dark theme is new. They compile with `pdflatex` and need no data file: the coordinates generated from trained
   weights are written into the sources. `scripts/references.toml` has no entry for them.
 
-* **The paper's own versions of two symplectic-autoencoder figures are figures of the topic
-  `reduced-order-modeling`: `sae-paper-autoencoder` and `sae-paper-architecture`.** They differ in content from `symplectic-autoencoder` and
-  `symplectic-autoencoder-architecture`: the paper labels the inputs $z_i$ where those have
-  $x_i$, and its decoder ends in `PSDLayer(2n, 2N)` and `GradientQ(2N, 2N, tanh)`, with the encoder
-  and the decoder labelled $\mathcal{P}$ and $\mathcal{R}$, where
-  `symplectic-autoencoder-architecture` ends in `PSDLayer(2n, 2M)`, two gradient layers on `2M`
-  and `PSDLayer(2M, 2N)`, labelled $\Psi^e$ and $\Psi^d$. They take the theme colours as those
-  two do. The paper's third figure is `third-degree-spline`
-  except for the `very thick` lines that figure took from GeometricMachineLearning, so it is not
-  added again.
-
 * **A topic page can open with a tracked introduction.** `docs/make.jl` writes
   `docs/topic-intros/<topic>.md`, where it exists, between the page's heading and its figures; the
   file is outside `docs/src/`, so Documenter does not publish it as a page of its own. The
