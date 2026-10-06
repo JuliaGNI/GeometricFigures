@@ -27,8 +27,8 @@
   \addplot[lib,thick,name path=L,domain=1.0472:5.2360]
     {-sqrt(max(0,2*(0.5-cos(deg(x)))))};
   \addplot[lib!25!bg]fill between[of=U and L];
-  \addplot[sep,dashed,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
-  \addplot[sep,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,dashed,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
 \end{axis}
 \end{tikzpicture}
 \end{document}

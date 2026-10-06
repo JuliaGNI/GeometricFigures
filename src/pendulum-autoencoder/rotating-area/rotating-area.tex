@@ -25,8 +25,8 @@
   % not the lower edge of the shaded region, and it is dashed so the eye does not pair the
   % two curves into one loop.
   \addplot[rot,thick,dashed,domain=0:6.2832]{-sqrt(2*(1.5-cos(deg(x))))};
-  \addplot[sep,dashed,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
-  \addplot[sep,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,dashed,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
 \end{axis}
 \end{tikzpicture}
 \end{document}

@@ -38,8 +38,8 @@
     \addplot[rot,thick,domain=0:6.2832]{-sqrt(2*(\H-cos(deg(x))))};
   }
   \node[lib] at (axis cs:3.1416,0.0) {\small libration};
-  \node[rot] at (axis cs:3.1416,2.55) {\small rotation};
-  \node[sep] at (axis cs:1.15,1.45) {\small $H=1$};
+  \node[rot,fill=bg,inner sep=1pt] at (axis cs:3.1416,2.82) {\small rotation};
+  \node[sep,inner sep=0.5pt] at (axis cs:0.68,0) {\small $H=1$};
 \end{axis}
 \end{tikzpicture}
 \end{document}

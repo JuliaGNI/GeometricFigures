@@ -20,7 +20,7 @@
 % circles enclosing exactly their action J = 2 pi I. Right: the one chart the
 % network learns, drawn schematically with round circles.
 %
-% Unlike two_charts.tex, every plane here is on ONE scale, \s cm per unit of
+% Unlike two-charts, every plane here is on ONE scale, \s cm per unit of
 % length, and every circle is drawn at its true area: radius = \s*sqrt(A/pi).
 % So areas CAN be compared by eye across all four planes.
 %   atlas:   librating disk 16; rotating holes 8; orbits H = 0.91 (14.758),
@@ -45,9 +45,9 @@
   hidden/.style={dash pattern=on 2.2pt off 2.2pt,opacity=0.38},
   notin/.style={sep,thick,dash pattern=on 2.5pt off 1.8pt},
   orbit/.style={thin},
-  tag/.style={font=\scriptsize,inner sep=1.5pt},
-  num/.style={font=\scriptsize},
-  say/.style={font=\scriptsize,align=right,anchor=east},
+  tag/.style={font=\footnotesize,inner sep=1.5pt},
+  num/.style={font=\footnotesize},
+  say/.style={font=\footnotesize,align=right,anchor=east},
   map/.style={->,fg!55!bg,thick,shorten >=3pt,shorten <=3pt},
   head/.style={font=\small,anchor=north}]
 
@@ -104,9 +104,8 @@
   \draw[up,orbit] (0,0) circle ({arad(10.935)});
   \draw[up,orbit] (0,0) circle ({arad(17.701)});
   \draw[notin] (0,0) circle ({arad(8)});
-  \node[num,fg!60!bg] at (0,0) {$8$};
   \node[say,up] at (-1.35,0)
-    {$R_+$: $H>1$, $p_\theta>0$\\ hole of area $8$,\\ where $\ell_+$ would be};
+    {$R_+$: $H>1$, $p_\theta>0$\\ hole of area $a_0=8$,\\ where $\ell_+$ would be};
 \end{scope}
 
 % L : a disk of area 16
@@ -117,7 +116,7 @@
   \fill[lib] (0,0) circle (1.2pt);
   \node[num,lib,anchor=south] at (0,0.05) {$16$};
   \node[say,lib] at (-1.35,0)
-    {$L$: $H<1$\\ disk of area $16$,\\ its rim all of $\ell$};
+    {$L$: $H<1$\\ disk of area $16$,\\ its boundary all of $\ell$};
 \end{scope}
 
 % R_- : the exterior of a hole of area 8
@@ -127,9 +126,8 @@
   \draw[rot,orbit] (0,0) circle ({arad(10.935)});
   \draw[rot,orbit] (0,0) circle ({arad(17.701)});
   \draw[notin] (0,0) circle ({arad(8)});
-  \node[num,fg!60!bg] at (0,0) {$8$};
   \node[say,rot] at (-1.35,0)
-    {$R_-$: $H>1$, $p_\theta<0$\\ hole of area $8$,\\ where $\ell_-$ would be};
+    {$R_-$: $H>1$, $p_\theta<0$\\ hole of area $a_0=8$,\\ where $\ell_-$ would be};
 \end{scope}
 
 \draw[map] (-0.55,{cyly(0,2.7)}) to[out=160,in=0] node[tag,above,fg!60!bg,fill=bg]{$(X,Y)$} (\ax+1.25,2.75);
@@ -155,13 +153,14 @@
   \node[tag,sep,anchor=south west] at (45:\Rg) {$\gamma_-$};
   \node[tag,sep,anchor=west] at ({\Rp+0.03},{\Rp-\Rg+0.12}) {$\gamma_+$};
   \node[num,lib] at (0,0.42) {$12.95$};
+  \draw[fg!55!bg] (-0.35,0.75) -- (-0.75,1.75) node[num,fg!70!bg,anchor=south,inner sep=1pt] {$a_0=14.79$};
 \end{scope}
-\node[font=\scriptsize,anchor=north] (btab) at (\bx,-1.62) {%
+\node[font=\footnotesize,anchor=north] (btab) at (\bx,-1.62) {%
   \renewcommand{\arraystretch}{1.1}\setlength{\tabcolsep}{3pt}%
   \begin{tabular}{@{}lrr@{}}
     & learned & (a) \\ \hline
     \textcolor{lib}{$L$}: the crescent $U$     & $12.95$ & $16$ \\
-    \textcolor{rot}{$R_-$}: its hole, in $\gamma_-$ & $14.79$ & $8$ \\
+    \textcolor{rot}{$R_-$}: its hole $a_0$, inside $\gamma_-$ & $14.79$ & $8$ \\
     \textcolor{up}{$R_+$}: its limit, $\gamma_+$ & $1.84$  & $8$ \\
   \end{tabular}};
 

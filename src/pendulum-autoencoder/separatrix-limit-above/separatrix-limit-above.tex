@@ -19,10 +19,10 @@
   title style={at={(0.5,0)},anchor=north,yshift=-3.5em},   % panel label below the panel
   title={\small $H\to1^+$: one branch, $J\to8$},
   every axis plot/.append style={smooth,samples=200}]
-  \addplot[sep,thick,name path=U2,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,name path=U2,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
   \addplot[draw=none,name path=Z2,domain=0:6.2832]{0};
   \addplot[sep!22!bg]fill between[of=U2 and Z2];
-  \addplot[sep,thick,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
 \end{axis}
 \end{tikzpicture}
 \end{document}

@@ -1,112 +1,151 @@
 \documentclass[crop,tikz,11pt]{standalone}
 \usepackage{geometricfigures}
 \usepackage{amsmath,amssymb}
-\usetikzlibrary{arrows.meta,patterns,calc}
+\usetikzlibrary{arrows.meta,patterns}
 
-\definecolor{lib}{HTML}{3B75AF}
 \definecolor{rot}{HTML}{C1701E}
-\definecolor{sep}{HTML}{B03030}
 \definecolor{net}{HTML}{4E9A4E}
+\definecolor{up}{HTML}{7A5AA8}
 
-% The exact encodings of the two rotating families, schematically.
-%   (a) family (ii), p<0, in the latent chart r^2/2 = -p_theta at polar angle theta: the orbit at
-%       energy H is r(theta) = sqrt(2 sqrt(2(H - cos theta))) and encloses exactly its action.
-%       Inside r_b = 1.4496 (r_b^2/2 = 1.05, rho_1 = 1.45 in the cap) the decoder is the upper cap.
-%   (c) family (iii), p>0, its mirror image under S(q1,q2,p1,p2) = (-q1,q2,-p1,p2), which sends
-%       iota(theta,p) to iota(-theta,-p): the chart r^2/2 = p_theta at polar angle -theta, the
-%       same curves reflected, with the lower cap inside r_b. Both latent panels at true area,
-%       1 unit = 0.55cm.
-%   (b) the decoders' images: the cylinder M of pendulum-solution-manifold for p_theta <= -1.05, closed
-%       above by the upper cap, and for p_theta >= 1.05, closed below by the lower cap; the strip
-%       |p_theta| < 1.05 between the rims is in neither (dotted). The caps live in R^4 and are drawn
-%       as domes over their rims. Same projection as pendulum-solution-manifold: page (X, Y) = (x', hc p + se y'),
-%       x' = -R cos(theta+beta), y' = -R sin(theta+beta); an arc is solid where y' < 0, theta in
-%       (30, 210).
-% Levels: H = 1.6 and H = 4 on each family.
-\pgfmathsetmacro{\bet}{-30}
-\pgfmathsetmacro{\se}{0.42}
-\pgfmathsetmacro{\hc}{1.2}
-\pgfmathsetmacro{\R}{2.0}
-\pgfmathsetmacro{\pb}{1.05}    % the rims are at p_theta = -1.05 and +1.05
-\pgfmathsetmacro{\pc}{3.3}     % where the picture stops, at -3.3 and +3.3
-\pgfmathsetmacro{\rb}{1.4496}
-\pgfmathsetmacro{\dh}{1.15}    % height of the drawn domes
-\pgfmathdeclarefunction{pr}{2}{\pgfmathparse{sqrt(2*((#2)-cos(#1)))}}             % |p| on a rotating orbit
-\pgfmathdeclarefunction{rl}{2}{\pgfmathparse{sqrt(2*sqrt(2*((#2)-cos(#1))))}}     % latent radius
-\pgfmathdeclarefunction{X}{1}{\pgfmathparse{-\R*cos((#1)+\bet)}}
-\pgfmathdeclarefunction{Y}{2}{\pgfmathparse{\hc*(#2)-\se*\R*sin((#1)+\bet)}}
+% The exact encodings of the two rotating families,
+% laid out as angle-atlas: M on top, in the same projection, the charts
+% below it, and arrows from a point of each patch to its image.
+%   phi_-: the chart r^2/2 = -p_theta at polar angle theta of {p_theta < 0}, which encodes family
+%          (ii). The orbit at energy H is r(theta) = sqrt(2 sqrt(2(H - cos theta))) and encloses
+%          exactly its action. Its decoder is the inverse of phi_- on r >= r_b, i.e. on
+%          V_- = {p_theta < -1.05} (r_b = 1.4496, r_b^2/2 = 1.05, rho_1 = 1.45 in the cap), and
+%          the cap of (ii) on the hole r < r_b.
+%   phi_+: its mirror image under S(q1,q2,p1,p2) = (-q1,q2,-p1,p2), which sends iota(theta,p) to
+%          iota(-theta,-p): r^2/2 = p_theta at polar angle -theta, V_+ = {p_theta > 1.05}, the
+%          cap of (iii) on the hole.
+% Both latent planes at true area, 1 unit = 0.55cm. Top left and right: the two decoders' images,
+% drawn at the heights p_theta they have on M, each closed towards the strip |p_theta| < 1.05 by
+% its own cap; the caps lie in R^4, not on M, and are drawn as domes over the boundary circles.
+% Levels: H = 2 (the orbit R of angle-atlas, and its mirror image) and H = 4 on each family.
+%
+% Projection as in angle-atlas: u = theta - pi, turned by \cylA, a point is in front where
+% u in [-120, 60]. On M, p_theta = +-sqrt(2(H + cos u)).
+\newcommand{\cylR}{1.35}
+\newcommand{\cylC}{0.24}
+\newcommand{\cylS}{0.52}
+\newcommand{\cylP}{3.3}     % where the picture cuts M, at p_theta = -3.3 and +3.3
+\newcommand{\cylA}{30}
+\newcommand{\pb}{1.05}      % the boundaries of V_-, V_+ at p_theta = -1.05 and +1.05
+\newcommand{\rb}{1.4496}    % latent radius of the hole
+\newcommand{\domeh}{0.95}      % height of a drawn dome
+\pgfmathdeclarefunction{cylx}{1}{\pgfmathparse{\cylR*sin((#1)+\cylA)}}
+\pgfmathdeclarefunction{cyly}{2}{\pgfmathparse{-\cylC*\cylR*cos((#1)+\cylA)+\cylS*(#2)}}
+\pgfmathdeclarefunction{orb}{2}{\pgfmathparse{sqrt(2*((#2)+cos(#1)))}}            % |p| on M, angle u
+\pgfmathdeclarefunction{rl}{2}{\pgfmathparse{sqrt(2*sqrt(2*((#2)-cos(#1))))}}     % latent radius, angle theta
 
-% \latent{sign}{cap label}: a latent panel, polar angle sign*theta
-\newcommand{\latent}[2]{%
+% a band of M over u in [#2,#3], wholly in front or behind, for p_theta in (#4,#5)
+\newcommand{\band}[5]{%
+  \fill[#1]
+    plot[domain=#2:#3,samples=40,smooth] ({cylx(\x)},{cyly(\x,#5)})
+    -- plot[domain=#3:#2,samples=40,smooth] ({cylx(\x)},{cyly(\x,#4)}) -- cycle;}
+\newcommand{\circleat}[2]{\draw[#1] plot[domain=-180:180,samples=120,smooth] ({cylx(\x)},{cyly(\x,#2)});}
+% the orbits at H = 2 and 4 on the side #1 = -1 (family (ii)) or +1 (family (iii))
+\newcommand{\orbits}[1]{%
+  \foreach \H/\w in {2/very thick,4/thick}{
+    \draw[rot,\w] plot[domain=-120:60,samples=70,smooth] ({cylx(\x)},{cyly(\x,#1*orb(\x,\H))});
+    \draw[rot,\w,hidden] plot[domain=60:240,samples=70,smooth] ({cylx(\x)},{cyly(\x,#1*orb(\x,\H))});}}
+% the cylinder's outline between the heights #1 < #2, and its cut at #3 (dotted)
+\newcommand{\outline}[3]{%
+  \draw[fg!25!bg] ({-\cylR},{\cylS*(#1)}) -- ({-\cylR},{\cylS*(#2)});
+  \draw[fg!25!bg] ({\cylR},{\cylS*(#1)}) -- ({\cylR},{\cylS*(#2)});
+  \circleat{fg!25!bg,densely dotted}{#3}}
+% a cap: the disk over the circle at height #1, domed upwards (#2 = 1) or downwards (#2 = -1)
+\newcommand{\capdome}[2]{%
+  \fill[net!16!bg] plot[domain=-180:180,samples=120,smooth] ({cylx(\x)},{cyly(\x,#1)}) -- cycle;
+  \fill[net!16!bg] ({-\cylR},{\cylS*(#1)}) arc[start angle=180,end angle={180-#2*180},x radius=\cylR,y radius=\domeh]
+    -- cycle;
+  \draw[net,thick] ({-\cylR},{\cylS*(#1)}) arc[start angle=180,end angle={180-#2*180},x radius=\cylR,y radius=\domeh];
+  \draw[net,thick] plot[domain=-120:60,samples=70,smooth] ({cylx(\x)},{cyly(\x,#1)});
+  \draw[net,thick,hidden] plot[domain=60:240,samples=70,smooth] ({cylx(\x)},{cyly(\x,#1)});}
+
+% a latent plane: polar angle #1*theta, the image of V_-+ coloured #2 (to where the picture stops),
+% the label of the green disk #3; the area the H = 2 orbit encloses, green disk included, is
+% hatched in the left plane only (#1 = 1)
+\newcommand{\latent}[3]{%
+  \fill[#2!14!bg] (0,0) circle (2.75);
+  \fill[net!16!bg] (0,0) circle (\rb);
+  \ifnum#1=1
   \fill[pattern=north east lines,pattern color=rot!60!bg,smooth,samples=180,domain=0:360,variable=\t]
-    plot ({rl(\t,1.6)*cos(#1*\t+\bet+180)},{rl(\t,1.6)*sin(#1*\t+\bet+180)}) -- cycle;
-  \fill[net!14!bg] (0,0) circle (\rb);
-  \draw[net,thick,dashed] (0,0) circle (\rb);
-  \foreach \H/\w in {1.6/very thick,4/thick}{
+    plot ({rl(\t,2)*cos(#1*\t-30)},{rl(\t,2)*sin(#1*\t-30)}) -- cycle;
+  \fi
+  \draw[net,thick] (0,0) circle (\rb);
+  \foreach \H/\w in {2/very thick,4/thick}{
     \draw[rot,\w,smooth,samples=180,domain=0:360,variable=\t]
-      plot ({rl(\t,\H)*cos(#1*\t+\bet+180)},{rl(\t,\H)*sin(#1*\t+\bet+180)}) -- cycle;}
-  \node[net,lab,align=center] at (0,0) {#2};}
+      plot ({rl(\t,\H)*cos(#1*\t-30)},{rl(\t,\H)*sin(#1*\t-30)}) -- cycle;}
+  \node[net!70!fg,lab,align=center,fill=net!16!bg,fill opacity=0.85,text opacity=1,inner sep=0.5pt] at (0,0) {#3};}
 
 \begin{document}
-\begin{tikzpicture}[>=Stealth,x=0.55cm,y=0.55cm,
-  hidden/.style={dash pattern=on 2pt off 2pt,opacity=0.38},
-  lab/.style={font=\footnotesize,inner sep=1pt}]
+\begin{tikzpicture}[>=Stealth,
+  hidden/.style={dash pattern=on 2pt off 2pt,opacity=0.45},
+  lab/.style={font=\footnotesize,inner sep=1.5pt}]
 
-% ================================================================ (a) family (ii)
+% ================================================================ M, with V_-, V_+ and the strip
 \begin{scope}
-  \latent{1}{upper\\cap}
-  \node[rot,lab,anchor=south east] at ({(rl(-15,4)+0.05)*cos(135)},{(rl(-15,4)+0.05)*sin(135)}) {$H=4$};
-  \draw[fg!50!bg] ({0.5*(\rb+rl(200,1.6))*cos(200+\bet+180)},{0.5*(\rb+rl(200,1.6))*sin(200+\bet+180)})
-    -- (0.6,-3.4) node[lab,fg,anchor=north,align=center] {area $J_\mathrm{angular}$ of $H=1.6$};
+  \band{fg!4!bg}{-120}{60}{-\cylP}{\cylP}
+  \band{rot!16!bg}{-120}{60}{-\cylP}{-\pb}
+  \band{up!16!bg}{-120}{60}{\pb}{\cylP}
+  \outline{-\cylP}{\cylP}{\cylP}
+  \circleat{fg!25!bg,densely dotted}{-\cylP}
+  \foreach \p/\c in {-\pb/rot!55!fg,\pb/up!70!fg}{
+    \draw[\c,densely dashed] plot[domain=-120:60,samples=60,smooth] ({cylx(\x)},{cyly(\x,\p)});
+    \draw[\c,hidden] plot[domain=60:240,samples=60,smooth] ({cylx(\x)},{cyly(\x,\p)});}
+  \orbits{-1}
+  \orbits{1}
+  \node[lab,rot!80!fg,anchor=east] at ({-\cylR-0.05},{\cylS*(-2.2)}) {$V_-$};
+  \node[lab,up!80!fg,anchor=east] at ({-\cylR-0.05},{\cylS*2.2}) {$V_+$};
+  \node[lab,align=center] at (0,{cyly(-30,0)}) {in neither};
+  \node[lab,rot,fill=bg,fill opacity=0.8,text opacity=1,inner sep=0.6pt,anchor=north] at ({cylx(-75)},{cyly(-75,orb(-75,2))-0.03}) {$R$};
+  \node[font=\small] at (-2.0,2.25) {$\mathcal{M}$};
+  \draw[->,fg!50!bg] ({\cylR+0.35},-0.45) -- ({\cylR+0.35},0.45) node[above,lab,fg] {$p_\theta$};
+  % the points the chart arrows start from, one in each patch
+  \fill[rot!80!fg] ({cylx(-50)},{cyly(-50,-2.6)}) circle (1.4pt);
+  \fill[up!80!fg] ({cylx(10)},{cyly(10,2.9)}) circle (1.4pt);
 \end{scope}
 
-% ================================================================ (b) the two decoders' images
-\begin{scope}[shift={(11.0,0)}]
-  % the strip |p| < 1.05, in neither image
-  \draw[fg!30!bg,densely dotted] ({-\R},{-\hc*\pb}) -- ({-\R},{\hc*\pb});
-  \draw[fg!30!bg,densely dotted] ({\R},{-\hc*\pb}) -- ({\R},{\hc*\pb});
-  % the two bands of M
-  \foreach \lo/\hi in {-\pc/-\pb,\pb/\pc}{
-    \fill[fg!4!bg]
-      plot[domain=30:210,samples=60,smooth] ({X(\x)},{Y(\x,\lo)})
-      -- plot[domain=210:390,samples=60,smooth] ({X(\x)},{Y(\x,\hi)}) -- cycle;
-    \draw[fg!25!bg] ({-\R},{\hc*\lo}) -- ({-\R},{\hc*\hi});
-    \draw[fg!25!bg] ({\R},{\hc*\lo}) -- ({\R},{\hc*\hi});}
-  \draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,-\pc)});
-  \draw[fg!30!bg,densely dotted] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,\pc)});
-  % the caps: the upper one over the rim at -1.05, the lower one under the rim at +1.05
-  \fill[net!14!bg] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,-\pb)}) -- cycle;
-  \fill[net!14!bg] ({-\R},{-\hc*\pb}) arc[start angle=180,end angle=0,x radius=\R,y radius=\dh];
-  \draw[net,thick] ({-\R},{-\hc*\pb}) arc[start angle=180,end angle=0,x radius=\R,y radius=\dh];
-  \fill[net!14!bg] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,\pb)}) -- cycle;
-  \fill[net!14!bg] ({-\R},{\hc*\pb}) arc[start angle=180,end angle=360,x radius=\R,y radius=\dh];
-  \draw[net,thick] ({-\R},{\hc*\pb}) arc[start angle=180,end angle=360,x radius=\R,y radius=\dh];
-  \draw[net,thick,dashed] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,-\pb)});
-  \draw[net,thick,dashed] plot[domain=0:360,samples=90,smooth] ({X(\x)},{Y(\x,\pb)});
-  % the orbits, solid in front, dashed behind: family (ii) below, family (iii) above
-  \foreach \s in {-1,1}{
-    \foreach \H/\w in {1.6/very thick,4/thick}{
-      \draw[rot,\w,smooth,samples=91,domain=30:210,variable=\t] plot ({X(\t)},{Y(\t,\s*pr(\t,\H))});
-      \draw[rot,\w,hidden,smooth,samples=91,domain=210:390,variable=\t] plot ({X(\t)},{Y(\t,\s*pr(\t,\H))});}}
-  \node[lab,anchor=west] at ({\R+0.15},{\hc*0.5*(\pb+\pc)+0.3}) {(iii)};
-  \node[lab,net,anchor=west] at ({\R+0.15},{\hc*\pb-0.55}) {lower cap};
-  \node[lab,net,anchor=west] at ({\R+0.15},{-\hc*\pb+0.55}) {upper cap};
-  \node[lab,anchor=west] at ({\R+0.15},{-\hc*0.5*(\pb+\pc)-0.3}) {(ii)};
+% ================================================================ the decoders' images
+% family (ii): M below p_theta = -1.05, closed above by the cap of (ii)
+\begin{scope}[shift={(-4.7,0)}]
+  \band{rot!16!bg}{-120}{60}{-\cylP}{-\pb}
+  \outline{-\cylP}{-\pb}{-\cylP}
+  \capdome{-\pb}{1}
+  \orbits{-1}
+  \node[lab,net!70!fg] at (0,{\cylS*(-\pb)+0.45}) {cap of (ii)};
+  \node[font=\small,anchor=north east] at (-0.15,-2.05) {$\Psi^\mathrm{dec}_-(\mathbb{R}^2)$};
+\end{scope}
+% family (iii): M above p_theta = 1.05, closed below by the cap of (iii)
+\begin{scope}[shift={(4.7,0)}]
+  \band{up!16!bg}{-120}{60}{\pb}{\cylP}
+  \outline{\pb}{\cylP}{\cylP}
+  \capdome{\pb}{-1}
+  \orbits{1}
+  \node[lab,net!70!fg] at (0,{\cylS*\pb-0.45}) {cap of (iii)};
+  \node[font=\small,anchor=north] at (0,-0.55) {$\Psi^\mathrm{dec}_+(\mathbb{R}^2)$};
 \end{scope}
 
-% ================================================================ (c) family (iii)
-\begin{scope}[shift={(22.6,0)}]
-  \latent{-1}{lower\\cap}
-  \node[rot,lab,anchor=south west] at ({(rl(-15,4)+0.05)*cos(45)},{(rl(-15,4)+0.05)*sin(45)}) {$H=4$};
+% ================================================================ the latent planes
+\begin{scope}[shift={(-3.0,-5.1)},x=0.55cm,y=0.55cm]
+  \latent{1}{rot}{$\lvert p_\theta\rvert$\\$<1.05$}
+  \draw[fg!50!bg] ({0.5*(\rb+rl(200,2))*cos(170)},{0.5*(\rb+rl(200,2))*sin(170)})
+    -- (-4.2,-2.4) node[lab,fg,anchor=north] {area $J_\mathrm{angular}(2)$};
+  \node[font=\small,anchor=north] at (0,-2.9) {$\varphi_-(\{p_\theta<0\})$};
+\end{scope}
+\begin{scope}[shift={(3.0,-5.1)},x=0.55cm,y=0.55cm]
+  \latent{-1}{up}{$\lvert p_\theta\rvert$\\$<1.05$}
+  \node[font=\small,anchor=north] at (0,-2.9) {$\varphi_+(\{p_\theta>0\})$};
 \end{scope}
 
-\draw[->,thick,fg!60!bg] (3.6,0.3) -- (8.3,0.3) node[midway,above,lab,fg] {decoder};
-\draw[->,thick,fg!60!bg] (19.3,0.3) -- (15.9,0.3) node[midway,above,lab,fg] {decoder};
-
-% panel labels below the panels, on one line under the lowest thing drawn
-\coordinate (bot) at ($(current bounding box.south)+(0,-0.35)$);
-\node[font=\footnotesize,anchor=north] at (0,0 |- bot) {(a)};
-\node[font=\footnotesize,anchor=north] at (11.0,0 |- bot) {(b)};
-\node[font=\footnotesize,anchor=north] at (22.6,0 |- bot) {(c)};
+% ================================================================ the maps
+\draw[->,fg!60!bg] ({cylx(-50)},{cyly(-50,-2.6)}) .. controls (-1.6,-2.7) and (-2.2,-3.0) ..
+  node[left,font=\small,fg,pos=0.45] {$\varphi_-$} (-2.6,-3.6);
+\draw[->,fg!60!bg] ({cylx(10)},{cyly(10,2.9)}) .. controls (2.6,2.4) and (2.9,-1.5) ..
+  node[right,font=\small,fg,pos=0.6] {$\varphi_+$} (3.0,-3.55);
+\draw[->,fg!60!bg] (-4.15,-3.7) -- node[right,font=\small,fg] {$\Psi^\mathrm{dec}_-$} (-4.25,-2.15);
+\draw[->,fg!60!bg] (4.45,-3.7) .. controls (5.6,-2.6) and (6.4,-1.0) ..
+  node[right,font=\small,fg] {$\Psi^\mathrm{dec}_+$} (6.15,0.3);
 \end{tikzpicture}
 \end{document}

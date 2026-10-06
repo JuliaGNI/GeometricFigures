@@ -66,8 +66,8 @@
 \begin{axis}[name=A,xmin=-4.5,xmax=4.5,ymin=-4.3,ymax=4.3]
   \region{ax}{ay}{-1}
   \orbits{ax}{ay}
-  \node[sep,font=\scriptsize,left] at (axis cs:{ax(0,0)},{ay(0,0)}) {$P$};
-  \node[font=\scriptsize,fg!60!bg] at (axis cs:0,0) {$K$};
+  \node[sep,font=\footnotesize,anchor=south east,fill=bg,inner sep=0.8pt] at (axis cs:{ax(0,0)-0.15},{ay(0,0)+0.2}) {$P$};
+  \node[font=\footnotesize,fg!60!bg] at (axis cs:0,0) {$K$};
   \node[font=\footnotesize,anchor=north] at (axis cs:0,-4.3)
     {(a) $p_\theta<0$ edge outside};
 \end{axis}
@@ -77,8 +77,8 @@
   xmin=-4.5,xmax=4.5,ymin=-4.3,ymax=4.3]
   \region{bx}{by}{1}
   \orbits{bx}{by}
-  \node[sep,font=\scriptsize,left] at (axis cs:{bx(0,0)},{by(0,0)}) {$P$};
-  \node[font=\scriptsize,fg!60!bg] at (axis cs:0,0) {$K$};
+  \node[sep,font=\footnotesize,anchor=south east,fill=bg,inner sep=0.8pt] at (axis cs:{bx(0,0)-0.15},{by(0,0)+0.2}) {$P$};
+  \node[font=\footnotesize,fg!60!bg] at (axis cs:0,0) {$K$};
   \node[font=\footnotesize,anchor=north] at (axis cs:0,-4.3)
     {(b) $p_\theta>0$ edge outside, mirrored};
 \end{axis}

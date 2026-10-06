@@ -90,7 +90,7 @@
 % A band image: patch angle in (#3,#4) about #2, colour #1; the overlap pieces in (#3,#3+60)
 % and (#4-60,#4) labelled #5 (left) and #6 (right); R an open arc.
 \newcommand{\bandimage}[6]{%
-  \fill[#1!14] ({chx(#3,#2)},{chy(\pzero)}) rectangle ({chx(#4,#2)},{chy(\pone)});
+  \fill[#1!14!bg] ({chx(#3,#2)},{chy(\pzero)}) rectangle ({chx(#4,#2)},{chy(\pone)});
   \fill[pattern=north east lines,pattern color=fg!70!bg]
     ({chx(#3,#2)},{chy(\pzero)}) rectangle ({chx(#3+60,#2)},{chy(\pone)});
   \fill[pattern=north east lines,pattern color=fg!70!bg]
@@ -108,7 +108,7 @@
 \begin{document}
 \begin{tikzpicture}[>=Stealth,
   hidden/.style={dash pattern=on 2.0pt off 2.0pt},
-  lab/.style={font=\scriptsize,inner sep=1.5pt}]
+  lab/.style={font=\small,inner sep=1.5pt}]
 
 % ===========================================================================
 % M, with C, R and the three patches. V_1 is u in (-90,90), V_{2,1} is u in (-120,120),
@@ -203,7 +203,7 @@
     -- plot[domain=180+\tlib:180-\tlib,samples=90,smooth] ({chx(\x,180)},{chy(-lorb(\x))}) -- cycle;
   \fill[lib] (0,0) circle (1.3pt);
   \node[lab,lib,anchor=west] at ({chx(180+\tlib,180)+0.03},0) {$C$};
-  \node[font=\small,anchor=south] at (0,{chy(\plib)+0.40}) {$\varphi_1(V_1)$};
+  \node[font=\small,anchor=north] at (0,{chy(-\plib)-0.30}) {$\varphi_1(V_1)$};
 \end{scope}
 
 % phi_{2,1}(V_{2,1})
@@ -211,7 +211,7 @@
   \chaxes{180}{60}{300}{\pzero}{\pone}{2,1}
   \bandimage{chA}{180}{60}{300}{$O_a$}{$O_b$}
   \node[lab,rot,anchor=south] at ({chx(150,180)},{chy(orb(150))+0.02}) {$R$};
-  \node[font=\small,anchor=south] at (0,{chy(\pone)+0.40}) {$\varphi_{2,1}(V_{2,1})$};
+  \node[font=\small,anchor=north] at (0.3,{chy(\pzero)-0.30}) {$\varphi_{2,1}(V_{2,1})$};
 \end{scope}
 
 % phi_{2,2}(V_{2,2})
@@ -219,14 +219,14 @@
   \chaxes{0}{-120}{120}{\pzero}{\pone}{2,2}
   \bandimage{chB}{0}{-120}{120}{$O_b$}{$O_a$}
   \node[lab,rot,anchor=north] at (0,{chy(orb(0))-0.02}) {$R$};
-  \node[font=\small,anchor=south] at (0,{chy(\pone)+0.40}) {$\varphi_{2,2}(V_{2,2})$};
+  \node[font=\small,anchor=north] at (-0.25,{chy(\pzero)-0.30}) {$\varphi_{2,2}(V_{2,2})$};
 \end{scope}
 
 % The transition phi_{2,2} o phi_{2,1}^{-1} on the overlap: O_b to O_b shifts the angle
 % by -2pi (the pieces are adjacent), and O_a to O_a leaves it unchanged, under both images.
 \draw[->,fg!70!bg] (1.25,-3.52) -- node[above,lab,fg] {$\varphi_{2,2}\circ\varphi_{2,1}^{-1}$}
   node[below,lab,fg] {$\theta_{2,2}=\theta_{2,1}-2\pi$} (3.80,-3.52);
-\draw[->,fg!70!bg] (-1.17,-4.08) .. controls (-1.17,-5.05) and (6.47,-5.05) ..
+\draw[->,fg!70!bg] (-1.17,-4.08) .. controls (-1.17,-6.55) and (6.47,-6.55) ..
   node[below,lab,fg,pos=0.5] {$\varphi_{2,2}\circ\varphi_{2,1}^{-1}$: $\theta_{2,2}=\theta_{2,1}$, $p_\theta$ unchanged} (6.47,-4.08);
 
 \end{tikzpicture}

@@ -81,14 +81,14 @@
   \draw[fg!35!bg] (axis cs:{2*pi},-3.1) -- (axis cs:{2*pi},3.1);
   \draw[fg!55!bg,thick] (axis cs:-0.12,2.75) -- (axis cs:0,2.9) -- (axis cs:0.12,2.75);
   \draw[fg!55!bg,thick] (axis cs:{2*pi-0.12},2.75) -- (axis cs:{2*pi},2.9) -- (axis cs:{2*pi+0.12},2.75);
-  \node[sep,font=\scriptsize,left] at (axis cs:0,0) {$P$};
-  \node[sep,font=\scriptsize,right] at (axis cs:{2*pi},0) {$P$};
-  \node[font=\scriptsize,below] at (axis cs:0,-3.1) {$0$};
-  \node[font=\scriptsize,below] at (axis cs:pi,-3.1) {$\theta=\pi$};
-  \node[font=\scriptsize,below] at (axis cs:{2*pi},-3.1) {$2\pi$};
-  \node[font=\scriptsize,sep,fill=bg,inner sep=1pt] at (axis cs:4.95,1.25) {$\ell_+$};
-  \node[font=\scriptsize,sep,fill=bg,inner sep=1pt] at (axis cs:4.95,-1.25) {$\ell_-$};
-  \node[font=\scriptsize,fg!70!bg,fill=bg,inner sep=1pt] at (axis cs:2.3,0.3) {$\nu$};
+  \node[sep,font=\footnotesize,left] at (axis cs:0,0) {$P$};
+  \node[sep,font=\footnotesize,right] at (axis cs:{2*pi},0) {$P$};
+  \node[font=\footnotesize,below] at (axis cs:0,-3.1) {$0$};
+  \node[font=\footnotesize,below] at (axis cs:pi,-3.1) {$\theta=\pi$};
+  \node[font=\footnotesize,below] at (axis cs:{2*pi},-3.1) {$2\pi$};
+  \node[font=\footnotesize,sep,fill=bg,inner sep=1pt] at (axis cs:5.35,1.5) {$\ell_+$};
+  \node[font=\footnotesize,sep,fill=bg,inner sep=1pt] at (axis cs:5.35,-1.5) {$\ell_-$};
+  \node[font=\footnotesize,fg!70!bg,fill=bg,inner sep=1pt] at (axis cs:2.3,0.3) {$\nu$};
   \node[font=\footnotesize,anchor=north] at (axis cs:pi,-3.95) {(a) the cylinder, cut open};
 \end{axis}
 
@@ -97,8 +97,8 @@
   xmin=-3.6,xmax=3.6,ymin=-3.7,ymax=3.7]
   \hole{bx}{by}
   \orbits{bx}{by}
-  \node[sep,font=\scriptsize,left] at (axis cs:{-sqrt(2*\a)},0) {$P$};
-  \node[font=\scriptsize,fg!60!bg] at (axis cs:0,0) {$K$};
+  \node[sep,font=\footnotesize,anchor=south east,fill=bg,inner sep=0.8pt] at (axis cs:{-sqrt(2*\a)-0.15},0.2) {$P$};
+  \node[font=\footnotesize,fg!60!bg] at (axis cs:0,0) {$K$};
   \node[font=\footnotesize,anchor=north] at (axis cs:0,-3.95) {(b) round chart, $\rho^2/2=a-p_\theta$};
 \end{axis}
 
@@ -107,8 +107,8 @@
   xmin=-2.6,xmax=4.4,ymin=-3.7,ymax=3.7]
   \hole{cx}{cy}
   \orbits{cx}{cy}
-  \node[sep,font=\scriptsize,left] at (axis cs:{cx(0,0)},{cy(0,0)}) {$P$};
-  \node[font=\scriptsize,fg!60!bg] at (axis cs:0.25,0.1) {$K$};
+  \node[sep,font=\footnotesize,anchor=south east,fill=bg,inner sep=0.8pt] at (axis cs:{cx(0,0)-0.15},{cy(0,0)+0.2}) {$P$};
+  \node[font=\footnotesize,fg!60!bg] at (axis cs:0.25,0.1) {$K$};
   \node[font=\footnotesize,anchor=north] at (axis cs:0.9,-3.95) {(c) (b), sheared};
 \end{axis}
 \end{tikzpicture}

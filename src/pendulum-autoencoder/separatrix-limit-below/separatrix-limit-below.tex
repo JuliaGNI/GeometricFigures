@@ -19,8 +19,8 @@
   title style={at={(0.5,0)},anchor=north,yshift=-3.5em},   % panel label below the panel
   title={\small $H\to1^-$: both branches, $J\to16$},
   every axis plot/.append style={smooth,samples=200}]
-  \addplot[sep,thick,name path=U,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
-  \addplot[sep,thick,name path=L,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,name path=U,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
+  \addplot[sep,very thick,name path=L,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
   \addplot[sep!22!bg]fill between[of=U and L];
 \end{axis}
 \end{tikzpicture}

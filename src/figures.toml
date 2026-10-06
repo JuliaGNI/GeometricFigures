@@ -293,6 +293,12 @@ caption = "The rotating limit at the separatrix: the area under one separatrix b
 engine = "pdflatex"
 
 [[figure]]
+name = "action-angle-chart"
+topic = "pendulum-autoencoder"
+caption = "The action–angle atlas of the pendulum: the cylinder with its librating region and two rotating families shaded, and their three charts, a disk of area 16 and two planes outside holes of area 8, in which every orbit is a circle enclosing its action."
+engine = "pdflatex"
+
+[[figure]]
 name = "covered-half"
 topic = "pendulum-autoencoder"
 caption = "The pendulum's cylinder with the sampled families of training orbits marked, and the hatched half that carries no trajectory."
@@ -302,6 +308,12 @@ engine = "pdflatex"
 name = "rotating-cap"
 topic = "pendulum-autoencoder"
 caption = "The exact encodings of the two rotating families of the pendulum, each a family of closed curves around a cap, at true area."
+engine = "pdflatex"
+
+[[figure]]
+name = "latent-invariant"
+topic = "pendulum-autoencoder"
+caption = "Why a symplectic decoder preserves the action of every closed latent curve: Stokes' theorem on a disk, path independence of a closed one-form, and what changes on a domain with a hole."
 engine = "pdflatex"
 
 [[figure]]

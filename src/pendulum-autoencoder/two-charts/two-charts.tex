@@ -331,7 +331,7 @@
   % the seam theta=0: the line chart (i) cuts along. It runs up the back.
   \draw[fg!45!bg,dash pattern=on 1.6pt off 1.6pt]
     (0,{\cylC*\cylR-\cylS*\cylP}) -- (0,{\cylC*\cylR+\cylS*\cylP});
-  \node[fg!55!bg,font=\scriptsize,anchor=south,inner sep=2pt]
+  \node[fg!55!bg,font=\small,anchor=south,inner sep=2pt]
     at (0,{\cylC*\cylR+\cylS*\cylP}) {the seam $\theta=0$, where (i) cuts};
 
   % --- far side --------------------------------------------------------------
@@ -370,13 +370,13 @@
   \coordinate (Nlp)  at ({cylx(50)},{cyly(50,cylorb(50,1.0))});
   \coordinate (Nrot) at ({cylx(50)},{cyly(50,-cylorb(50,\Hrot))});
 
-  \node[lib,font=\scriptsize,anchor=east,inner sep=2pt] at (-1.62,-0.42) {librating};
-  \node[sep,font=\scriptsize,anchor=west,inner sep=2pt] at (1.62,1.00) {$\ell_+$};
-  \node[sep,font=\scriptsize,anchor=west,inner sep=2pt] at (1.62,-1.34) {$\ell_-$};
-  \node[sep,font=\scriptsize,anchor=east,inner sep=2pt] at (-1.62,1.00) {separatrix};
+  \node[lib,font=\small,anchor=east,inner sep=2pt] at (-1.62,-0.42) {librating};
+  \node[sep,font=\small,anchor=west,inner sep=2pt] at (1.62,1.00) {$\ell_+$};
+  \node[sep,font=\small,anchor=west,inner sep=2pt] at (1.62,-1.34) {$\ell_-$};
+  \node[sep,font=\small,anchor=east,inner sep=2pt] at (-1.62,1.00) {separatrix};
   % Below the rotating orbit, on the cylinder's front, rather than beside it: every point to the
   % right or left of the cylinder at this height is crossed by one of the arrows.
-  \node[rot,font=\scriptsize,anchor=north,inner sep=2pt] (rotlab) at (0.55,-2.42) {rotating};
+  \node[rot,font=\small,anchor=north,inner sep=2pt] (rotlab) at (0.55,-2.42) {rotating};
   \draw[rot,thin] (rotlab.north) -- ({cylx(18)},{cyly(18,-cylorb(18,\Hrot))});
   % The panel title sits below the panel, like those of (i) and (ii), in the gap between the arrows.
   \node[font=\small,anchor=north,inner sep=2pt] at (0,-2.98)
@@ -419,16 +419,16 @@
   \fill[sep] ({canx(0)},0) circle (1.5pt);
   \fill[sep] ({canx(360)},0) circle (1.5pt);
 
-  \node[font=\scriptsize,anchor=north,inner sep=3pt] at ({canx(0)},-1.78) {$0$};
-  \node[font=\scriptsize,anchor=north,inner sep=3pt] at (0,-1.78) {$\pi$};
-  \node[font=\scriptsize,anchor=north,inner sep=3pt] at ({canx(360)},-1.78) {$2\pi$};
-  \node[font=\scriptsize,anchor=north,inner sep=3pt] at (0,-2.24) {$\theta$};
-  \node[font=\scriptsize,rotate=90,anchor=south,inner sep=2pt]
+  \node[font=\small,anchor=north,inner sep=3pt] at ({canx(0)},-1.78) {$0$};
+  \node[font=\small,anchor=north,inner sep=3pt] at (0,-1.78) {$\pi$};
+  \node[font=\small,anchor=north,inner sep=3pt] at ({canx(360)},-1.78) {$2\pi$};
+  \node[font=\small,anchor=north,inner sep=3pt] at (0,-2.24) {$\theta$};
+  \node[font=\small,rotate=90,anchor=south,inner sep=2pt]
     at ({canx(0)-0.32},0.66) {$p_\theta$};
 
-  \node[sep,font=\scriptsize,inner sep=1.5pt,fill=bg,fill opacity=0.85,text opacity=1]
+  \node[sep,font=\small,inner sep=1.5pt,fill=bg,fill opacity=0.85,text opacity=1]
     at ({canx(215)},1.20) {$\ell_+$};   % right of centre: the arrows arrive from the left
-  \node[sep,font=\scriptsize,inner sep=1.5pt,fill=bg,fill opacity=0.85,text opacity=1]
+  \node[sep,font=\small,inner sep=1.5pt,fill=bg,fill opacity=0.85,text opacity=1]
     at ({canx(215)},-1.20) {$\ell_-$};
 
   % The two angle charts the orbit needs. Chart 1 is the strip itself, theta in (0,2pi); chart 2,
@@ -437,11 +437,11 @@
   \draw[fg!60!bg,line width=1.1pt] ({canx(0)},-2.80) -- ({canx(360)},-2.80);
   \draw[fg!60!bg,fill=bg] ({canx(0)},-2.80) circle (1.5pt);
   \draw[fg!60!bg,fill=bg] ({canx(360)},-2.80) circle (1.5pt);
-  \node[fg!70!bg,font=\scriptsize,anchor=east,inner sep=3pt] at ({canx(0)},-2.80) {chart 1};
-  \draw[fg!60!bg,line width=1.1pt,-{Stealth[length=4pt]}] ({canx(180)},-3.08) -- ({canx(360)+0.10},-3.08);
-  \draw[fg!60!bg,line width=1.1pt,{Stealth[length=4pt]}-] ({canx(0)-0.10},-3.08) -- ({canx(180)},-3.08);
-  \draw[fg!60!bg,fill=bg] ({canx(180)},-3.08) circle (1.5pt);
-  \node[fg!70!bg,font=\scriptsize,anchor=east,inner sep=3pt] at ({canx(0)-0.10},-3.08) {chart 2};
+  \node[fg!70!bg,font=\small,anchor=west,inner sep=3pt] at ({canx(360)+0.05},-2.80) {chart 1};
+  \draw[fg!60!bg,line width=1.1pt,-{Stealth[length=4pt]}] ({canx(180)},-3.24) -- ({canx(360)+0.10},-3.24);
+  \draw[fg!60!bg,line width=1.1pt,{Stealth[length=4pt]}-] ({canx(0)-0.10},-3.24) -- ({canx(180)},-3.24);
+  \draw[fg!60!bg,fill=bg] ({canx(180)},-3.24) circle (1.5pt);
+  \node[fg!70!bg,font=\small,anchor=west,inner sep=3pt] at ({canx(360)+0.15},-3.24) {chart 2};
 
   \coordinate (Clib) at ({canx(152)},{cany(orb(152,\Hlib))});
   \coordinate (Cgp)  at ({canx(68)},{cany(orb(68,1))});
@@ -464,14 +464,14 @@
   \fill[sep] (\pinchX,\pinchY) circle (1.6pt);
 
   \draw[sep!60!bg,line width=0.4pt] (-1.52,1.72) -- (\gmleadX,\gmleadY);
-  \node[sep,font=\scriptsize,anchor=east,inner sep=2.5pt] at (-1.52,1.72) {$\gamma_-$};
-  \node[sep,font=\scriptsize,inner sep=2pt] at (\gplabX,\gplabY) {$\gamma_+$};
-  \node[font=\scriptsize,anchor=west,inner sep=3pt,fg!65!bg] at (2.12,-0.66) {$P$};
+  \node[sep,font=\small,anchor=east,inner sep=2.5pt] at (-1.52,1.72) {$\gamma_-$};
+  \node[sep,font=\small,inner sep=2pt] at (\gplabX,\gplabY) {$\gamma_+$};
+  \node[font=\small,anchor=west,inner sep=3pt,fg!65!bg] at (2.12,-0.66) {$P$};
 
-  \draw[fg!35!bg,->] (-2.30,-2.62) -- (-1.70,-2.62);
-  \draw[fg!35!bg,->] (-2.30,-2.62) -- (-2.30,-2.08);
-  \node[font=\scriptsize,anchor=west,inner sep=1.5pt,fg!55!bg] at (-1.68,-2.62) {$z_q$};
-  \node[font=\scriptsize,anchor=south,inner sep=1.5pt,fg!55!bg] at (-2.30,-2.06) {$z_p$};
+  \draw[fg!35!bg,->] (-2.50,-2.92) -- (-1.90,-2.92);
+  \draw[fg!35!bg,->] (-2.50,-2.92) -- (-2.50,-2.38);
+  \node[font=\small,anchor=west,inner sep=1.5pt,fg!55!bg] at (-1.86,-2.92) {$z_q$};
+  \node[font=\small,anchor=south,inner sep=1.5pt,fg!55!bg] at (-2.50,-2.36) {$z_p$};
 
   \coordinate (Llib) at (\libtopX,\libtopY);
   \coordinate (Lgm)  at (\gmtopX,\gmtopY);
@@ -497,13 +497,13 @@
 % the arrows coming down from M.
 
 % ===========================================================================
-\node[panelcap] at (-4.45,-3.40)
+\node[panelcap] at (-4.45,-3.55)
   {\textbf{(i) the angle chart:} cut along $\theta=0$, then identify the two edges.
    The rotating orbit is an \emph{arc}. It closes only
    because the two edges are the same line of $\mathcal{M}$, so no single angle chart
    holds it: chart 2 covers the seam. $\oint p_\theta\,d\theta=10.13$ is the area
    under it, not an enclosed area.};
-\node[panelcap] at (4.45,-3.40)
+\node[panelcap] at (4.45,-3.55)
   {\textbf{(ii) the trained encoder $\Psi^{\mathrm{enc}}$:} one chart, nothing identified, so \emph{every} loop bounds. The
    librating loop bounds the blue region, which leaves $\gamma_+$ out; the rotating
    loop runs outside $\gamma_-$ and takes $\gamma_+$ in. That patch is the step.};
