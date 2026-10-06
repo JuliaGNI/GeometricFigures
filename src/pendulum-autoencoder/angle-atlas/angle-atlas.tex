@@ -157,16 +157,16 @@
 \node[lab,lib,anchor=west] at ({cylx(\tlib)+0.03},{cyly(\tlib,0)}) {$C$};
 \node[lab,chL!80!fg] at ({cylx(-75)},{cyly(-75,0.45)}) {$V_1$};
 \node[lab,chA!80!fg] at ({cylx(10)},{cyly(10,\pzero)+0.20}) {$V_{2,1}$};
-\node[lab,chB!80!fg,anchor=south] at ({cylx(175)},{cyly(175,\pone)+0.04}) {$V_{2,2}$ (behind)};
+\node[lab,chB!80!fg,anchor=south] at ({cylx(175)},{cyly(175,\pone)+0.10}) {$V_{2,2}$ (behind)};
 \node[lab,fill=bg,inner sep=0.8pt] at ({cylx(-90)},{cyly(-90,\pzero)+0.30}) {$O_a$};
 \node[lab,fill=bg,fill opacity=0.8,text opacity=0.8,inner sep=0.8pt] at ({cylx(90)},{cyly(90,\pone)-0.40}) {$O_b$};
 \node[font=\small] at (-2.7,1.6) {$\mathcal{M}$};
 % the overlap, labelled with a leader to each of its two pieces, as in Bishop & Goldberg
-\node[lab] (ov) at (0.1,2.85) {$V_{2,1}\cap V_{2,2}=O_a\cup O_b$};
+\node[lab] (ov) at (0.1,3.30) {$V_{2,1}\cap V_{2,2}=O_a\cup O_b$};
 \fill ({cylx(-100)},{cyly(-100,2.1)}) circle (1.1pt);
 \fill[opacity=0.6] ({cylx(100)},{cyly(100,2.25)}) circle (1.1pt);
-\draw[fg!80!bg] (ov.west) .. controls (-2.1,2.85) and (-2.0,1.45) .. ({cylx(-100)},{cyly(-100,2.1)});
-\draw[fg!80!bg] (ov.east) .. controls (1.9,2.85) and (1.5,2.0) .. ({cylx(100)},{cyly(100,2.25)});
+\draw[fg!80!bg] (ov.west) .. controls (-2.2,3.30) and (-2.0,1.45) .. ({cylx(-100)},{cyly(-100,2.1)});
+\draw[fg!80!bg] (ov.east) .. controls (2.0,3.30) and (1.5,2.0) .. ({cylx(100)},{cyly(100,2.25)});
 % the two directions
 \draw[->,fg!50!bg] ({-\cylR-0.45},-0.2) -- ({-\cylR-0.45},0.8)
   node[above,lab,fg] {$p_\theta$};

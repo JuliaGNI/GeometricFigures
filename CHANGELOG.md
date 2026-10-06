@@ -103,12 +103,13 @@ package's site.
   new.** `action-angle-chart` draws the action–angle atlas in the layout of `angle-atlas`, and
   `latent-invariant` draws why a symplectic decoder preserves the action of every closed latent
   curve. In 19 existing figures the text is set at least at `\footnotesize` at printed size,
-  panel and chart names sit below their panels, overlapping labels are moved, and the separatrix
-  is drawn alike in the four area figures. `rotating-cap` now shades the two families in their
+  panel and chart names sit below their panels, overlapping and crowded labels are moved (also
+  the top labels of `angle-atlas`), and the separatrix is drawn alike in the four area figures. `rotating-cap` now shades the two families in their
   family colours and hatches the enclosed area as its caption says, `atlas-vs-chart` labels the
   hole areas a₀, and `upper-branch` says from which level the curves self-intersect.
   The chart tints of `angle-atlas` and `rotating-cap`, passed through a macro argument, now mix
-  with `bg`, so they are dark in the dark theme. The light themes are pixel-identical to the paper's sources at 150 dpi.
+  with `bg`, so they are dark in the dark theme. The light themes are pixel-identical to the
+  paper's sources at 150 dpi.
 
 * **A topic page can open with a tracked introduction.** `docs/make.jl` writes
   `docs/topic-intros/<topic>.md`, where it exists, between the page's heading and its figures; the
