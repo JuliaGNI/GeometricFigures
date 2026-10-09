@@ -1,0 +1,57 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usetikzlibrary{positioning, fit, calc, arrows.meta}
+\usepackage{geometricfigures}
+
+\begin{document}
+\begin{tikzpicture}[
+        space/.style={draw, very thick, rounded corners, minimum width=10ex, minimum height=5ex},
+        cont/.style={space, draw=fg},
+        disc/.style={space, draw=mblue, fill=mblue!10!bg},
+        arrow/.style={-Stealth, thick},
+        proj/.style={-Stealth, thick, mred},
+    ]
+
+    \def\rowtop{0}
+    \def\rowbot{-2.5}
+
+    % ---- the continuous de Rham complex ------------------------------------
+    \node[cont] (c0) at (0,   \rowtop) {$H\Lambda^0$};
+    \node[cont] (c1) at (3.3, \rowtop) {$H\Lambda^1$};
+    \node[cont] (c2) at (6.6, \rowtop) {$H\Lambda^2$};
+    \node        (cd) at (9.0, \rowtop) {$\cdots$};
+    \node[cont] (cn) at (11.6,\rowtop) {$H\Lambda^n$};
+
+    \foreach \a/\b in {c0/c1, c1/c2, c2/cd, cd/cn}
+        \draw[arrow] (\a) -- node[above] {$d$} (\b);
+
+    % ---- the discrete subcomplex -------------------------------------------
+    \node[disc] (d0) at (0,   \rowbot) {$\Lambda^0_h$};
+    \node[disc] (d1) at (3.3, \rowbot) {$\Lambda^1_h$};
+    \node[disc] (d2) at (6.6, \rowbot) {$\Lambda^2_h$};
+    \node        (dd) at (9.0, \rowbot) {$\cdots$};
+    \node[disc] (dn) at (11.6,\rowbot) {$\Lambda^n_h$};
+
+    \foreach \a/\b in {d0/d1, d1/d2, d2/dd, dd/dn}
+        \draw[arrow, mblue] (\a) -- node[below] {$d$} (\b);
+
+    % ---- the cochain projections -------------------------------------------
+    \foreach \k in {0,1,2,n}
+        \draw[proj] (c\k) -- node[right, font=\small] {$\pi_h^{\k}$} (d\k);
+
+    % ---- every square commutes ---------------------------------------------
+    \foreach \x in {1.65, 4.95, 7.8, 10.3}
+        \node[mred] at (\x, -1.25) {$\circlearrowleft$};
+
+    % ---- labels -------------------------------------------------------------
+    \node[left=.4cm of c0, align=right, font=\small]        {continuous\\[-.15em]complex};
+    \node[left=.4cm of d0, align=right, font=\small, mblue] {finite element\\[-.15em]subcomplex};
+
+    \node[mred, anchor=north] at (5.8, \rowbot-1.05)
+        {$\pi_h^{k+1}\, d = d\, \pi_h^{k}\qquad\implies\qquad$ the discrete complex inherits the cohomology};
+
+\end{tikzpicture}
+\end{document}

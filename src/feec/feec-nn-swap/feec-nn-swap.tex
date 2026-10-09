@@ -1,0 +1,107 @@
+% Where a neural network may go in a finite element method, in three panels: what a finite
+% element method is, the swap one would guess at and why it loses the subcomplex, and the swap
+% that is actually made. The split is that of discrete exterior calculus (Desbrun et al. 2005): a
+% discretisation is a coboundary d, which is incidence and carries the topology, and a Hodge star,
+% which is the mass matrices and carries the metric and the material law. d o d = 0 and the
+% cohomology are properties of d alone, so a network put in the star cannot break them, whatever
+% it learns; a network put in the basis changes the spaces themselves, which nothing re-imposes.
+%
+% Nothing here is measured; it is a schematic.
+\documentclass[tikz]{standalone}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usetikzlibrary{positioning, calc, arrows.meta}
+\usepackage{geometricfigures}
+
+% ---- a row of three overlapping basis functions ----------------------------
+% #1 is the colour.  Each bump is one cubic pair on a common baseline; the shape is a
+% schematic B-spline, not a plotted one -- what matters in this figure is only that
+% they are FIXED functions of x, chosen before any training.
+\newcommand{\basisrow}[1]{%
+  \tikz[baseline=-.6ex]{%
+    \useasboundingbox (-.1,-.12) rectangle (3.3,.78);
+    \draw[muted!55!bg, line width=.4pt] (-.05,0) -- (3.25,0);
+    \foreach \a in {0, .8, 1.6} {
+      \draw[#1, line width=.9pt]
+        (\a,0) .. controls (\a+.4,.03) and (\a+.4,.66) .. (\a+.8,.66)
+               .. controls (\a+1.2,.66) and (\a+1.2,.03) .. (\a+1.6,0);
+    }
+  }%
+}
+
+% ---- a 2-3-2 network thumbnail ---------------------------------------------
+% Geometry shared with \mininet in two-directions: layers at x = 0, .55, 1.1,
+% node i of a layer of size n at y = .28*((n+1)/2 - i), dots of radius 1.3 pt.
+\newcommand{\mininet}[1]{%
+  \tikz[baseline=-.6ex]{%
+    \useasboundingbox (-1.3pt,-9.23pt) rectangle (32.4877pt,9.23pt);
+    \foreach \n [count=\j from 0] in {2,3,2} {
+      \ifnum\j<2\relax
+        \pgfmathtruncatemacro{\jj}{\j+1}%
+        \pgfmathtruncatemacro{\m}{{2,3,2}[\jj]}%
+        \foreach \p in {1,...,\n} { \pgfmathsetmacro{\ya}{.28*((\n+1)/2-\p)}%
+          \foreach \q in {1,...,\m} { \pgfmathsetmacro{\yb}{.28*((\m+1)/2-\q)}%
+            \draw[#1!45!bg, line width=.35pt] (.55*\j,\ya) -- (.55*\jj,\yb);}}
+      \fi
+    }
+    \foreach \n [count=\j from 0] in {2,3,2} {
+      \foreach \p in {1,...,\n} { \pgfmathsetmacro{\yy}{.28*((\n+1)/2-\p)}%
+        \fill[#1] (.55*\j,\yy) circle (1.3pt);}
+    }
+  }%
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    % All three panels are anchor=north at y = 0 with the same minimum height, so the
+    % boxes line up top and bottom whatever their text does; `right=of' would have
+    % aligned their centres and left three ragged boxes.  With anchor=north the .east
+    % and .west anchors sit at the common vertical centre, which is where the two
+    % arrows want to be, so they need no coordinates of their own.
+    panel/.style={draw, very thick, rounded corners, align=center, inner sep=7pt,
+                  text width=4.5cm, minimum height=5.35cm, anchor=north, font=\small},
+    sub/.style={font=\scriptsize, align=center},
+]
+
+% ========================== 1 -- the finite element method ==================
+\node[panel, draw=mblue] (A) at (0,0) {%
+    \textbf{Finite elements}\\[.35em]
+    $u_h(x)=\displaystyle\sum_i c_i\,{\color{mblue}\lambda_i(x)}$\\[.5em]
+    \basisrow{mblue}\\[.4em]
+    {\scriptsize{\color{mblue}basis} fixed,\\[-.15em] coefficients $c_i$ solved for}\\[.7em]
+    \begin{tabular}{@{}r@{\;}l@{}}
+      $d\;$ & {\scriptsize incidence, $\pm1$:} \\
+            & {\scriptsize\color{mgreen}the topology} \\[.25em]
+      $\star\;$ & {\scriptsize mass matrices:} \\
+            & {\scriptsize\color{morange}metric, material law}
+    \end{tabular}};
+
+% ========================== 2 -- the swap one would guess ===================
+\node[panel, draw=mred] (B) at (5.45,0) {%
+    \textbf{Learn the {\color{mred}basis}}\ {\color{mred}\textbf{\ding{55}}}\\[.35em]
+    $u_\theta(x)=\displaystyle\sum_i c_i\,{\color{mred}\lambda^\theta_i(x)}$\\[.5em]
+    \mininet{mred}\\[.4em]
+    {\scriptsize the {\color{mred}spaces themselves}\\[-.15em] become learned objects}\\[.7em]
+    {\scriptsize{\color{mred}$d\,\Lambda^k_h\not\subseteq\Lambda^{k+1}_h$}\\[.2em]
+    nothing re-imposes it, and the\\[-.15em] bounded commuting projection\\[-.15em]
+    has no known analogue}};
+
+% ========================== 3 -- the swap that is made ======================
+\node[panel, draw=mgreen] (C) at (10.9,0) {%
+    \textbf{Learn the {\color{morange}$\star$}}\ {\color{mgreen}\textbf{\ding{51}}}\\[.35em]
+    $u_h(x)=\displaystyle\sum_i c_i\,{\color{mblue}\lambda_i(x)}$\\[.5em]
+    \basisrow{mblue}\\[.35em]
+    ${\color{morange}\star_\theta}:$~\mininet{morange}\\[.4em]
+    {\scriptsize {\color{mblue}basis} and {\color{mgreen}$d$} untouched;\\[-.15em]
+    the network is in the\\[-.15em] {\color{morange}constitutive law}}\\[.7em]
+    {\scriptsize{\color{mgreen}$\ker d/\operatorname{im}d$ is about $d$ alone}\\[.2em]
+    $\Rightarrow$ the cohomology survives\\[-.15em] whatever $\theta$ turns out to be}};
+
+% the two swaps, as arrows
+\draw[-{Stealth[length=6pt]}, line width=1.2pt, mred]   (A) -- (B);
+\draw[-{Stealth[length=6pt]}, line width=1.2pt, mgreen] (B) -- (C);
+
+\end{tikzpicture}
+\end{document}
