@@ -96,6 +96,17 @@ package's site.
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
 
+* **The versions of two symplectic-autoencoder figures in the paper on symplectic autoencoders
+  (arXiv:2312.10004) are figures of the topic `reduced-order-modeling`: `sae-paper-autoencoder` and
+  `sae-paper-architecture`.** They compile with `pdflatex` and differ in content from
+  `symplectic-autoencoder` and `symplectic-autoencoder-architecture`: the paper labels the inputs
+  $z_i$ where those have $x_i$, and its decoder ends in `PSDLayer(2n, 2N)` and `GradientQ(2N, 2N,
+  tanh)`, with the encoder and the decoder labelled $\mathcal{P}$ and $\mathcal{R}$, where
+  `symplectic-autoencoder-architecture` ends in `PSDLayer(2n, 2M)`, two gradient layers on `2M` and
+  `PSDLayer(2M, 2N)`, labelled $\Psi^e$ and $\Psi^d$. They take the theme colours as those two do.
+  The paper's third figure is `third-degree-spline` except for the `very thick` lines that figure
+  took from GeometricMachineLearning, so it is not added again.
+
 * **`solver` shows the fields of SimpleSolvers' current `NonlinearSolver`.** They are, in the order
   of the struct's definition, `nonlinearproblem::NonlinearProblem` (with its `F` and its `J`, a
   callable or `missing`), `linearproblem::AbstractLinearProblem`, `jacobian::Jacobian`,
