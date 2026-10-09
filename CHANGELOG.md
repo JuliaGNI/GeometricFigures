@@ -13,6 +13,11 @@ package's site.
 * **CI uploads coverage from the `Julia 1 - ubuntu-latest` job.** It replaces `Julia min`, and a
   test job saves the Julia cache only when it succeeds.
 
+* **The tests of `source_date_epoch` moved from `test/epoch.jl` to `test/integration/epoch.jl`.**
+  The test convention keeps a test file at the top level of `test/` only where it mirrors
+  `src/<name>.jl`, and there is no `src/epoch.jl`. The function is in `src/build.jl`, whose mirror
+  `test/build.jl` already holds the tests of `build`.
+
 ### New Features
 
 * **`figure_url(name; theme, format, dpi = nothing)` locates published figures.** Returns the URL
