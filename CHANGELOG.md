@@ -8,6 +8,11 @@ package's site.
 
 ## [Unreleased] — targeting 0.1.0
 
+### Changed
+
+* **CI uploads coverage from the `Julia 1 - ubuntu-latest` job.** It replaces `Julia min`, and a
+  test job saves the Julia cache only when it succeeds.
+
 ### New Features
 
 * **`figure_url(name; theme, format, dpi = nothing)` locates published figures.** Returns the URL
@@ -100,3 +105,30 @@ package's site.
   search is a `Linesearch` rather than a `LinesearchState`, and the `NonlinearProblem` no longer
   holds a `Jacobian`. SimpleSolvers removed its own `docs/src/tikz/solver.tex`, so the figure has
   no original to compare with any more, and its entry in `scripts/references.toml` is gone.
+
+* **28 TikZ figures of a symplectic autoencoder trained on the pendulum are figures of the topic
+  `pendulum-autoencoder`.** They accompany the paper on symplectic autoencoders
+  (arXiv:2312.10004). Each loads `geometricfigures.sty` and takes `fg` for black and `bg` for
+  white, with `black!<p>` as `fg!<p>!bg` and a palette tint `<colour>!<p>` as `<colour>!<p>!bg`,
+  so that the light theme renders pixel-identical to the original at 150 dpi and the dark theme is
+  new. They compile with `pdflatex` and need no data file: the coordinates generated from trained
+  weights are written into the sources. `scripts/references.toml` has no entry for them.
+
+* **The `pendulum-autoencoder` figures are resynced with the paper as of 2026-10-06, and two are
+  new.** `action-angle-chart` draws the action–angle atlas in the layout of `angle-atlas`, and
+  `latent-invariant` draws why a symplectic decoder preserves the action of every closed latent
+  curve. In 19 existing figures the text is set at least at `\footnotesize` at printed size,
+  panel and chart names sit below their panels, overlapping and crowded labels are moved (also
+  the top labels of `angle-atlas`), and the separatrix is drawn alike in the four area figures. `rotating-cap` now shades the two families in their
+  family colours and hatches the enclosed area as its caption says, `atlas-vs-chart` labels the
+  hole areas a₀, and `upper-branch` says from which level the curves self-intersect.
+  The chart tints of `angle-atlas` and `rotating-cap`, passed through a macro argument, now mix
+  with `bg`, so they are dark in the dark theme. The light themes are pixel-identical to the
+  paper's sources at 150 dpi.
+
+* **A topic page can open with a tracked introduction.** `docs/make.jl` writes
+  `docs/topic-intros/<topic>.md`, where it exists, between the page's heading and its figures; the
+  file is outside `docs/src/`, so Documenter does not publish it as a page of its own. The
+  introduction of `pendulum-autoencoder` names the paper (arXiv:2312.10004), and an info box lists
+  the figures that draw trained weights or the training set, which must be regenerated from the
+  re-trained network and resynced after a re-training.

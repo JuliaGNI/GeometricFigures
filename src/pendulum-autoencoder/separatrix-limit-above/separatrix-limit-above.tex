@@ -1,0 +1,28 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+
+\begin{document}
+\begin{tikzpicture}[baseline]
+\begin{axis}[width=7.4cm,height=5.0cm,xmin=0,xmax=6.2832,ymin=-2.6,ymax=2.6,
+  xtick={0,3.1416,6.2832},xticklabels={$0$,$\pi$,$2\pi$},
+  xlabel={$\theta$},ylabel={$p_\theta$},axis lines=left,
+  title style={at={(0.5,0)},anchor=north,yshift=-3.5em},   % panel label below the panel
+  title={\small $H\to1^+$: one branch, $J\to8$},
+  every axis plot/.append style={smooth,samples=200}]
+  \addplot[sep,very thick,name path=U2,domain=0:6.2832]{ 2*abs(sin(deg(x/2)))};
+  \addplot[draw=none,name path=Z2,domain=0:6.2832]{0};
+  \addplot[sep!22!bg]fill between[of=U2 and Z2];
+  \addplot[sep,very thick,dashed,domain=0:6.2832]{-2*abs(sin(deg(x/2)))};
+\end{axis}
+\end{tikzpicture}
+\end{document}
