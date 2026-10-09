@@ -1,0 +1,87 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections,calc}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+\definecolor{up}{HTML}{7A5AA8}
+
+% ---------------------------------------------------------------------------
+% The counting behind exactness on the separatrix itself, and behind the answer to
+% the bounded-cylinder objection: they are the same picture.
+%
+% Two Jordan curves meeting at one point leave exactly two bounded components of
+% the plane, and there are only two ways for them to meet -- side by side or
+% nested. U, the image of the open librating region, has to be one of those
+% components. Panel (a) is the first way, panel (b) the second. Neither can give
+% U an area of 16 while both curves have area 8.
+%
+% Schematic, and deliberately not to scale in one respect: in (b) the two curves
+% are drawn with clearly different areas, because the case the text rules out is
+% the one where they are equal, and that one has nothing left to draw.
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  gam/.style={sep,very thick},
+  tag/.style={font=\footnotesize,inner sep=1.5pt},
+  sum/.style={font=\small,anchor=north},
+  panelcap/.style={font=\small,align=center,anchor=north,text width=6.1cm}]
+
+% ===========================================================================
+% (a) side by side
+% ===========================================================================
+\begin{scope}
+  \fill[lib!14!bg] (-1.05,1.25) circle (1.05);
+  \fill[lib!14!bg] ( 1.05,1.25) circle (1.05);
+  \draw[gam]    (-1.05,1.25) circle (1.05);
+  \draw[gam]    ( 1.05,1.25) circle (1.05);
+
+  \fill[sep] (0,1.25) circle (1.7pt);
+  \draw[sep!60!bg,line width=0.4pt] (0,1.25) -- (0,0.42);
+  \node[tag,sep,anchor=north] at (0,0.42) {$P$};
+
+  \node[tag,sep,anchor=south] at (-1.05,2.34) {$\gamma_+$};
+  \node[tag,sep,anchor=south] at ( 1.05,2.34) {$\gamma_-$};
+  \node[font=\small,lib] at (-1.05,1.25) {$8$};
+  \node[font=\small,lib] at ( 1.05,1.25) {$8$};
+
+  \node[sum,fg!75!bg] at (0,-0.52)
+    {$\mathrm{area}(U)=\mathrm{area}(\gamma_-)=\mathrm{area}(\gamma_+)$};
+\end{scope}
+
+% ===========================================================================
+% (b) nested
+% ===========================================================================
+\begin{scope}[shift={(5.6,0)}]
+  \fill[lib!14!bg,even odd rule] (0,1.25) circle (1.25) (0,0.45) circle (0.45);
+  \fill[pattern=north east lines,pattern color=fg!35!bg] (0,0.45) circle (0.20);
+  \draw[fg!45!bg,line width=0.4pt] (0,0.45) circle (0.20);
+  \draw[gam] (0,1.25) circle (1.25);
+  \draw[gam] (0,0.45) circle (0.45);
+
+  \fill[sep] (0,0) circle (1.7pt);
+  \node[tag,sep,anchor=north] at (0,-0.08) {$P$};
+
+  \node[tag,sep,anchor=south] at (0,2.54) {$\gamma_-$};
+  \draw[sep!60!bg,line width=0.4pt] (0.40,0.28) -- (1.02,-0.10);
+  \node[tag,sep,anchor=west] at (1.00,-0.14) {$\gamma_+$};
+  \node[font=\small,lib] at (0,1.86) {$U$};
+  \draw[fg!50!bg,line width=0.4pt] (0.16,0.60) -- (0.72,0.96);
+  \node[tag,fg!60!bg,anchor=south west] at (0.68,0.92) {$K$};
+
+  \node[sum,fg!75!bg] at (0,-0.52)
+    {$\mathrm{area}(U)=\mathrm{area}(\gamma_-)-\mathrm{area}(\gamma_+)$};
+\end{scope}
+
+% ===========================================================================
+\node[panelcap] at (0,-0.98)
+  {\textbf{(a)} side by side. $U$ is one of the two disks, of area $8$.};
+\node[panelcap] at (5.6,-0.98)
+  {\textbf{(b)} nested. $U$ is the crescent, and its area is the
+   \emph{difference}; both curves at $8$ leave it empty.};
+\end{tikzpicture}
+\end{document}

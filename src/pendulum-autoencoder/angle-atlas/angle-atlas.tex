@@ -1,0 +1,233 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,patterns}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{chL}{HTML}{2A8C82}
+\definecolor{chA}{HTML}{7B5BB0}
+\definecolor{chB}{HTML}{B0507A}
+
+% ---------------------------------------------------------------------------
+% Angle charts for one librating orbit C (H = -0.7) and one rotating orbit R (H = 2, p_theta > 0)
+% of M = S^1 x R, H = p^2/2 + cos(theta). Each chart is a patch:
+%   V_1     = {pi/2 < theta < 3pi/2,   |p_theta| < pl},       phi_1     = (theta_1, p_theta)
+%   V_{2,1} = {pi/3 < theta < 5pi/3,   p0 < p_theta < p1},    phi_{2,1} = (theta_{2,1}, p_theta)
+%   V_{2,2} = {-2pi/3 < theta < 2pi/3, p0 < p_theta < p1},    phi_{2,2} = (theta_{2,2}, p_theta)
+% where theta_i is the angle representative in (0,2pi) for phi_1 and phi_{2,1},
+% (-pi,pi) for phi_{2,2}, and p_theta is unchanged: charts 1 and 2 restricted to the patches,
+% all symplectic. pl < p0, so V_1 meets neither band. V_{2,1} and V_{2,2} meet in two pieces,
+% O_a = {pi/3 < theta < 2pi/3} and O_b = {4pi/3 < theta < 5pi/3}; the transition
+% phi_{2,2} o phi_{2,1}^{-1} leaves p_theta unchanged and gives theta_{2,2} = theta_{2,1}
+% on O_a and theta_{2,2} = theta_{2,1} - 2pi on O_b.
+% C turns at theta = pi +- 45.6 deg, inside V_1.
+%
+% The angle axes carry their chart indices: the same point of O_b has different angle
+% representatives in the two images. Only p_theta, a function on M, gets a tick.
+%
+% Top: the cylinder in the projection of pendulum-solution-manifold, u = theta - pi, turned by \cylA
+% about its axis so that O_a faces the reader (O_b is then behind; no view shows both, they are
+% opposite) and C is wholly in front. A point at u is in front where cos(u + \cylA) > 0, i.e.
+% u in [-120, 60]; the pieces below are split there by hand. Angles in degrees.
+\newcommand{\cylR}{1.55}   % radius on the page
+\newcommand{\cylC}{0.24}   % foreshortening of the circle
+\newcommand{\cylS}{0.62}   % scale of the p_theta axis
+\newcommand{\cylP}{2.95}   % where the picture cuts the (unbounded) cylinder, top
+\newcommand{\cylQ}{1.25}   % and bottom (p_theta = -\cylQ)
+\newcommand{\cylA}{30}     % view angle
+\pgfmathdeclarefunction{cylx}{1}{\pgfmathparse{\cylR*sin((#1)+\cylA)}}
+\pgfmathdeclarefunction{cyly}{2}{\pgfmathparse{-\cylC*\cylR*cos((#1)+\cylA)+\cylS*(#2)}}
+% the orbits; R has 1.41 <= p_theta <= 2.45, C has |p_theta| <= 0.77
+\def\Hrot{2.0}
+\def\Hlib{-0.7} \def\tlib{45.57}  % acos(0.7)
+\pgfmathdeclarefunction{cylorb}{1}{\pgfmathparse{sqrt(2*(\Hrot+cos(#1)))}}
+\pgfmathdeclarefunction{cyllib}{1}{\pgfmathparse{sqrt(max(0,2*(\Hlib+cos(#1))))}}
+% the patches' ranges of p_theta: V_1 is |p| < \plib, the bands are \pzero < p < \pone
+\def\plib{0.92}
+\def\pzero{1.08}
+\def\pone{2.80}
+
+% Pieces of the picture over u in [#2,#3], wholly in front or wholly behind, for p_theta in
+% (#4,#5): a patch's fill, its two horizontal edges, a vertical edge at u = #2.
+\newcommand{\patchfill}[5]{%
+  \fill[#1]
+    plot[domain=#2:#3,samples=40,smooth] ({cylx(\x)},{cyly(\x,#5)})
+    -- plot[domain=#3:#2,samples=40,smooth] ({cylx(\x)},{cyly(\x,#4)}) -- cycle;}
+\newcommand{\patchrims}[5]{%
+  \draw[#1] plot[domain=#2:#3,samples=40,smooth] ({cylx(\x)},{cyly(\x,#5)});
+  \draw[#1] plot[domain=#2:#3,samples=40,smooth] ({cylx(\x)},{cyly(\x,#4)});}
+\newcommand{\patchside}[4]{%
+  \draw[#1] ({cylx(#2)},{cyly(#2,#3)}) -- ({cylx(#2)},{cyly(#2,#4)});}
+\newcommand{\orbarc}[3]{%
+  \draw[#1] plot[domain=#2:#3,samples=60,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x))});}
+% C, parametrised by u = \tlib sin(s) so that the samples crowd towards the turning points.
+\newcommand{\libloop}[1]{%
+  \path[#1]
+    plot[domain=-90:90,samples=90,smooth] ({cylx(\tlib*sin(\x))},{cyly(\tlib*sin(\x),cyllib(\tlib*sin(\x)))})
+    -- plot[domain=90:-90,samples=90,smooth] ({cylx(\tlib*sin(\x))},{cyly(\tlib*sin(\x),-cyllib(\tlib*sin(\x)))})
+    -- cycle;}
+
+% The images, in (theta_i,p_theta), with the angle centred on #2 (in degrees).
+\newcommand{\chX}{0.62}    % cm per radian of theta_i
+\newcommand{\chY}{0.50}    % cm per unit of p_theta
+\pgfmathdeclarefunction{orb}{1}{\pgfmathparse{sqrt(2*(\Hrot-cos(#1)))}}
+\pgfmathdeclarefunction{lorb}{1}{\pgfmathparse{sqrt(max(0,2*(\Hlib-cos(#1))))}}
+\pgfmathdeclarefunction{chx}{2}{\pgfmathparse{\chX*((#1)-(#2))*pi/180}}
+\pgfmathdeclarefunction{chy}{1}{\pgfmathparse{\chY*(#1)}}
+% Axes for an image spanning theta_i in (#2,#3) about #1 and p_theta from #4 up to #5,
+% labelled theta_{#6}, p_theta. The angle axis runs just below the patch; p_theta gets
+% the tick 0 when the patch reaches it.
+\newcommand{\chaxes}[6]{%
+  \pgfmathsetmacro\chax{chy(#4)-0.22}%
+  \draw[->,fg!45!bg] ({chx(#2,#1)-0.25},\chax) -- ({chx(#3,#1)+0.35},\chax)
+    node[right,lab,fg] {$\theta_{#6}$};
+  \draw[->,fg!45!bg] ({chx(#2,#1)-0.25},\chax) -- ({chx(#2,#1)-0.25},{chy(#5)+0.35})
+    node[above,lab,fg] {$p_\theta$};
+  \ifdim #4pt<0pt
+    \draw[fg!45!bg] ({chx(#2,#1)-0.25},0) -- ({chx(#2,#1)-0.31},0) node[left,lab,fg] {$0$};
+  \fi}
+% A band image: patch angle in (#3,#4) about #2, colour #1; the overlap pieces in (#3,#3+60)
+% and (#4-60,#4) labelled #5 (left) and #6 (right); R an open arc.
+\newcommand{\bandimage}[6]{%
+  \fill[#1!14!bg] ({chx(#3,#2)},{chy(\pzero)}) rectangle ({chx(#4,#2)},{chy(\pone)});
+  \fill[pattern=north east lines,pattern color=fg!70!bg]
+    ({chx(#3,#2)},{chy(\pzero)}) rectangle ({chx(#3+60,#2)},{chy(\pone)});
+  \fill[pattern=north east lines,pattern color=fg!70!bg]
+    ({chx(#4-60,#2)},{chy(\pzero)}) rectangle ({chx(#4,#2)},{chy(\pone)});
+  \draw[#1!80!fg] ({chx(#3+60,#2)},{chy(\pzero)}) -- ({chx(#3+60,#2)},{chy(\pone)});
+  \draw[#1!80!fg] ({chx(#4-60,#2)},{chy(\pzero)}) -- ({chx(#4-60,#2)},{chy(\pone)});
+  \draw[#1,dash pattern=on 2pt off 1.5pt]
+    ({chx(#3,#2)},{chy(\pzero)}) rectangle ({chx(#4,#2)},{chy(\pone)});
+  \draw[rot,very thick] plot[domain=#3:#4,samples=80,smooth] ({chx(\x,#2)},{chy(orb(\x))});
+  \draw[rot,fill=bg] ({chx(#3,#2)},{chy(orb(#3))}) circle (1.6pt);
+  \draw[rot,fill=bg] ({chx(#4,#2)},{chy(orb(#4))}) circle (1.6pt);
+  \node[lab,fill=bg,inner sep=0.8pt] at ({chx(#3+30,#2)},{chy(\pzero)+0.17}) {#5};
+  \node[lab,fill=bg,inner sep=0.8pt] at ({chx(#4-30,#2)},{chy(\pzero)+0.17}) {#6};}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  hidden/.style={dash pattern=on 2.0pt off 2.0pt},
+  lab/.style={font=\small,inner sep=1.5pt}]
+
+% ===========================================================================
+% M, with C, R and the three patches. V_1 is u in (-90,90), V_{2,1} is u in (-120,120),
+% V_{2,2} is u in (60,300).
+% ===========================================================================
+% the cylinder
+\fill[fg!4!bg]
+  plot[domain=-120:60,samples=60,smooth] ({cylx(\x)},{cyly(\x,-\cylQ)})
+  -- plot[domain=60:240,samples=60,smooth] ({cylx(\x)},{cyly(\x,\cylP)}) -- cycle;
+\draw[fg!25!bg,densely dotted]
+  plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,\cylP)});
+\draw[fg!25!bg,densely dotted]
+  plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,-\cylQ)});
+\draw[fg!25!bg] ({-\cylR},{-\cylS*\cylQ}) -- ({-\cylR},{\cylS*\cylP});
+\draw[fg!25!bg] ({\cylR},{-\cylS*\cylQ}) -- ({\cylR},{\cylS*\cylP});
+
+% behind: outlines only, so that nothing behind reads as an overlap in front; the one
+% exception is O_b itself, hatched faintly, as Bishop & Goldberg (Sec. 1.1, Fig. 1) hatch U n V
+\patchfill{pattern=north east lines,pattern color=fg!40!bg}{60}{120}{\pzero}{\pone}
+\patchrims{chB,hidden,opacity=0.6}{60}{240}{\pzero}{\pone}
+\patchrims{chA,hidden,opacity=0.6}{60}{120}{\pzero}{\pone}
+\patchrims{chL,hidden,opacity=0.6}{60}{90}{-\plib}{\plib}
+\patchside{chA,hidden,opacity=0.6}{120}{\pzero}{\pone}
+\patchside{chB,hidden,opacity=0.6}{60}{\pzero}{\pone}
+\patchside{chL,hidden,opacity=0.6}{90}{-\plib}{\plib}
+\orbarc{rot,thick,hidden,opacity=0.55}{60}{240}
+
+% in front
+\patchfill{chA,opacity=0.22}{-120}{60}{\pzero}{\pone}
+\patchfill{chB,opacity=0.26}{-120}{-60}{\pzero}{\pone}
+\patchfill{chL,opacity=0.22}{-90}{60}{-\plib}{\plib}
+\patchrims{chA}{-120}{60}{\pzero}{\pone}
+\patchrims{chB}{-120}{-60}{\pzero}{\pone}
+\patchrims{chL}{-90}{60}{-\plib}{\plib}
+\patchside{chA}{-120}{\pzero}{\pone}
+\patchside{chB}{-60}{\pzero}{\pone}
+\patchfill{pattern=north east lines,pattern color=fg!70!bg}{-120}{-60}{\pzero}{\pone}
+\patchside{chL}{-90}{-\plib}{\plib}
+\orbarc{rot,very thick}{-120}{60}
+\libloop{fill=lib!30!bg,fill opacity=0.6}
+\libloop{draw=lib,very thick}
+\fill[lib] ({cylx(0)},{cyly(0,0)}) circle (1.3pt);
+
+% labels
+\node[lab,rot,anchor=south] at ({cylx(-30)},{cyly(-30,cylorb(-30))+0.02}) {$R$};
+\node[lab,lib,anchor=west] at ({cylx(\tlib)+0.03},{cyly(\tlib,0)}) {$C$};
+\node[lab,chL!80!fg] at ({cylx(-75)},{cyly(-75,0.45)}) {$V_1$};
+\node[lab,chA!80!fg] at ({cylx(10)},{cyly(10,\pzero)+0.20}) {$V_{2,1}$};
+\node[lab,chB!80!fg,anchor=south] at ({cylx(175)},{cyly(175,\pone)+0.10}) {$V_{2,2}$ (behind)};
+\node[lab,fill=bg,inner sep=0.8pt] at ({cylx(-90)},{cyly(-90,\pzero)+0.30}) {$O_a$};
+\node[lab,fill=bg,fill opacity=0.8,text opacity=0.8,inner sep=0.8pt] at ({cylx(90)},{cyly(90,\pone)-0.40}) {$O_b$};
+\node[font=\small] at (-2.7,1.6) {$\mathcal{M}$};
+% the overlap, labelled with a leader to each of its two pieces, as in Bishop & Goldberg
+\node[lab] (ov) at (0.1,3.30) {$V_{2,1}\cap V_{2,2}=O_a\cup O_b$};
+\fill ({cylx(-100)},{cyly(-100,2.1)}) circle (1.1pt);
+\fill[opacity=0.6] ({cylx(100)},{cyly(100,2.25)}) circle (1.1pt);
+\draw[fg!80!bg] (ov.west) .. controls (-2.2,3.30) and (-2.0,1.45) .. ({cylx(-100)},{cyly(-100,2.1)});
+\draw[fg!80!bg] (ov.east) .. controls (2.0,3.30) and (1.5,2.0) .. ({cylx(100)},{cyly(100,2.25)});
+% the two directions
+\draw[->,fg!50!bg] ({-\cylR-0.45},-0.2) -- ({-\cylR-0.45},0.8)
+  node[above,lab,fg] {$p_\theta$};
+\draw[->,fg!50!bg] plot[domain=-70:0,samples=26,smooth] ({cylx(\x)},{cyly(\x,-\cylQ)});
+\node[lab,fg!70!bg,anchor=north] at ({cylx(-35)},{cyly(-35,-\cylQ)-0.02}) {$\theta$};
+
+% ===========================================================================
+% The charts: phi_1 for C, phi_{2,1} and phi_{2,2} for R.
+% ===========================================================================
+% Each arrow starts at a point of its own patch, marked by a dot: V_1 at (u,p) = (-70,-0.5);
+% V_{2,1} at (40,1.5), in front; V_{2,2} at (140,2.6), behind, where the projection of the back
+% band rises above the front one, so that the point lies in V_{2,2} only.
+\fill[chL!80!fg] ({cylx(-70)},{cyly(-70,-0.5)}) circle (1.4pt);
+\fill[chA!80!fg] ({cylx(40)},{cyly(40,1.5)}) circle (1.4pt);
+\fill[chB!80!fg] ({cylx(140)},{cyly(140,2.6)}) circle (1.4pt);
+\draw[->,fg!60!bg] ({cylx(-70)},{cyly(-70,-0.5)})
+  .. controls (-2.6,-0.9) and (-4.0,-1.6) .. node[above left,font=\small,fg] {$\varphi_1$} (-4.6,-2.3);
+\draw[->,fg!60!bg] ({cylx(40)},{cyly(40,1.5)})
+  .. controls (2.6,0.2) and (1.5,-1.8) .. node[right,font=\small,fg,pos=0.55] {$\varphi_{2,1}$} (0.95,-2.62);
+\draw[->,fg!60!bg] ({cylx(140)},{cyly(140,2.6)})
+  .. controls (2.6,2.3) and (5.2,0.5) .. node[above right,font=\small,fg,pos=0.55] {$\varphi_{2,2}$} (5.2,-2.3);
+
+% phi_1(V_1): C closed in it
+\begin{scope}[shift={(-5.5,-3.63)}]
+  \fill[chL!14!bg] ({chx(90,180)},{chy(-\plib)}) rectangle ({chx(270,180)},{chy(\plib)});
+  \draw[chL,dash pattern=on 2pt off 1.5pt]
+    ({chx(90,180)},{chy(-\plib)}) rectangle ({chx(270,180)},{chy(\plib)});
+  \chaxes{180}{90}{270}{-\plib}{\plib}{1}
+  \fill[lib!30!bg,fill opacity=0.6]
+    plot[domain=180-\tlib:180+\tlib,samples=90,smooth] ({chx(\x,180)},{chy(lorb(\x))})
+    -- plot[domain=180+\tlib:180-\tlib,samples=90,smooth] ({chx(\x,180)},{chy(-lorb(\x))}) -- cycle;
+  \draw[lib,very thick]
+    plot[domain=180-\tlib:180+\tlib,samples=90,smooth] ({chx(\x,180)},{chy(lorb(\x))})
+    -- plot[domain=180+\tlib:180-\tlib,samples=90,smooth] ({chx(\x,180)},{chy(-lorb(\x))}) -- cycle;
+  \fill[lib] (0,0) circle (1.3pt);
+  \node[lab,lib,anchor=west] at ({chx(180+\tlib,180)+0.03},0) {$C$};
+  \node[font=\small,anchor=north] at (0,{chy(-\plib)-0.30}) {$\varphi_1(V_1)$};
+\end{scope}
+
+% phi_{2,1}(V_{2,1})
+\begin{scope}[shift={(-0.2,-4.6)}]
+  \chaxes{180}{60}{300}{\pzero}{\pone}{2,1}
+  \bandimage{chA}{180}{60}{300}{$O_a$}{$O_b$}
+  \node[lab,rot,anchor=south] at ({chx(150,180)},{chy(orb(150))+0.02}) {$R$};
+  \node[font=\small,anchor=north] at (0.3,{chy(\pzero)-0.30}) {$\varphi_{2,1}(V_{2,1})$};
+\end{scope}
+
+% phi_{2,2}(V_{2,2})
+\begin{scope}[shift={(5.5,-4.6)}]
+  \chaxes{0}{-120}{120}{\pzero}{\pone}{2,2}
+  \bandimage{chB}{0}{-120}{120}{$O_b$}{$O_a$}
+  \node[lab,rot,anchor=north] at (0,{chy(orb(0))-0.02}) {$R$};
+  \node[font=\small,anchor=north] at (-0.25,{chy(\pzero)-0.30}) {$\varphi_{2,2}(V_{2,2})$};
+\end{scope}
+
+% The transition phi_{2,2} o phi_{2,1}^{-1} on the overlap: O_b to O_b shifts the angle
+% by -2pi (the pieces are adjacent), and O_a to O_a leaves it unchanged, under both images.
+\draw[->,fg!70!bg] (1.25,-3.52) -- node[above,lab,fg] {$\varphi_{2,2}\circ\varphi_{2,1}^{-1}$}
+  node[below,lab,fg] {$\theta_{2,2}=\theta_{2,1}-2\pi$} (3.80,-3.52);
+\draw[->,fg!70!bg] (-1.17,-4.08) .. controls (-1.17,-6.55) and (6.47,-6.55) ..
+  node[below,lab,fg,pos=0.5] {$\varphi_{2,2}\circ\varphi_{2,1}^{-1}$: $\theta_{2,2}=\theta_{2,1}$, $p_\theta$ unchanged} (6.47,-4.08);
+
+\end{tikzpicture}
+\end{document}
