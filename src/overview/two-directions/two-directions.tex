@@ -1,0 +1,74 @@
+% The traffic between numerics and learning runs both ways.
+%
+% Direction 1 (top, mred, left -> right): neural networks put to work on differential equations,
+% and made to respect their structure. Direction 2 (bottom, mpurple, right -> left), the return
+% trip: a construction from geometric numerics, optimisation on a manifold, dropped into an
+% ordinary image classifier.
+\documentclass[tikz]{standalone}
+
+\usepackage{amsmath}
+\usetikzlibrary{positioning, calc, arrows.meta}
+\usepackage{geometricfigures}
+
+% --- the two thumbnails inside the boxes ------------------------------------
+% A 2-3-2 network and a closed orbit, drawn small enough to read as icons rather
+% than as figures.  Both sit inside a node, so they are \tikz boxes on a text
+% baseline, not pictures of their own.
+\newcommand{\mininet}{%
+  \tikz[baseline=-.6ex]{%
+    \foreach \k in {1,2,3} {%
+      \foreach \j in {1,2} {%
+        \draw[mblue!45!bg, line width=.35pt] (0.55,{0.28*(2-\k)}) -- (1.1,{0.28*(1.5-\j)});
+        \draw[mblue!45!bg, line width=.35pt] (0,{0.28*(1.5-\j)}) -- (0.55,{0.28*(2-\k)});
+      }%
+    }%
+    \foreach \x/\n in {0/2, 0.55/3, 1.1/2} {%
+      \foreach \i in {1,...,\n} { \fill[mblue] (\x,{0.28*((\n+1)/2-\i)}) circle (1.3pt); }%
+    }%
+  }%
+}
+\newcommand{\miniorbit}{%
+  \tikz[baseline=-.6ex]{%
+    \draw[mgreen, line width=.7pt, -{Stealth[length=3.5pt]}]
+        (0.42,0) arc (0:335:0.42 and 0.28);
+    \fill[mgreen] (0,0) circle (.8pt);
+  }%
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    box/.style={draw, very thick, rounded corners, align=center, inner sep=6pt},
+    xarrow/.style={-{Stealth[length=7pt,width=6pt]}, line width=1.6pt},
+    lab/.style={align=center, font=\small},
+]
+
+  \node[box, draw=mblue] (ml) at (0,0) {%
+    \begin{tabular}{c}
+      \textbf{Machine learning} \\[.25em]
+      \mininet \\[.35em]
+      {\footnotesize neural networks, attention,} \\[-.1em]
+      {\footnotesize gradient-based training}
+    \end{tabular}};
+
+  \node[box, draw=mgreen] (sc) at (10.6,0) {%
+    \begin{tabular}{c}
+      \textbf{Scientific computing} \\[.25em]
+      \miniorbit \\[.35em]
+      {\footnotesize differential equations,} \\[-.1em]
+      {\footnotesize geometric integrators, FEEC}
+    \end{tabular}};
+
+  \draw[xarrow, mred] (ml.north east) to[bend left=17]
+      node[lab, midway, above=3pt] {%
+        {\color{mred}\textbf{1 $\cdot$ networks that solve differential equations}} \\[-.15em]
+        {\footnotesize and are made to respect their structure \textit{(Parts I and II)}}}
+      (sc.north west);
+
+  \draw[xarrow, mpurple] (sc.south west) to[bend left=17]
+      node[lab, midway, below=3pt] {%
+        {\color{mpurple}\textbf{2 $\cdot$ numerics that improves the learning machinery}} \\[-.15em]
+        {\footnotesize optimisation on manifolds --- a vision transformer on MNIST \textit{(Part III)}}}
+      (ml.south east);
+
+\end{tikzpicture}
+\end{document}

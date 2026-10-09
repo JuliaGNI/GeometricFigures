@@ -1,0 +1,152 @@
+% The mathematics geometric machine learning uses: differential geometry, numerics and structure
+% preservation, three fields feeding the subject in the centre. The grey tag in each header is the
+% part of the talk where it first appears.
+%
+% Symplectic geometry has no box of its own: a symplectic form is one of the structures the
+% subject preserves, so it is the top group inside `Structure preservation', beside the de Rham
+% complex and Noether's theorem. That box is therefore the tall one and holds the right-hand
+% column alone. SympNets and symplectic autoencoders are the subject's own methods, so they are
+% in the hub.
+%
+% Layout: left column two stacked boxes, centre the hub, right one full-height box, at a natural
+% width of about 13.8 cm. The widths are a budget across that 13.8 cm and have to be kept as one:
+% left column + gap + hub + gap + right column. The numbers that must agree are \Xout, \Whalf,
+% \Whub, \Wfull and \Xhub; the asserts in the comment beside them are the arithmetic.
+\documentclass[10pt,border=1pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usetikzlibrary{arrows.meta, calc, positioning}
+\usepackage{geometricfigures}
+
+% header line of a box: coloured name on the left, grey `where' on the right
+\newcommand{\fldhead}[3]{{\color{#1}\textbf{#2}}\hfill{\color{fg!45!bg}\itshape #3}}
+
+% Same header, tag dropped onto its own right-aligned line.  Only the red box
+% uses it: `Structure preservation' is 89.6 pt and `Parts I & II' 44.8 pt at
+% \scriptsize, i.e. 134.4 pt = 4.73 cm side by side, and \Wfull is 4.40 cm --
+% the 0.35 cm that would buy the one-line header went to the hub instead, and
+% the red box is the one box with four spare lines to pay for it.
+\newcommand{\fldheadstack}[3]{{\color{#1}\textbf{#2}}\par
+  \hfill{\color{fg!45!bg}\itshape #3}\par\vspace{-.10em}}
+
+% A bullet list tight enough to live inside a tikz node: no space above or below,
+% a 0.12 em gap between items, and a hanging indent so that a line which does
+% wrap lines up under the one before it.
+\newenvironment{blist}{%
+  \begin{list}{\raisebox{.15ex}{\tiny$\bullet$}}{%
+    \setlength{\leftmargin}{.22cm}\setlength{\labelwidth}{.12cm}%
+    \setlength{\labelsep}{.10cm}\setlength{\itemindent}{0pt}%
+    \setlength{\rightmargin}{0pt}\setlength{\listparindent}{0pt}%
+    \setlength{\topsep}{.16em}\setlength{\partopsep}{0pt}%
+    \setlength{\parsep}{0pt}\setlength{\itemsep}{.12em}}}%
+  {\end{list}}
+
+% a group heading inside the tall box
+\newcommand{\grp}[1]{\par\vspace{.20em}{\color{fg!55!bg}\itshape #1}\par}
+
+% The left column is the height-constrained one -- six and seven lines in boxes
+% that have to stack inside the figure -- so it gets the width and the tall box
+% on the right, which has room to spare, absorbs the wrapping.
+\def\Xout{6.90}   % outer edge of the two columns
+\def\Yout{2.89}   % outer edge of the two rows of the left column
+\def\Whalf{5.60} % text width of a left box; +2*.18 inner sep = 5.96 wide,
+                 % so its right edge is at -6.90 + 5.96 = -0.94.  This is as wide
+                 % as it can be AND as narrow: one notch wider and `scaling &
+                 % squaring, Cayley, QR completion' wraps, one notch narrower and
+                 % the blue box wraps twice more, outgrows its 2.72 cm row and
+                 % runs into the orange one.  Both have been seen.  Do not touch
+                 % it to make room for the hub -- take the room from \Wfull.
+\def\Wfull{4.40} % text width of the right box; 4.76 wide, left edge at +2.14.
+                 % It gave .35 cm back to the hub when SympNets, the symplectic
+                 % autoencoders and FEEC left it: it is four lines shorter than
+                 % the left column now and can afford one more wrap.
+\def\Whub{1.86}  % text width of the hub; 2.18 wide, so \Xhub +- 1.09.  Enough
+                 % for `symplectic autoencoders' over two lines, which is all the
+                 % hub has to hold.
+\def\Xhub{0.60}  % hub centre.  The budget across the 13.80 cm has to be kept as
+                 % one -- 5.96 + gap + 2.18 + gap + 4.76 = 13.80 leaves .45 cm of
+                 % gap on each side, which is the room the arrows need and the
+                 % whole reason the hub sits off centre.
+                 % asserts: -6.90 + 5.96 + .45 = -0.49 = .60 - 1.09  and
+                 %           .60 + 1.09 + .45 = 2.14 = 6.90 - 4.76.
+
+\begin{document}
+\begin{tikzpicture}[
+    fld/.style = {draw, semithick, rounded corners=2pt, align=left,
+                  inner sep=.18cm, font=\scriptsize},
+    half/.style = {fld, text width=\Whalf cm, minimum height=2.72cm},
+    full/.style = {fld, text width=\Wfull cm, minimum height=5.78cm},
+    hub/.style = {draw=fg!70!bg, fill=fg!4!bg, very thick, rounded corners=2pt,
+                  align=center, text width=\Whub cm, inner sep=.16cm,
+                  font=\scriptsize},
+    arr/.style = {-{Stealth[length=4.5pt,width=3.5pt]}, semithick, fg!40!bg},
+  ]
+
+  %---- what the three of them are for, and what it builds out of them -------
+  % align=left for the list; the header is centred by hand so that the hub still
+  % reads as the middle of the picture rather than as a fourth field.
+  \node[hub] (hub) at (\Xhub,0) {%
+    {\centering\textbf{Geometric machine learning}\par}
+    \vspace{.10em}
+    \hfill{\color{fg!45!bg}\itshape Part II}\par
+    \begin{blist}
+      \item SympNets
+      \item symplectic autoencoders
+    \end{blist}};
+
+  %---- left, top: differential geometry ------------------------------------
+  \node[half, draw=mblue, fill=mblue!6!bg, anchor=north west] (dg) at (-\Xout,\Yout) {%
+    \fldhead{mblue}{Differential geometry}{Part III}
+    \begin{blist}
+      \item manifolds, tangent spaces, retractions
+      \item Lie groups $SO(N)$, Lie algebras $\mathfrak{g}$
+      \item homogeneous spaces $St(n,N)$, $Gr(n,N)$
+      \item $\mathfrak{g} = \mathfrak{g}^{\mathrm{ver}}\oplus\mathfrak{g}^{\mathrm{hor}}$,
+            global sections $\lambda(Y)$
+      \item geodesics, parallel transport
+    \end{blist}};
+
+  %---- left, bottom: numerics ----------------------------------------------
+  \node[half, draw=morange, fill=morange!6!bg, anchor=south west] (nu) at (-\Xout,-\Yout) {%
+    \fldhead{morange}{Numerics}{Parts I \& III}
+    \begin{blist}
+      \item function bases: splines per patch, degree $p$
+      \item FEEC: a \textit{sub}complex, commuting $\pi_h$
+      \item $\exp$: Taylor and Pad\'e kernels
+      \item scaling \& squaring, Cayley, QR completion
+      \item backward error analysis
+    \end{blist}%
+    \par\vspace{.18em}{\ttfamily\color{fg!55!bg}GeometricOptimizers.jl}};
+
+  %---- right, full height: structure preservation ---------------------------
+  \node[full, draw=mred, fill=mred!6!bg, anchor=east] (sp) at (\Xout,0) {%
+    \fldheadstack{mred}{Structure preservation}{Parts I \& II}
+    \grp{a symplectic form}
+    \begin{blist}
+      \item $\omega$, $\dot{z} = \mathbb{J}\nabla_zH$, symplectic flows
+      \item Poincar\'e invariants, non-squeezing
+      \item symplectic integrators, modified $H_h$
+    \end{blist}
+    \grp{a de Rham complex}
+    \begin{blist}
+      \item $d\circ{}d = 0$, so $\mathrm{im}\,d \subseteq \ker d$
+      \item cohomology $\dim\mathcal{H}^k = b_k(\Omega)$
+      \item harmonic fields $\ker\mathrm{curl}_h/\,\mathrm{im}\,\mathrm{grad}_h$
+    \end{blist}
+    \grp{a symmetry}
+    \begin{blist}
+      \item Noether, discrete momentum maps
+    \end{blist}};
+
+  %---- and they all feed the same subject ----------------------------------
+  % each arrow leaves the box it belongs to and ends on the hub, and every one of
+  % them has to run *towards* the hub: (dg.east) is at x = -0.94 and the hub's
+  % north-west corner at x = -0.49, so this one goes right and down, as drawn.
+  \draw[arr] (dg.east) -- (hub.north west);
+  \draw[arr] (nu.east) -- (hub.south west);
+  \draw[arr] (sp.west) -- (hub.east);
+
+\end{tikzpicture}
+\end{document}

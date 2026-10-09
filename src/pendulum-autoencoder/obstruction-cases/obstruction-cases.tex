@@ -1,0 +1,126 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections,calc}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+\definecolor{up}{HTML}{7A5AA8}
+
+% ---------------------------------------------------------------------------
+% The two cases of the nesting argument, drawn. This is a schematic -- round circles
+% where the trained chart has the hook of two-charts -- because the statement it
+% draws is topological: only which curve is inside which, and how the areas are
+% therefore ordered, carries any content.
+%
+% The geometry is exact all the same, so the areas can be trusted against each
+% other. Both panels use one pinched pair: an outer circle of radius 2 centred
+% at (0,2) and an inner one of radius 0.7 centred at (0,0.7). Both pass through
+% the origin, and being internally tangent there they meet nowhere else -- which
+% is the one point the two separatrix branches share, the image of the unstable
+% equilibrium. Their areas are in the ratio 4 : 0.49, close to the measured
+% 14.79 : 1.84.
+%
+% The librating curves are the boundaries of the crescent shrunk by delta: the
+% outer circle at radius 2-delta and the inner one at radius 0.7+delta, which
+% for delta > 0 cross at two points near the origin. The four arc endpoints
+% below are those crossings, computed once and written in rather than solved for
+% in TeX. delta = 0.12 and 0.30.
+\newcommand{\Pxy}{(0,0)}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  gam/.style={sep,very thick},
+  libc/.style={lib,thick},
+  rotc/.style={rot,thick},
+  tag/.style={font=\footnotesize,inner sep=1.5pt},
+  panelcap/.style={font=\small,align=center,anchor=north,text width=6.0cm}]
+
+% ===========================================================================
+% (a) rotating outside gamma_- : the layout of the learned chart
+% ===========================================================================
+\begin{scope}
+  % the crescent U = image of the librating region
+  \fill[lib!14!bg,even odd rule] (0,2) circle (2) (0,0.7) circle (0.7);
+
+  % librating level sets, nested outward, exhausting U
+  \draw[libc] (0.99704,0.62308) arc[start angle=-54.09, end angle=234.09, radius=1.70]
+                                arc[start angle=184.41, end angle=-4.41,  radius=1.00] -- cycle;
+  \draw[libc] (0.68499,0.24923) arc[start angle=-68.63, end angle=248.63, radius=1.88]
+                                arc[start angle=213.34, end angle=-33.34, radius=0.82] -- cycle;
+
+  % the two separatrix branches
+  \draw[gam] (0,2)   circle (2);
+  \draw[gam] (0,0.7) circle (0.7);
+
+  % rotating level sets, outside gamma_-, nested outward
+  \draw[rotc] (0,2) circle (2.17);
+  \draw[rotc] (0,2) circle (2.42);
+
+  \fill[sep] \Pxy circle (1.7pt);
+  \node[tag,sep,anchor=north] at (0,-0.08) {$P$};
+
+  \node[tag,sep,anchor=west]  at (2.08,3.30) {$\gamma_-$};
+  \draw[sep!60!bg,line width=0.4pt] (0.62,0.42) -- (1.30,0.06);
+  \node[tag,sep,anchor=west]  at (1.28,0.02) {$\gamma_+$};
+  \node[tag,lib]              at (0,2.60) {$U$};
+  \node[tag,rot,anchor=south east] at (-1.75,3.55) {rotating};
+
+  \draw[->,rot!70!bg,line width=0.5pt] (1.62,3.86) -- (2.02,4.20);
+  \node[tag,rot,anchor=south west] at (1.96,4.14) {$H$};
+  \draw[->,lib!70!bg,line width=0.5pt] (-0.62,3.30) -- (-0.36,3.62);
+  \node[tag,lib,anchor=south east] at (-0.40,3.58) {$H$};
+\end{scope}
+
+% ===========================================================================
+% (b) rotating inside gamma_- : the same picture, the two branches exchanged
+% ===========================================================================
+\begin{scope}[shift={(7.0,0)}]
+  \fill[lib!14!bg,even odd rule] (0,2) circle (2) (0,0.7) circle (0.7);
+
+  \draw[libc] (0.99704,0.62308) arc[start angle=-54.09, end angle=234.09, radius=1.70]
+                                arc[start angle=184.41, end angle=-4.41,  radius=1.00] -- cycle;
+  \draw[libc] (0.68499,0.24923) arc[start angle=-68.63, end angle=248.63, radius=1.88]
+                                arc[start angle=213.34, end angle=-33.34, radius=0.82] -- cycle;
+
+  \draw[gam] (0,2)   circle (2);
+  \draw[gam] (0,0.7) circle (0.7);
+
+  % rotating level sets, inside gamma_-, nested inward onto whatever is left
+  \fill[pattern=north east lines,pattern color=fg!35!bg] (0,0.7) circle (0.18);
+  \draw[fg!45!bg,line width=0.4pt] (0,0.7) circle (0.18);
+  \draw[rotc] (0,0.7) circle (0.63);
+  \draw[rotc] (0,0.7) circle (0.47);
+  \draw[rotc] (0,0.7) circle (0.32);
+
+  \fill[sep] \Pxy circle (1.7pt);
+  \node[tag,sep,anchor=north] at (0,-0.08) {$P$};
+
+  \node[tag,sep,anchor=west]  at (2.08,3.30) {$\gamma_+$};
+  \draw[sep!60!bg,line width=0.4pt] (0.62,0.42) -- (1.30,0.06);
+  \node[tag,sep,anchor=west]  at (1.28,0.02) {$\gamma_-$};
+  \node[tag,lib]              at (0,2.60) {$U$};
+
+  \draw[rot!70!bg,line width=0.4pt] (-0.50,1.06) -- (-1.24,1.86);
+  \node[tag,rot,anchor=south east] at (-1.20,1.82) {rotating};
+  \draw[<-,rot!70!bg,line width=0.5pt] (-0.34,0.70) -- (-0.02,0.70);
+  \draw[rot!70!bg,line width=0.4pt] (-0.36,0.66) -- (-1.40,0.12);
+  \node[tag,rot,anchor=east] at (-1.40,0.12) {$H$};
+  \draw[fg!50!bg,line width=0.4pt] (0.14,0.84) -- (0.76,1.36);
+  \node[tag,fg!60!bg,anchor=south west] at (0.72,1.32) {$K$};
+\end{scope}
+
+% ===========================================================================
+\node[panelcap] at (0,-0.55)
+  {\textbf{(a)} rotating family outside $\gamma_-$: every rotating loop encloses
+   all of $U$, and its area grows from $\mathrm{area}(\gamma_-)$. The layout of
+   the learned chart.};
+\node[panelcap] at (7.0,-0.55)
+  {\textbf{(b)} the branches exchanged: rotating family inside $\gamma_-$,
+   nesting \emph{inward}, its area falling to $\mathrm{area}(K)\geq0$.};
+\end{tikzpicture}
+\end{document}

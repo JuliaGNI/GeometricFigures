@@ -1,0 +1,23 @@
+\documentclass[tikz]{standalone}
+\usepackage{geometricfigures}
+
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usetikzlibrary{calc,arrows.meta,positioning,shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+                remember picture, % Enable referencing nodes from this tikzpicture later
+                transform shape,
+                torus/.style={ellipse, draw, fill=mgreen!20!bg, minimum width=4cm, minimum height=2.8cm}
+            ]
+
+        % --- Lie Group G (Drawn as a Torus Node) ---
+        \node[torus, label={[name=G_label, yshift=-1.2cm, xshift=-1.7cm]$G$}] (G_node) at (0,0) {};
+        \draw[fill=bg] (G_node.center) ellipse (0.8cm and 0.4cm);
+        % Identity 'I' on G
+        \coordinate (I_on_G) at ($(G_node.center) + (0.7, -0.5)$);
+        \fill[mred] (I_on_G) circle (2pt) node[xshift=.5em] {$\mathbb{I}$};
+
+            \end{tikzpicture}
+\end{document}

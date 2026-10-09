@@ -1,0 +1,43 @@
+\documentclass[tikz, border=5mm]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usetikzlibrary{arrows, positioning, shapes.geometric, calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    scale=0.9, transform shape,
+    torus/.style={ellipse, draw, fill=mgreen!20!bg, minimum width=4cm, minimum height=2.8cm} % Torus style
+]
+    % --- Lie Group G (Drawn as a Torus Node) ---
+    \node[torus, label={[name=G_label, yshift=-1.2cm, xshift=-1.7cm]$G$}] (G_node) at (0,3) {}; % Renamed to G_node to avoid conflict
+    \draw[fill=bg] (G_node.center) ellipse (0.8cm and 0.4cm);
+
+    % Define a point on the "torus" to be our identity 'e'
+    \coordinate (e_on_G) at ($(G_node.center) + (0.7, -0.5)$);
+    \fill[mred] (e_on_G) circle (2pt) node[xshift=.5em] {$\mathbb{I}$};
+
+    % A point 'g' near 'e' on the Lie group
+    \coordinate (g_on_G) at ($(G_node.center) + (0.5, 0.4)$);
+    \fill[orange] (g_on_G) circle (1.5pt);
+    \node[orange, above right=1pt of g_on_G] {$g$};
+
+    % Tangent Space (Lie Algebra)
+    % Position it below the identity, roughly aligned
+    \coordinate (below_e) at ($(e_on_G) + (0.0, -2.0)$);
+    \draw[thick, muted, fill=muted!20!bg, opacity=0.8] ($(below_e) + (-1.0, 0.0)$) -- ($(below_e) + (2.5, -0.0)$) -- ($(below_e) + (1.5, -2.5)$) -- ($(below_e) + (-2.0, -2.5)$) -- cycle;
+    \node[muted] at ($(below_e) + (0.5, -2.2)$) {$\mathfrak{g} \simeq T_\mathbb{I} G$};
+
+    % Example element in Lie Algebra
+    \coordinate (arrow_tip) at ($(below_e) + (0.5, -1.5)$);
+    \draw[->, thick, fg] (below_e) -- (arrow_tip);
+    \node[fg, below right] at ($(e_on_G) + (0, -1)$) {$X \in \mathfrak{g}$};
+
+    % Exponential map
+    \draw[->, very thick, mred, rounded corners] ($(arrow_tip) + (0.03, 0.0)$) .. controls ($(below_e) + (1.5, 0.5)$) and ($(below_e) + (1.5, 0.5)$) .. (g_on_G) node[midway, xshift=1em] {$\exp$};
+
+    % Connecting Lines
+    \draw[dashed, muted] (e_on_G.south) -- (below_e); % Connect identity to origin of tangent space
+\end{tikzpicture}
+\end{document}

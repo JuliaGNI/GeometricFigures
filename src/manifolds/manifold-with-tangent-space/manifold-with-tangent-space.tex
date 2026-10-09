@@ -1,0 +1,86 @@
+\documentclass{standalone}
+\usepackage{geometricfigures}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+\begin{tikzpicture}
+    \begin{axis}[
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        grid=major,
+        view={-30}{30}, % Adjust the view for better visibility
+        colormap/viridis,
+    ]
+        % --- Tangent Plane Definitions ---
+        % Define the point 'a'
+        \pgfmathsetmacro{\xa}{-4}
+        \pgfmathsetmacro{\ya}{4}
+        \pgfmathsetmacro{\za}{sin(deg(-2)) * cos(deg(2))}
+
+        % Calculate partial derivatives at point 'a'
+        % f(x,y) = sin(0.5x) * cos(0.5y)
+        % df/dx = 0.5 * cos(0.5x) * cos(0.5y)
+        % df/dy = -0.5 * sin(0.5x) * sin(0.5y)
+        \pgfmathsetmacro{\fx}{0.08658909478409703}
+        \pgfmathsetmacro{\fy}{0.413410905215903}
+
+        % --- Plot the 2D manifold ---
+        \addplot3[
+            surf,
+            shader=interp,
+            domain=-5:5,
+            y domain=-5:5,
+            samples=50,
+            opacity=0.8, % Made it slightly more transparent
+        ]{sin(deg(0.5*x)) * cos(deg(0.5*y))};
+
+        % --- Plot the Tangent Plane at 'a' ---
+        \addplot3[
+            surf,
+            domain=\xa-3:\xa+3,   % Small domain around 'a'
+            y domain=\ya-3:\ya+3,
+            samples=3,              % Low samples to make it look like a plane
+            color=mblue,
+            opacity=0.3,
+            z buffer=sort, % Ensures correct drawing order with transparency
+        ] {\za + \fx*(x - \xa) + \fy*(y - \ya)};
+        
+        % Add a label for the tangent space
+        \node[above right, color=mblue, font=\large] at (axis cs:{\xa-1.5},{\ya+1.5},{\za + \fx*(-1.5) + \fy*(1.5)}) {$T_Y\mathcal{M}$};
+
+        % --- Plot points a and b ---
+        \addplot3[only marks, mark=*, mark size=3pt, color=mred] coordinates {
+            (\xa, \ya, \za)  % Point a
+            (4, -4, {-\za}) % Point b
+        };
+        
+        % Add labels to the points
+        \node[above right, color=mred] at (axis cs:\xa,\ya,\za) {$Y$};
+        \node[above right, color=mred] at (axis cs:4,-4,{sin(deg(2)) * cos(deg(-2))}) {$b$};
+        \node[above right, color=fg] at (axis cs:4,-4,-.8) {$\mathcal{M}$};
+
+        % --- Plot the curve on the manifold ---
+        \addplot3[
+            domain=0:1, samples=100, samples y=0,
+            color=fg, thick,
+        ]({-4 + 8*x}, {4 - 8*x}, {sin(deg(0.5*(-4 + 8*x))) * cos(deg(0.5*(4 - 8*x)))});
+        \node[above right, color=fg] at (axis cs:0,0,.4) {$\exp(t\cdot\mathrm{log}({\color{mred}g}))$};
+
+        % --- Plot a tangent vector v on the plane ---
+        \pgfmathsetmacro{\dx}{2.0} % Define vector components
+        \pgfmathsetmacro{\dy}{-2.0}
+        \addplot3[
+            ->, % Make it an arrow
+            color=morange,
+            very thick,
+        ] coordinates {
+            (\xa, \ya, \za) 
+            ({\xa+\dx}, {\ya+\dy}, {\za + -0.6536436208636119})
+        };
+        \node[above, color=morange, xshift=2mm] at (axis cs:{\xa+\dx},{\ya+\dy},{\za + \fx*\dx + \fy*\dy}) {$v$};
+
+    \end{axis}
+\end{tikzpicture}
+\end{document}

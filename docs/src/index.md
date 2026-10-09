@@ -36,6 +36,10 @@ theme from the package and never writes `white` or `black`. In the dark theme `b
 the page background of Documenter's `documenter-dark` theme, so that a mask or a tint mixed with
 `bg` matches the page the figure is shown on.
 
+A topic page lists its figures under the heading `# <topic>`. Where `docs/topic-intros/<topic>.md`
+exists, the page shows its text between the heading and the figures, for what holds for all of
+them, such as where they come from and when they must be regenerated.
+
 ## Reference
 
 ```@docs

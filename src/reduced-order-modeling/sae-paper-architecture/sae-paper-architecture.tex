@@ -1,0 +1,59 @@
+\documentclass[crop, tikz]{standalone}
+
+\usepackage{geometricfigures}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[mode=buildnew]{standalone}
+
+\usepackage{xcolor}
+
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit}
+%\usepackage{nicematrix}
+
+\tikzset{set/.style={draw,circle,inner sep=0pt,align=center}}
+
+
+\begin{document}
+\begin{tikzpicture}[module/.style={draw=onfill, very thick, rounded corners, minimum width=15ex, text=onfill},
+    gradient/.style={module, fill=mgreen!50},
+    psd/.style={module, fill=mblue!50},
+    arrow/.style={-stealth, thick, rounded corners},
+]
+\node (input) {Input};
+\node[above of=input, gradient, align=center, yshift=.6cm] (gq1) {\texttt{GradientQ(2N, 10N, tanh)}};
+\node[above of=gq1, gradient, align=center] (gq2) {\texttt{GradientP(2N, 10N, tanh)}};
+\node[above of=gq2, gradient, align=center] (gq3) {\texttt{GradientQ(2N, 10N, tanh)}};
+\node[above of=gq3, gradient, align=center] (gq4) {\texttt{GradientP(2N, 10N, tanh)}};
+\node[above of=gq4, psd, align=center] (psd1) {\texttt{PSDLayer(2N, 2n)}};
+
+\node[right of=input, xshift=6cm] (output) {Output}; 
+\node[above of=output, gradient, yshift=.6cm] (gq7) {\texttt{GradientQ(2N, 2N, tanh)}};
+\node[above of=gq7, psd] (psd2) {\texttt{PSDLayer(2n, 2N)}};
+\node[above of=psd2, gradient] (gq6) {\texttt{GradientP(2n, 10n, tanh)}};
+\node[above of=gq6, gradient] (gq5) {\texttt{GradientQ(2n, 10n, tanh)}};
+
+\draw[arrow] (gq1) -- (gq2);
+\draw[arrow] (gq2) -- (gq3); 
+\draw[arrow] (gq3) -- (gq4);
+\draw[arrow] (gq4) -- (psd1); 
+
+\coordinate[above of=psd1] (psd_above);
+\coordinate[above of=gq5] (gq5_above);
+
+\draw[arrow] (gq5) -- (gq6);
+\draw[arrow] (gq6) -- (psd2);
+\draw[arrow] (psd2) -- (gq7);
+
+\node[fit=(gq1)(gq2)(gq3)(gq4)(psd1),draw, ultra thick, rounded corners, label=left:$\mathcal{P}$] (encoder) {};
+\node[fit=(gq5)(gq5)(gq7)(psd2),draw, ultra thick, rounded corners, label=left:$\mathcal{R}$] (decoder) {};
+
+\draw[arrow] (encoder.north)-|(psd_above)-|(gq5_above)--(decoder.north);
+\draw[arrow] (input) -- (encoder);
+\draw[arrow] (decoder) -- (output);
+
+
+\end{tikzpicture}
+\end{document}

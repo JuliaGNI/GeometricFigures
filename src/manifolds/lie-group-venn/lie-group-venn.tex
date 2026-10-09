@@ -1,0 +1,48 @@
+% Every Lie group is a homogeneous space, not conversely.
+%
+% The geometry is chosen so that every label has room, and every label position is checked
+% against the ellipse it must stay inside:
+%   outer (green)  centre (0,0),     rx = 5.5, ry = 1.9
+%   inner (blue)   centre (0,-0.45), rx = 3.0, ry = 1.0
+% A point (x,y) is inside an ellipse iff (x/rx)^2 + ((y-cy)/ry)^2 < 1, and it is the
+% *corner* of a label's box that has to satisfy it, not its centre.  The clearances that
+% follow from that (all in cm, all measured rather than argued):
+%   `Homogeneous Spaces' at y = 1.30, half-width 2.3: the green boundary is 3.94 wide at
+%       y = 1.30 and 3.36 at the box top y = 1.50 -- 1.06 cm of slack at the worst point.
+%   `Lie Groups' at y = -0.12, half-width 1.35: the blue boundary is 2.86 wide there,
+%       2.72 at the box top y = 0.08 -- 1.37 cm of slack.
+%   $SO(n)$, $\mathbb{T}^n$ at (-1.45,-1.00) / (1.45,-1.00), half-width 0.55: blue is
+%       2.60 wide at y = -1.00 and 2.29 at the box bottom y = -1.18 -- both corners in.
+%   $S^n$ at (-4.30,0.05) and $Gr(n,N)$ at (-3.75,-0.95): the green-blue ring runs
+%       3.00..5.49 at y = 0.05 and 2.68..4.85 at y = -0.95.
+%   $St(n,N)$ at (4.25,-0.45): the ring runs 3.00..5.35 there.
+\documentclass[tikz]{standalone}
+\usepackage{geometricfigures}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\begin{document}
+\begin{tikzpicture}[
+        label_style/.style={font=\large\bfseries},
+        example_style/.style={font=\small, inner sep=1pt},
+    ]
+    % ---- the two regions ----------------------------------------------------
+    \draw[draw=mgreen!60!fg, fill=mgreen!20!bg, very thick] (0,0)     ellipse (5.5cm and 1.9cm);
+    \draw[draw=mblue!80!fg,  fill=mblue!20!bg,  very thick] (0,-0.45) ellipse (3.0cm and 1.0cm);
+
+    % ---- names --------------------------------------------------------------
+    \node[label_style, text=mgreen!45!fg] at (0, 1.30) {Homogeneous Spaces};
+    \node[label_style, text=mblue!80!fg]  at (0,-0.12) {Lie Groups};
+
+    % ---- examples: inside the blue ellipse ----------------------------------
+    \node[example_style, text=mblue!80!fg] at (-1.45,-1.00) {$SO(n)$};
+    \node[example_style, text=mblue!80!fg] at ( 1.45,-1.00) {$\mathbb{T}^n$};
+
+    % ---- examples: in the green ring, outside the blue ellipse --------------
+    \node[example_style, text=mgreen!35!fg] at (-4.30, 0.05) {$S^n$};
+    \node[example_style, text=mgreen!35!fg] at (-3.75,-0.95) {$Gr(n,N)$};
+    \node[example_style, text=mgreen!35!fg] at ( 4.25,-0.45) {$St(n,N)$};
+\end{tikzpicture}
+\end{document}

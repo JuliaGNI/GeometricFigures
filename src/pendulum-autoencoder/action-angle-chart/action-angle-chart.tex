@@ -1,0 +1,145 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,patterns}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{up}{HTML}{7A5AA8}
+
+% ---------------------------------------------------------------------------
+% The action-angle atlas, laid out as angle-atlas: M on top, in the same
+% projection and view (u = theta - pi, turned by \cylA), its charts below, an arrow from a point
+% of each chart domain to its image. The domains are the three components of M minus the
+% separatrix: L = {H < 1} (blue), R_+ = {H > 1, p > 0} (purple), R_- = {H > 1, p < 0} (orange).
+% Each chart is (X,Y) = sqrt(2I)(cos phi, -sin phi), I = J/2pi, so every orbit is a circle
+% enclosing its action J, and the images are drawn at true area: radius \s*sqrt(J/pi).
+%   L:   disk of area 16; the orbit C of angle-atlas (H = -0.7), J = 1.9225.
+%   R_+: outside of a hole of area a_0 = 8; the orbit R of angle-atlas (H = 2, p > 0),
+%        J = 12.357; cut off (dotted) at area 24.
+%   R_-: the same, with the mirror image of R (H = 2, p < 0).
+% The separatrix (dashed red) is in no chart: it bounds the disk and both holes.
+\newcommand{\cylR}{1.55}
+\newcommand{\cylC}{0.24}
+\newcommand{\cylS}{0.50}
+\newcommand{\cylP}{3.20}   % the picture cuts the cylinder at p_theta = +-\cylP
+\newcommand{\cylA}{30}
+\pgfmathdeclarefunction{cylx}{1}{\pgfmathparse{\cylR*sin((#1)+\cylA)}}
+\pgfmathdeclarefunction{cyly}{2}{\pgfmathparse{-\cylC*\cylR*cos((#1)+\cylA)+\cylS*(#2)}}
+% separatrix branch |p| = 2|cos(u/2)|; the orbit R, |p| = sqrt(2(2 + cos u)); C at H = -0.7
+\pgfmathdeclarefunction{sepp}{1}{\pgfmathparse{2*abs(cos((#1)/2))}}
+\pgfmathdeclarefunction{rotp}{1}{\pgfmathparse{sqrt(2*(2+cos(#1)))}}
+\pgfmathdeclarefunction{libp}{1}{\pgfmathparse{sqrt(max(0,2*(-0.7+cos(#1))))}}
+\def\tlib{45.57}
+% front of the cylinder: u in [-120, 60]
+\def\fa{-120} \def\fb{60}
+
+\newcommand{\s}{0.50}
+\pgfmathdeclarefunction{arad}{1}{\pgfmathparse{\s*sqrt((#1)/pi)}}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,font=\footnotesize,
+  hidden/.style={dash pattern=on 2.2pt off 2.2pt,opacity=0.4},
+  notin/.style={sep,thick,dash pattern=on 2.5pt off 1.8pt},
+  cut/.style={fg!35!bg,densely dotted},
+  map/.style={->,fg!55!bg,thick,shorten >=3pt,shorten <=2pt},
+  hole/.style={pattern=north east lines,pattern color=fg!30!bg},
+  chname/.style={font=\small,anchor=north}]
+
+% ===========================================================================
+% M, with the three chart domains shaded (front side only)
+% ===========================================================================
+\begin{scope}
+  \fill[up!16!bg]
+    plot[domain=\fa:\fb,samples=80,smooth] ({cylx(\x)},{cyly(\x,\cylP)})
+    -- plot[domain=\fb:\fa,samples=80,smooth] ({cylx(\x)},{cyly(\x,sepp(\x))}) -- cycle;
+  \fill[lib!16!bg]
+    plot[domain=\fa:\fb,samples=80,smooth] ({cylx(\x)},{cyly(\x,sepp(\x))})
+    -- plot[domain=\fb:\fa,samples=80,smooth] ({cylx(\x)},{cyly(\x,-sepp(\x))}) -- cycle;
+  \fill[rot!16!bg]
+    plot[domain=\fa:\fb,samples=80,smooth] ({cylx(\x)},{cyly(\x,-sepp(\x))})
+    -- plot[domain=\fb:\fa,samples=80,smooth] ({cylx(\x)},{cyly(\x,-\cylP)}) -- cycle;
+  % outline: dotted cut circles, silhouette
+  \draw[cut] plot[domain=0:360,samples=120,smooth] ({cylx(\x)},{cyly(\x,\cylP)});
+  \draw[cut] plot[domain=\fa:\fb,samples=80,smooth] ({cylx(\x)},{cyly(\x,-\cylP)});
+  \draw[cut,hidden] plot[domain=\fb:240,samples=80,smooth] ({cylx(\x)},{cyly(\x,-\cylP)});
+  \draw[fg!30!bg] ({-\cylR},{cyly(-120,-\cylP)}) -- ({-\cylR},{cyly(-120,\cylP)});
+  \draw[fg!30!bg] ({\cylR},{cyly(60,-\cylP)}) -- ({\cylR},{cyly(60,\cylP)});
+  % the separatrix, in no chart
+  \foreach \sg in {1,-1}{
+    \draw[notin] plot[domain=\fa:\fb,samples=90,smooth] ({cylx(\x)},{cyly(\x,\sg*sepp(\x))});
+    \draw[notin,hidden] plot[domain=\fb:240,samples=90,smooth] ({cylx(\x)},{cyly(\x,\sg*sepp(\x))});
+  }
+  % the orbits C, R and its mirror image
+  \draw[up,thick] plot[domain=\fa:\fb,samples=90,smooth] ({cylx(\x)},{cyly(\x,rotp(\x))});
+  \draw[up,thick,hidden] plot[domain=\fb:240,samples=90,smooth] ({cylx(\x)},{cyly(\x,rotp(\x))});
+  \draw[rot,thick] plot[domain=\fa:\fb,samples=90,smooth] ({cylx(\x)},{cyly(\x,-rotp(\x))});
+  \draw[rot,thick,hidden] plot[domain=\fb:240,samples=90,smooth] ({cylx(\x)},{cyly(\x,-rotp(\x))});
+  \draw[lib,thick]
+    plot[domain=-90:90,samples=90,smooth] ({cylx(\tlib*sin(\x))},{cyly(\tlib*sin(\x),libp(\tlib*sin(\x)))})
+    -- plot[domain=90:-90,samples=90,smooth] ({cylx(\tlib*sin(\x))},{cyly(\tlib*sin(\x),-libp(\tlib*sin(\x)))})
+    -- cycle;
+  % labels
+  \node[up,anchor=south] at ({cylx(-20)},{cyly(-20,rotp(-20))}) {$R$};
+  \node[lib] at ({cylx(-75)},{cyly(-75,0)}) {$L$};
+  \node[up] at ({cylx(-75)},{cyly(-75,2.75)}) {$R_+$};
+  \node[rot] at ({cylx(-75)},{cyly(-75,-2.75)}) {$R_-$};
+  \node[lib,anchor=west] at ({cylx(40)},{cyly(40,0.25)}) {$C$};
+  \node[sep,anchor=west,align=left] at ({\cylR+0.05},{cyly(60,1.0)}) {$\ell$, in no\\ chart};
+  \node[anchor=east] at ({-\cylR-0.15},{cyly(-120,1.6)}) {$\mathcal{M}$};
+  % points of the domains the arrows start from
+  \coordinate (mU) at ({cylx(10)},{cyly(10,2.95)});
+  \coordinate (mL) at ({cylx(-20)},{cyly(-20,-0.55)});
+  \coordinate (mD) at ({cylx(10)},{cyly(10,-2.95)});
+  \foreach \c in {mU,mL,mD} \fill[fg!70!bg] (\c) circle (1.3pt);
+\end{scope}
+
+% ===========================================================================
+% the three chart images, at true area
+% ===========================================================================
+\def\iy{-4.75}
+% R_- : outside of a hole of area 8
+\begin{scope}[shift={(-4.4,\iy)}]
+  \fill[rot!16!bg] (0,0) circle ({arad(24)});
+  \fill[bg] (0,0) circle ({arad(8)});
+  \fill[hole] (0,0) circle ({arad(8)});
+  \draw[rot,thick] (0,0) circle ({arad(12.357)});
+  \draw[notin] (0,0) circle ({arad(8)});
+  \draw[cut] (0,0) circle ({arad(24)});
+  \node[fill=bg,inner sep=1pt] at (0,0) {$a_0=8$};
+  \node[sep,fill=bg,inner sep=1pt] at (0,0.42) {$\ell_-$};
+  \coordinate (iD) at (65:{arad(24)});
+  \node[chname] at (0,{-arad(24)-0.1}) {$\chi_-(R_-)$};
+\end{scope}
+% L : a disk of area 16
+\begin{scope}[shift={(0,\iy)}]
+  \fill[lib!16!bg] (0,0) circle ({arad(16)});
+  \draw[lib,thick] (0,0) circle ({arad(1.9225)});
+  \draw[notin] (0,0) circle ({arad(16)});
+  \fill[lib] (0,0) circle (1.3pt);
+  \node[lib] at (0,0.62) {$16$};
+  \node[sep,anchor=north east] at (-135:{arad(16)}) {$\ell$};
+  \coordinate (iL) at (90:{arad(16)});
+  \node[chname] at (0,{-arad(24)-0.1}) {$\chi_L(L)$};
+\end{scope}
+% R_+ : the same
+\begin{scope}[shift={(4.4,\iy)}]
+  \fill[up!16!bg] (0,0) circle ({arad(24)});
+  \fill[bg] (0,0) circle ({arad(8)});
+  \fill[hole] (0,0) circle ({arad(8)});
+  \draw[up,thick] (0,0) circle ({arad(12.357)});
+  \draw[notin] (0,0) circle ({arad(8)});
+  \draw[cut] (0,0) circle ({arad(24)});
+  \node[fill=bg,inner sep=1pt] at (0,0) {$a_0=8$};
+  \node[sep,fill=bg,inner sep=1pt] at (0,0.42) {$\ell_+$};
+  \node[up,anchor=south west] at (40:{arad(12.357)}) {$R$};
+  \coordinate (iU) at (115:{arad(24)});
+  \node[chname] at (0,{-arad(24)-0.1}) {$\chi_+(R_+)$};
+\end{scope}
+
+\draw[map] (mU) to[out=0,in=100] node[pos=0.55,anchor=west] {$\chi_+$} (iU);
+\draw[map] (mL) to[out=-100,in=90] node[pos=0.8,anchor=east] {$\chi_L$} (iL);
+\draw[map] (mD) to[out=200,in=80] node[pos=0.45,anchor=south] {$\chi_-$} (iD);
+\end{tikzpicture}
+\end{document}
