@@ -1,0 +1,70 @@
+% Two implications between `the solution is approximated well' and `the structure is preserved'.
+% The top arrow is the one that fails -- explicit Euler is first order and accurate, and its orbit
+% still spirals out -- so it is dashed and struck through. The bottom arrow is the one that holds
+% -- symplectic Euler, FEEC -- so it is drawn solid. The two thumbnails are drawn at icon size, as
+% in two-directions.
+\documentclass[tikz]{standalone}
+
+\usepackage{amsmath}
+\usetikzlibrary{positioning, calc, arrows.meta}
+\usepackage{geometricfigures}
+
+% --- the two thumbnails inside the boxes ------------------------------------
+% Left: over a short interval the numerical dots sit on the exact curve -- what an error
+% estimate sees.  Right: a closed orbit that stays closed -- what an error estimate does
+% not see.  Both are \tikz boxes on a text baseline, not pictures of their own.
+\newcommand{\minifit}{%
+  \tikz[baseline=-.6ex]{%
+    \draw[mblue, line width=.8pt] plot[domain=0:2.1, samples=40, smooth]
+        (\x, {0.26*sin(180*\x)});
+    \foreach \x in {0, 0.35, 0.7, 1.05, 1.4, 1.75, 2.1} {%
+      \fill[mred] (\x, {0.26*sin(180*\x)}) circle (1.1pt);}%
+  }%
+}
+\newcommand{\miniorbit}{%
+  \tikz[baseline=-.6ex]{%
+    \draw[mgreen, line width=.8pt, -{Stealth[length=3.5pt]}]
+        (0.42,0) arc (0:335:0.42 and 0.27);
+    \fill[mgreen] (0,0) circle (.8pt);
+  }%
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    box/.style={draw, very thick, rounded corners, align=center, inner sep=6pt,
+                text width=5.3cm},
+    lab/.style={align=center, font=\small},
+]
+
+  % The bounding box, pinned: the picture's own natural box, -82.00 .. 406.36 pt by
+  % -31.96 .. 35.61 pt, in cm.
+  \path[use as bounding box] (-2.885,-1.125) rectangle (14.285,1.252);
+
+  \node[box, draw=mblue] (sol) at (0,0) {%
+    \textbf{the solution approximated}\\[.4em]
+    \minifit\ \ {\footnotesize$\|u - u_h\| \to 0$}};
+
+  \node[box, draw=mgreen] (str) at (11.4,0) {%
+    \textbf{the structure preserved}\\[.4em]
+    \miniorbit\ \ {\footnotesize$\psi_h^*\omega = \omega$,\ \ $d\,\Lambda^k_h \subseteq \Lambda^{k+1}_h$}};
+
+  % The four ends of the two arrows, as coordinates.
+  \coordinate (rA) at ([yshift=5.5mm]sol.east);   % red: from the solution box
+  \coordinate (rB) at ([yshift=5.5mm]str.west);   %      to the structure box
+  \coordinate (gA) at ([yshift=-5.5mm]str.west);  % green: from the structure box
+  \coordinate (gB) at ([yshift=-5.5mm]sol.east);  %      back to the solution box
+
+  % the implication that fails -- dashed, and struck through at its midpoint
+  \draw[mred, dashed, line width=1.5pt, -{Stealth[length=7pt,width=6pt]}] (rA) -- (rB);
+
+  % the implication that holds
+  \draw[mgreen, line width=1.5pt, -{Stealth[length=7pt,width=6pt]}] (gA) -- (gB);
+
+  % The cross and the two labels, on undrawn copies of the same two segments.
+  \path (rA) --
+      node[pos=.5, fill=bg, inner sep=1pt, font=\Large]{\color{mred}$\boldsymbol{\times}$}
+      node[pos=.5, above=5pt, lab, text=mred]{does \textit{not} imply} (rB);
+  \path (gA) -- node[pos=.5, below=3pt, lab, text=mgreen]{often leads to} (gB);
+
+\end{tikzpicture}
+\end{document}

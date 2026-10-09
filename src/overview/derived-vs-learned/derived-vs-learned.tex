@@ -1,0 +1,84 @@
+% Derived and learned methods, without and with structure:
+%
+%                 derived (Part I)      learned (Part II)
+%   no structure  explicit Euler        plain network        -> energy drifts
+%   structure     symplectic Euler      HNN / SympNet        -> energy bounded
+%
+% The right-hand icons are the thumbnails of solution-vs-structure (a spiralling orbit and a
+% closed one). The row bands are fitted to the row content over one span, so that both bands are
+% the same width, and painted on a background layer, so that the text sits on top of them.
+\documentclass[tikz]{standalone}
+
+\usepackage{amsmath}
+\usetikzlibrary{positioning, calc, arrows.meta, fit}
+\usepackage{geometricfigures}
+
+% the bands go behind the text, so they are painted on their own layer
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+% --- the two thumbnails ------------------------------------------------------
+\newcommand{\minispiral}{%
+  \tikz[baseline=-.6ex]{%
+    \draw[mred, line width=.8pt, -{Stealth[length=3.5pt]}]
+        plot[domain=0:720, samples=130, smooth, variable=\t]
+        ({(0.05+0.0005*\t)*cos(\t)}, {(0.032+0.00032*\t)*sin(\t)});
+    \fill[mred] (0.05,0) circle (.8pt);
+  }%
+}
+\newcommand{\miniorbit}{%
+  \tikz[baseline=-.6ex]{%
+    \draw[mgreen, line width=.8pt, -{Stealth[length=3.5pt]}]
+        (0.42,0) arc (0:335:0.42 and 0.27);
+    \fill[mgreen] (0,0) circle (.8pt);
+  }%
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    cell/.style={align=center, font=\small, minimum height=8mm, inner sep=3pt},
+    head/.style={align=center, font=\small\bfseries, inner sep=3pt},
+    rowlab/.style={align=right, font=\small\itshape, inner sep=3pt},
+    band/.style={rounded corners=2pt, draw=none},
+]
+
+  % --- geometry ---------------------------------------------------------------
+  \def\cA{2.55}   % column 1 centre (derived)
+  \def\cB{6.35}   % column 2 centre (learned)
+  \def\cC{9.85}   % column 3 centre (what comes out)
+  \def\rA{0}      % row 1 (no structure)
+  \def\rB{-1.15}  % row 2 (structure)
+
+  % --- column heads -----------------------------------------------------------
+  \node[head] at (\cA, 0.95) {derived \ {\normalfont\footnotesize(Part I)}};
+  \node[head] at (\cB, 0.95) {learned \ {\normalfont\footnotesize(Part II)}};
+
+  % --- row 1: no structure ----------------------------------------------------
+  \node[rowlab, anchor=east, text=mred] (r1lab) at (0.95, \rA) {no structure};
+  \node[cell] at (\cA, \rA) {explicit Euler};
+  \node[cell] at (\cB, \rA) {plain neural network};
+  \node[cell, anchor=west] (r1end) at (8.35, \rA)
+       {\minispiral\ \ {\footnotesize\color{mred}the energy drifts}};
+
+  % --- row 2: structure -------------------------------------------------------
+  \node[rowlab, anchor=east, text=mgreen] (r2lab) at (0.95, \rB) {structure};
+  \node[cell] at (\cA, \rB) {symplectic Euler};
+  \node[cell] at (\cB, \rB) {HNN \,/\, SympNet};
+  \node[cell, anchor=west] (r2end) at (8.35, \rB)
+       {\miniorbit\ \ {\footnotesize\color{mgreen}the energy stays bounded}};
+
+  % --- the span the two bands and the rule share ------------------------------
+  % Both rows, so that a long row does not make its own band longer than the other's.
+  % The 5 pt is the only number here: it is the air the text keeps at either end.
+  \node[fit=(r1lab)(r1end)(r2lab)(r2end), inner xsep=5pt, inner ysep=0pt,
+        draw=none, fill=none] (span) {};
+
+  \draw[fg!30!bg, line width=.5pt] (span.west |- 0,0.58) -- (span.east |- 0,0.58);
+
+  \begin{pgfonlayer}{background}
+    \fill[mred!7!bg,   band] (span.west |- 0,{\rA-0.42}) rectangle (span.east |- 0,{\rA+0.42});
+    \fill[mgreen!8!bg, band] (span.west |- 0,{\rB-0.42}) rectangle (span.east |- 0,{\rB+0.42});
+  \end{pgfonlayer}
+
+\end{tikzpicture}
+\end{document}

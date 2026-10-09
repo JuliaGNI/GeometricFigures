@@ -444,3 +444,34 @@ caption = "The de Rham complex and its finite element subcomplex, joined by coch
 name = "feec-nn-swap"
 topic = "feec"
 caption = "Where a neural network can go in a finite element method: learning the basis loses the subcomplex, learning the Hodge star keeps d and the cohomology."
+
+# The overview diagrams of the talk "Geometric Machine Learning" (LMU, September 2026).
+[[figure]]
+name = "numerics-triangle"
+topic = "overview"
+caption = "Experiment, theory and simulation, with an arrow each way between every two of them; the arrow from theory to simulation, discretisation, is highlighted."
+
+[[figure]]
+name = "two-directions"
+topic = "overview"
+caption = "Machine learning and scientific computing: networks that solve differential equations and respect their structure, and numerics on manifolds that improves the learning machinery."
+
+[[figure]]
+name = "solution-vs-structure"
+topic = "overview"
+caption = "Approximating the solution well does not imply preserving the structure, while preserving the structure often leads to a good approximation of the solution."
+
+[[figure]]
+name = "derived-vs-learned"
+topic = "overview"
+caption = "Derived and learned methods without and with structure: explicit Euler and a plain network let the energy drift, symplectic Euler and HNNs or SympNets keep it bounded."
+
+[[figure]]
+name = "mathematical-landscape"
+topic = "overview"
+caption = "The mathematics of geometric machine learning: differential geometry, numerics and structure preservation feeding SympNets and symplectic autoencoders."
+
+[[figure]]
+name = "juliagni-ecosystem"
+topic = "overview"
+caption = "The main registered JuliaGNI packages as a dependency graph, from GeometricBase.jl to GeometricMachineLearning.jl, with their latest versions as of 5 October 2026."
