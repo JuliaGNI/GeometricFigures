@@ -1,0 +1,92 @@
+% The projection pi: G -> M of a homogeneous space, its fibres H = pi^{-1}(E) and
+% H_Y = pi^{-1}(Y), and a section lambda.
+%
+% The pgfplots `axis' is wrapped in its own `tikzpicture': nested directly inside a \node, the
+% axis is measured differently by xelatex and by pdflatex, and under xelatex the surface was
+% drawn off the bounding box and clipped away. With the wrapper the two engines agree.
+% $\mathcal{M}$ is placed absolutely, not relative to `M_plot', for the same reason.
+\documentclass[tikz, border=10pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{positioning, shapes.geometric, calc, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    scale=1.4,
+    arrow/.style={->, >=Stealth, thick},
+    fiber/.style={draw, color=mred!70, very thick},
+    section/.style={draw=mblue, thick, ->, >=Stealth},
+    torus/.style={ellipse, draw, fill=mgreen!20!bg, minimum width=4cm, minimum height=2.8cm}
+]
+    % --- Lie Group G (Drawn as a Torus Node) ---
+    \node[torus, label={[name=G_label, yshift=-1.2cm, xshift=-1.7cm]$G$}] (G) at (0,4) {};
+    \draw[fill=bg] (G.center) ellipse (0.8cm and 0.4cm);
+
+    \node (M_plot) at (-0.839, 1.031) {
+        \begin{tikzpicture}
+        \begin{axis}[
+        view={-30}{30}, % Adjust the view for better visibility
+        colormap/viridis, % Use the viridis colormap
+        hide axis,
+    ]
+        % (ii) Plot the 2D manifold with the Julia-like (viridis) colormap
+        \addplot3[
+            surf,
+            shader=interp,
+            domain=-5:5,
+            y domain=-5:5,
+            samples=50,
+            opacity=0.9,
+            axis line style={draw=none},
+            tick style={draw=none},
+        ]{sin(deg(.5*x)) * cos(deg(.5*y))};
+
+    \end{axis}
+        \end{tikzpicture}%
+    };
+    \coordinate (E_coord) at (-1.5, 1.1);
+    \coordinate (Y_coord) at (.9, 1.4);
+    % --- Place labels and points using the exported coordinates ---
+    \node[right=1pt, color=mred] at (E_coord) {$E$};
+    \node[above=1pt, color=mred] at (Y_coord) {$Y$};
+    \fill[fg] (E_coord) circle (1pt);
+    \fill[fg] (Y_coord) circle (1pt);
+    \node at (-2.383, 0.952) {$\mathcal{M}$};
+
+    \draw[arrow, shorten >=4mm, shorten <=2mm] (G) -- (E_coord) 
+          node[midway, right, xshift=-1mm] {$\pi$};
+
+    \draw[fiber] ($(G.south)+(-0.6, .15)$) to[bend left=10] ($(G.south)+(0.6, .15)$);
+    % shifted right of centre: the lambda(Y)^{-1} arc comes down the left-hand side of
+    % the torus and lands on this fibre's left tip, where the centred label used to be.
+    \node[color=mred!70, above=1.5mm of G.south, xshift=3.5mm] {$H = \pi^{-1}(E)$};
+
+    \coordinate (fiberY_start) at ($(G.center)+(-0.3, 0.4)$);
+    \coordinate (fiberY_end) at ($(fiberY_start)+(1.2,0.1)$);
+    \draw[fiber] (fiberY_start) to[bend left=15] (fiberY_end);
+    \coordinate (fiberY_midpoint) at ($(G.center)+(0.3, 0.5)$);
+    \node[color=mred!70, above=-1mm of fiberY_midpoint, xshift=-3mm] {$H_Y = \pi^{-1}(Y)$};
+    
+    \coordinate (lambdaY_pos) at ($(fiberY_start)!0.5!(fiberY_end)+(0.0,0.1)$);
+    \node[circle, fill, inner sep=1.2pt] at (lambdaY_pos) {};
+    \draw[section] (Y_coord) to[bend left=-40] 
+          node[midway, left, xshift=1mm] {$\lambda$} (lambdaY_pos);
+    \node[right=1pt of lambdaY_pos, color=mblue, yshift=-5.5mm, xshift=-4mm] {$\lambda(Y)$};
+
+    % What lambda(Y) is for: the two fibres are
+    % the same set up to left translation, H_Y = lambda(Y) H, so lambda(Y)^{-1} carries
+    % H_Y onto the one fixed fibre H.  That is the move the section exists to make.
+    % The arc runs down the LEFT of the hole, between it and the G label: straight down is
+    % the hole, and the right-hand channel is already carrying the solid lambda arrow up
+    % from Y.  Its own label sits in the hole, the one piece of empty white in the figure.
+    \draw[section, dashed, shorten <=1.5pt, shorten >=1.5pt]
+        ($(fiberY_start)+(-0.02,-0.04)$) to[bend right=45]
+        node[pos=.5, anchor=west, xshift=1mm, font=\small, color=mblue,
+             fill=bg, fill opacity=.75, text opacity=1, inner sep=1pt]
+            {$\lambda(Y)^{-1}$}
+        ($(G.south)+(-0.56,0.19)$);
+
+\end{tikzpicture}
+\end{document}

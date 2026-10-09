@@ -1,0 +1,74 @@
+\documentclass[tikz]{standalone}
+\usepackage{geometricfigures}
+
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{calc}
+
+\begin{document}
+\begin{tikzpicture}[
+                remember picture, % Enable referencing nodes from this tikzpicture later
+                arrow/.style={->, >=Stealth, thick},
+            ]
+
+           \begin{axis}[
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        view={-30}{30}, % Adjust the view for better visibility
+        colormap/viridis,
+        hide axis,
+    ]
+        % --- Tangent Plane Definitions ---
+        % Define the point 'a'
+        \pgfmathsetmacro{\xa}{-4}
+        \pgfmathsetmacro{\ya}{4}
+        \pgfmathsetmacro{\za}{sin(deg(-2)) * cos(deg(2))}
+
+        % Calculate partial derivatives at point 'a'
+        % f(x,y) = sin(0.5x) * cos(0.5y)
+        % df/dx = 0.5 * cos(0.5x) * cos(0.5y)
+        % df/dy = -0.5 * sin(0.5x) * sin(0.5y)
+        \pgfmathsetmacro{\fx}{0.08658909478409703}
+        \pgfmathsetmacro{\fy}{0.413410905215903}
+
+        % --- Plot the Tangent Plane at 'a' ---
+        \addplot3[
+            surf,
+            domain=\xa-3:\xa+3,   % Small domain around 'a'
+            y domain=\ya-3:\ya+3,
+            samples=3,              % Low samples to make it look like a plane
+            color=mblue,
+            opacity=0.3,
+            z buffer=sort, % Ensures correct drawing order with transparency
+        ] {\za + \fx*(x - \xa) + \fy*(y - \ya)};
+        
+        % Add a label for the tangent space
+        \node[above right, color=mblue, font=\large] at (axis cs:{\xa-1.5},{\ya+1.5},{\za + \fx*(-1.5) + \fy*(1.5)}) {$T_Y\mathcal{M}$};
+
+        % --- Plot points a and b ---
+        \addplot3[only marks, mark=*, mark size=3pt, color=mred] coordinates {
+            (\xa, \ya, \za)  % Point a
+        };
+        
+        % Add labels to the points
+        \node[above right, color=mred] at (axis cs:\xa,\ya,\za) {$Y$};
+        \node[above right, color=fg] at (axis cs:4,-4,-.8) {$\mathcal{M}$};
+
+        % --- Plot a tangent vector v on the plane ---
+        \pgfmathsetmacro{\dx}{2.0} % Define vector components
+        \pgfmathsetmacro{\dy}{-2.0}
+        \addplot3[
+            ->, % Make it an arrow
+            color=morange,
+            very thick,
+        ] coordinates {
+            (\xa, \ya, \za) 
+            ({\xa+\dx}, {\ya+\dy}, {\za + -0.6536436208636119})
+        };
+        \node[above, color=morange, xshift=2mm] at (axis cs:{\xa+\dx},{\ya+\dy},{\za + \fx*\dx + \fy*\dy}) {$v$};
+
+    \end{axis}
+    \end{tikzpicture}
+\end{document}
