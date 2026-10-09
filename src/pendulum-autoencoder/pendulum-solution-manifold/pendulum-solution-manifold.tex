@@ -1,0 +1,119 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+
+% M is drawn through the projection R^4 -> R^3, x |-> (x_1,x_2,x_2x_3-x_1x_4),
+% which restricts to M as (sin t, cos t, p_theta): the round cylinder. That is
+% put on the page with u = theta - pi as
+%   X(u) = R sin u,   Y(u,p) = -c R cos u + s p,
+% so u=0 (the stable equilibrium) is at the front and u=+-pi at the back.
+\newcommand{\cylR}{2.25}   % radius on the page
+\newcommand{\cylC}{0.40}   % foreshortening of the circle
+\newcommand{\cylS}{0.80}   % scale of the p_theta axis
+\newcommand{\cylP}{3.25}   % where the picture cuts the (unbounded) cylinder
+\pgfmathdeclarefunction{cylx}{1}{\pgfmathparse{\cylR*sin(#1)}}
+\pgfmathdeclarefunction{cyly}{2}{\pgfmathparse{-\cylC*\cylR*cos(#1)+\cylS*(#2)}}
+\pgfmathdeclarefunction{cylorb}{2}{\pgfmathparse{sqrt(max(0,2*((#2)+cos(#1))))}}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  hidden/.style={dash pattern=on 2.2pt off 2.2pt,opacity=0.38}]
+
+  % --- the cylinder: body, the two cut rims, the silhouette -----------------
+  \fill[fg!4!bg]
+    plot[domain=-90:90,samples=60,smooth] ({cylx(\x)},{cyly(\x,-\cylP)})
+    -- plot[domain=90:270,samples=60,smooth] ({cylx(\x)},{cyly(\x,\cylP)})
+    -- cycle;
+  \draw[fg!25!bg,densely dotted]
+    plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,\cylP)});
+  \draw[fg!25!bg,densely dotted]
+    plot[domain=-180:180,samples=140,smooth] ({cylx(\x)},{cyly(\x,-\cylP)});
+  \draw[fg!25!bg] ({-\cylR},{-\cylS*\cylP}) -- ({-\cylR},{\cylS*\cylP});
+  \draw[fg!25!bg] ({\cylR},{-\cylS*\cylP}) -- ({\cylR},{\cylS*\cylP});
+
+  % --- far side of the cylinder, dashed ------------------------------------
+  \draw[rot,thick,hidden] plot[domain=90:270,samples=110,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.55))});
+  \draw[rot,thick,hidden] plot[domain=90:270,samples=110,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.55))});
+  \draw[rot,thick,hidden] plot[domain=90:270,samples=110,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,2.60))});
+  \draw[rot,thick,hidden] plot[domain=90:270,samples=110,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,2.60))});
+  \draw[sep,very thick,hidden] plot[domain=90:270,samples=140,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))});
+  \draw[sep,very thick,hidden] plot[domain=90:270,samples=140,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))});
+  % the outermost librating loop reaches a little past the silhouette
+  \draw[lib,thick,hidden]
+    plot[domain=90:116.74,samples=34,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,0.45))})
+    -- plot[domain=116.74:90,samples=34,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,0.45))});
+  \draw[lib,thick,hidden]
+    plot[domain=-90:-116.74,samples=34,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,0.45))})
+    -- plot[domain=-116.74:-90,samples=34,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,0.45))});
+
+  % --- near side ------------------------------------------------------------
+  % librating: three level sets; the innermost is shaded with the disk it bounds
+  \fill[lib!14!bg]
+    plot[domain=-53.13:53.13,samples=60,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,-0.60))})
+    -- plot[domain=53.13:-53.13,samples=60,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,-0.60))}) -- cycle;
+  \draw[lib,thick]
+    plot[domain=-53.13:53.13,samples=60,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,-0.60))})
+    -- plot[domain=53.13:-53.13,samples=60,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,-0.60))}) -- cycle;
+  \draw[lib,thick]
+    plot[domain=-75.52:75.52,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,-0.25))})
+    -- plot[domain=75.52:-75.52,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,-0.25))}) -- cycle;
+  \draw[lib,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,0.45))});
+  \draw[lib,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,0.45))});
+  % separatrix
+  \draw[sep,very thick] plot[domain=-90:90,samples=110,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.0))});
+  \draw[sep,very thick] plot[domain=-90:90,samples=110,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.0))});
+  % rotating
+  \draw[rot,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,1.55))});
+  \draw[rot,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,1.55))});
+  \draw[rot,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,cylorb(\x,2.60))});
+  \draw[rot,thick] plot[domain=-90:90,samples=80,smooth] ({cylx(\x)},{cyly(\x,-cylorb(\x,2.60))});
+
+  % --- the two equilibria ---------------------------------------------------
+  \fill[sep] (0,{\cylC*\cylR}) circle (1.7pt);
+  \node[sep,font=\footnotesize,anchor=east,inner sep=1.5pt,
+        fill=bg,fill opacity=0.82,text opacity=1] at (-0.13,{\cylC*\cylR}) {$\theta{=}0$};
+  \fill[lib] (0,{-\cylC*\cylR}) circle (1.7pt);
+  \node[lib,font=\footnotesize,anchor=west,inner sep=1.5pt,
+        fill=bg,fill opacity=0.82,text opacity=1] at (0.13,{-\cylC*\cylR}) {$\theta{=}\pi$};
+
+  % name the two separatrix branches where they cross the left silhouette
+  \node[sep,font=\footnotesize,anchor=east,inner sep=1.5pt,
+        fill=bg,fill opacity=0.82,text opacity=1]
+    at (-2.30,{\cylS*1.4142}) {$\ell_+$};
+  \node[sep,font=\footnotesize,anchor=east,inner sep=1.5pt,
+        fill=bg,fill opacity=0.82,text opacity=1]
+    at (-2.30,{-\cylS*1.4142}) {$\ell_-$};
+
+  % --- the two directions ---------------------------------------------------
+  \draw[->,fg!50!bg] (2.85,0.15) -- (2.85,1.35)
+    node[above,font=\small,fg,inner sep=1pt] {$p_\theta$};
+  \draw[->,fg!50!bg] plot[domain=-34:34,samples=26,smooth] ({cylx(\x)},{cyly(\x,-\cylP)});
+  \node[font=\small,fg!70!bg,anchor=north] at (0,{-\cylC*\cylR-\cylS*\cylP-0.05}) {$\theta$};
+
+  % --- what the picture says ------------------------------------------------
+  \node[anchor=east,text width=4.5cm,align=right,font=\small] at (-3.3,2.3)
+    {$\mathcal{M}\subset\mathbb{R}^4$: the solution manifold, the image of the cotangent lift.
+     It is a cylinder $S^1\times\mathbb{R}$, drawn here in $\mathbb{R}^3$ --- see the caption.};
+  \node[anchor=east,text width=4.5cm,align=right,font=\small] at (-3.3,-1.35)
+    {\textcolor{lib}{\textbf{librating}}, $H<1$: a loop that \emph{bounds} in $\mathcal{M}$.
+     $\oint p_\theta\,d\theta$ is the symplectic area of the disk it encircles, so every symplectic chart
+     must report the same number.};
+  \node[anchor=west,text width=4.5cm,align=left,font=\small] at (3.3,2.15)
+    {\textcolor{rot}{\textbf{rotating}}, $H>1$: a loop that runs \emph{around} the cylinder.
+     It bounds no surface in $\mathcal{M}$; its action uses the canonical one-form
+     $p_\theta\,d\theta$, independently of the chart.};
+  \node[anchor=west,text width=4.5cm,align=left,font=\small] at (3.3,-2.05)
+    {\textcolor{sep}{\textbf{separatrix}}, $H=1$: the two branches $\ell_\pm$, labelled by the
+     sign of $p_\theta$, each with action $+8$ along the flow. They meet at the unstable
+     equilibrium $\theta=0$.};
+\end{tikzpicture}
+\end{document}
