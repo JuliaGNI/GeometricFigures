@@ -1,0 +1,47 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,patterns}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+\definecolor{up}{HTML}{7A5AA8}
+
+% The errors an embedding can make on the two training orbits nearest the separatrix, on the paper's grid.
+% x: how far the latent action of the librating orbit at H_L falls short of J_L; y: how far that of
+% the rotating orbit at H_R exceeds J_R, both in percent. An embedding needs
+% J_R (1 + y) > J_L (1 - x), the region above the edge from (0, J_L/J_R - 1) to (1 - J_R/J_L, 0);
+% the hatched triangle below it is excluded at any width, depth and training length. The edge
+% meets the diagonal at (eps*, eps*), the even split. The dot is current weights, measured.
+%
+% >>> BEGIN GENERATED BLOCK -- generated from the trained network, do not edit by hand
+% Weights: sae_weights_current.h5
+% Grid paper: H_L = 0.9130, J_L = 14.7939, H_R = 1.5966, J_R = 10.9214. All values in percent.
+\def\edgey{35.46}
+\def\edgex{26.18}
+\def\epsstar{15.06}
+\def\runshort{17.14}
+\def\runexcess{55.31}
+% <<< END GENERATED BLOCK
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm,height=6.4cm,
+  xmin=0,xmax=100,ymin=0,ymax=100,
+  xlabel={librating shortfall at $H_L$ (\%)},ylabel={rotating excess at $H_R$ (\%)},
+  axis lines=left,tick label style={font=\footnotesize},label style={font=\small},
+  xtick={0,25,50,75,100},ytick={0,25,50,75,100}]
+  \fill[pattern=north east lines,pattern color=fg!40!bg] (axis cs:0,0) -- (axis cs:0,\edgey) -- (axis cs:\edgex,0) -- cycle;
+  \draw[fg!70!bg,thick] (axis cs:0,\edgey) -- (axis cs:\edgex,0);
+  \draw[fg!35!bg,dotted] (axis cs:0,0) -- (axis cs:100,100);
+  \fill[fg!70!bg] (axis cs:\epsstar,\epsstar) circle (1.6pt);
+  \node[font=\footnotesize,anchor=west,xshift=2pt] at (axis cs:\epsstar,\epsstar) {$(\varepsilon_*,\varepsilon_*)$};
+  \fill[net] (axis cs:\runshort,\runexcess) circle (2.2pt);
+  \node[font=\footnotesize,net,anchor=south west] at (axis cs:\runshort,\runexcess) {measured};
+\end{axis}
+\end{tikzpicture}
+\end{document}
