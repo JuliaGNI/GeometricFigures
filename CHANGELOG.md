@@ -96,6 +96,22 @@ package's site.
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
 
+* **In the dark theme `bg` is `#1F2424`, the page background of Documenter's `documenter-dark`
+  theme, no longer black.** The figures are transparent, so `bg` shows only where a source fills
+  with it or mixes a colour with it: a label mask, an open marker, a grey `fg!<p>!bg`, a tint
+  `<colour>!<p>!bg`. On a `documenter-dark` page those were pitch-black patches; now a mask is the
+  page colour. The value is the `background-color` of `html.theme--documenter-dark` in
+  Documenter's `assets/html/themes/documenter-dark.css` (every release from 1.8.1 to 1.19.0).
+  `fg` stays white, which is also that theme's text colour. Every light render is byte-identical
+  to before. Eight dark renders change: the open markers of the six projection figures of
+  `integrators`, the text on the central node of `solver`, and the grey fill of `vp-transformer`,
+  which is lighter and no longer pixel-identical to GeometricMachineLearning's dark original
+  (`scripts/references.toml` says so). The dark previews of the site are on `#1F2424`.
+  `scripts/check-dark.jl` now counts the opaque, unsaturated pixels darker than `bg` (HSL
+  lightness below 0.11, where `bg` has 0.13) instead of those darker than 25 % grey: with a grey
+  `bg`, a mask, a grey `fg!<p>!bg` and a tint `<colour>!<p>!bg` are as light as the page or lighter,
+  and a faint tint mixed with it has too little saturation to pass as a colour fill.
+
 * **14 figures of homogeneous spaces, Lie groups and tangent spaces from the talk *Geometric
   Machine Learning* (LMU, September 2026).** Twelve are in the topic `manifolds`:
   `homogeneous-space`, `homogeneous-space-action`, `lie-group-venn`, `lie-group`, `lie-algebra`,

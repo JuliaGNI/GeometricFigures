@@ -38,7 +38,11 @@ mkpath(TOPICS)
 html(text) = replace(text, "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
 href(f, theme, format, dpi = nothing) = UP * "figures/" * figure_path(f; theme, format, dpi)
 
-"The card of the figure `f`: the two previews, its name and caption, and the links to its files."
+"""
+The card of the figure `f`: the two previews, its name and caption, and the links to its files.
+The dark preview is on #1f2424, the page background of documenter-dark and the `bg` of the dark
+theme in `geometricfigures.sty`.
+"""
 function card(f)
     links = map(THEMES) do theme
         pngs = join(
@@ -51,7 +55,7 @@ function card(f)
            ```@raw html
            <div style="display: flex; gap: 1em;">
            <div style="flex: 1; background: white; padding: 1em;"><img src="$(href(f, "light", "svg"))" alt="$(html(f.caption)) (light)"></div>
-           <div style="flex: 1; background: black; padding: 1em;"><img src="$(href(f, "dark", "svg"))" alt="$(html(f.caption)) (dark)"></div>
+           <div style="flex: 1; background: #1f2424; padding: 1em;"><img src="$(href(f, "dark", "svg"))" alt="$(html(f.caption)) (dark)"></div>
            </div>
            <p><code>$(f.name)</code>: $(html(f.caption))</p>
            $(join(links, "\n"))
