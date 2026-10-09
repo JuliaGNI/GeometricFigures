@@ -34,6 +34,10 @@ palette. The build compiles each source twice, the
 second time with `\def\darkmode{}` prepended, so a source takes every colour that depends on the
 theme from the package and never writes `white` or `black`.
 
+A topic page lists its figures under the heading `# <topic>`. Where `docs/topic-intros/<topic>.md`
+exists, the page shows its text between the heading and the figures, for what holds for all of
+them, such as where they come from and when they must be regenerated.
+
 ## Reference
 
 ```@docs

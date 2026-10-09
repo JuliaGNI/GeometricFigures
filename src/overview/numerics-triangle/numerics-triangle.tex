@@ -1,0 +1,51 @@
+% What numerics is: experiment, theory and simulation, with an arrow each way on every side. The
+% red arrow, theory -> simulation (discretise), is the one the talk is about; everything else is
+% context for it.
+%
+% Geometry: T on top at (0,3.15), E and S on the bottom at (-4.6,0) and (4.6,0). The boxes are
+% fixed-width so that the three are the same size and the bends are symmetric; every arrow is
+% `bend left=13', which puts the two directions of a side on either side of the straight line
+% between the boxes.
+\documentclass[tikz]{standalone}
+
+\usepackage{amsmath}
+\usetikzlibrary{positioning, calc, arrows.meta, decorations.markings}
+\usepackage{geometricfigures}
+
+\begin{document}
+\begin{tikzpicture}[
+    vtx/.style={draw, very thick, rounded corners, align=center, inner sep=6pt,
+                text width=3.05cm, font=\small},
+    ar/.style={-{Stealth[length=6pt,width=5pt]}, line width=1.1pt, muted!75!bg},
+    arhot/.style={-{Stealth[length=7pt,width=6pt]}, line width=1.7pt, mred},
+    lab/.style={font=\scriptsize, align=center, inner sep=2pt},
+]
+    \node[vtx, draw=mgreen]  (E) at (-4.6,0)    {\textbf{Experiment}\\[.15em]
+        {\scriptsize what the world does}};
+    \node[vtx, draw=mblue]   (T) at (0,3.15)    {\textbf{Theory}\\[.15em]
+        {\scriptsize a continuous model:\\[-.15em] PDEs, conservation laws}};
+    \node[vtx, draw=morange] (S) at (4.6,0)     {\textbf{Simulation}\\[.15em]
+        {\scriptsize a finite computation}};
+
+    % ---- the six arrows. All six are `bend left', so the three arrows of the cycle
+    % E -> T -> S -> E bulge outwards and the three return arrows run inside the triangle. The
+    % labels are three blocks, one per side, each outside its own side, each naming both of that
+    % side's arrows; the little arrow glyph says which is which.
+    \draw[ar] (E) to[bend left=13] (T);
+    \draw[ar] (T) to[bend left=13] (E);
+    \draw[arhot] (T) to[bend left=13] (S);   % the one the talk is about
+    \draw[ar] (S) to[bend left=13] (T);
+    \draw[ar] (E) to[bend left=13] (S);
+    \draw[ar] (S) to[bend left=13] (E);
+
+    \node[lab, align=right, anchor=east] at (-3.7,2.4)
+        {$\nearrow$~what needs explaining\\[.5em]
+         $\swarrow$~what to measure next};
+    \node[lab, align=left, anchor=west] at (3.7,2.4)
+        {$\searrow$~{\color{mred}\textbf{discretise}}\\[-.1em] \textit{global weather models}\\[.5em]
+         $\nwarrow$~what the model really implies};
+    \node[lab] at (0,-1.05)
+        {$\rightarrow$~calibrate, validate~$\leftarrow$};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,115 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings,patterns,intersections,calc}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{sep}{HTML}{B03030}
+\definecolor{net}{HTML}{4E9A4E}
+
+% One set of curves on the cylinder, drawn through three charts, all symplectic and all on one
+% scale, so areas can be compared by eye across the panels.
+%   (a) the angular strip (theta, p), theta in radians;
+%   (b) the round chart with kappa = 1:
+%         (theta, p) -> rho (-cos theta, -sin theta),  rho^2/2 = a - p;
+%   (c) (b) followed by the two shears (x, y) -> (x + s y^2, y) -> (x, y + t x^2), each with
+%       Jacobian determinant 1, so (c) is symplectic as well.
+% The curves: librating H = 0.5 and H = 0.95 (bounce points at theta = arccos H), the separatrix,
+% the zero section p = 0 (the midline, dotted), and the rotating level H = 1.6 on both branches,
+% p < 0 solid, p > 0 dashed. The grey disk is inside the innermost curve drawn.
+\pgfmathsetmacro{\a}{3.2}
+\pgfmathsetmacro{\sx}{0.16}
+\pgfmathsetmacro{\sy}{0.13}
+
+% the p of each family as a function of the angle t (degrees)
+\pgfmathdeclarefunction{pl}{2}{\pgfmathparse{sqrt(max(0,2*((#2)-cos(#1))))}}
+\pgfmathdeclarefunction{ps}{1}{\pgfmathparse{2*abs(sin((#1)/2))}}
+% chart (a)
+\pgfmathdeclarefunction{ax}{2}{\pgfmathparse{rad(#1)}}
+\pgfmathdeclarefunction{ay}{2}{\pgfmathparse{#2}}
+% chart (b)
+\pgfmathdeclarefunction{bx}{2}{\pgfmathparse{-sqrt(2*(\a-(#2)))*cos(#1)}}
+\pgfmathdeclarefunction{by}{2}{\pgfmathparse{-sqrt(2*(\a-(#2)))*sin(#1)}}
+% chart (c): u = bx + sx by^2, then (u, by + sy u^2)
+\pgfmathdeclarefunction{cx}{2}{\pgfmathparse{bx(#1,#2)+\sx*by(#1,#2)*by(#1,#2)}}
+\pgfmathdeclarefunction{cy}{2}{\pgfmathparse{by(#1,#2)+\sy*cx(#1,#2)*cx(#1,#2)}}
+
+% \hole{x-chart}{y-chart}: the grey region inside the innermost curve drawn, the p > 0 rotating
+% orbit at H = 1.6; only the planar charts have one
+\newcommand{\hole}[2]{%
+  \addplot[draw=none,fill=fg!8!bg,domain=0:360] ({#1(x,pl(x,1.6))},{#2(x,pl(x,1.6))}) -- cycle;}
+% \orbits{x-chart}{y-chart}: every curve of the figure through one chart
+\newcommand{\orbits}[2]{%
+  % librating orbits: the p > 0 leg, then the p < 0 leg back
+  \foreach \H/\ta/\tb in {0.5/60/300, 0.95/18.19/341.81}{
+    \addplot[lib,thick,domain=\ta:\tb,samples=200]
+      ({#1(x,pl(x,\H))},{#2(x,pl(x,\H))});
+    \addplot[lib,thick,domain=\ta:\tb,samples=200]
+      ({#1(x,-pl(x,\H))},{#2(x,-pl(x,\H))});
+  }
+  % the midline: the zero section, through both equilibria
+  \addplot[fg!70!bg,densely dotted,thick,domain=0:360] ({#1(x,0)},{#2(x,0)});
+  % separatrix branches
+  \addplot[sep,very thick,domain=0:360] ({#1(x,ps(x))},{#2(x,ps(x))});
+  \addplot[sep,very thick,domain=0:360] ({#1(x,-ps(x))},{#2(x,-ps(x))});
+  % rotating orbits at H = 1.6
+  \addplot[rot,thick,domain=0:360] ({#1(x,-pl(x,1.6))},{#2(x,-pl(x,1.6))});
+  \addplot[rot,thick,dashed,domain=0:360] ({#1(x,pl(x,1.6))},{#2(x,pl(x,1.6))});
+  % bounce points of the two librating orbits, on the midline
+  \foreach \t in {60,300,18.19,341.81}{
+    \addplot[only marks,mark=*,mark size=1.4pt,lib] coordinates {({#1(\t,0)},{#2(\t,0)})};
+  }
+  % the stable equilibrium (theta = pi) and the unstable one P (theta = 0)
+  \addplot[only marks,mark=*,mark size=1.5pt,fg] coordinates {({#1(180,0)},{#2(180,0)})};
+  \addplot[only marks,mark=*,mark size=1.9pt,sep] coordinates {({#1(0,0)},{#2(0,0)})};
+}
+
+\begin{document}
+\begin{tikzpicture}
+\pgfplotsset{every axis/.style={x=0.62cm,y=0.62cm,hide axis,clip=false},
+  every axis plot/.append style={smooth,samples=240,variable=x}}
+
+% ---------------------------------------------------------------- (a)
+\begin{axis}[name=A,xmin=-0.1,xmax=6.4,ymin=-3.7,ymax=3.7]
+  \orbits{ax}{ay}
+  % the seam: theta = 0 and theta = 2 pi are one line of the cylinder
+  \draw[fg!35!bg] (axis cs:0,-3.1) -- (axis cs:0,3.1);
+  \draw[fg!35!bg] (axis cs:{2*pi},-3.1) -- (axis cs:{2*pi},3.1);
+  \draw[fg!55!bg,thick] (axis cs:-0.12,2.75) -- (axis cs:0,2.9) -- (axis cs:0.12,2.75);
+  \draw[fg!55!bg,thick] (axis cs:{2*pi-0.12},2.75) -- (axis cs:{2*pi},2.9) -- (axis cs:{2*pi+0.12},2.75);
+  \node[sep,font=\footnotesize,left] at (axis cs:0,0) {$P$};
+  \node[sep,font=\footnotesize,right] at (axis cs:{2*pi},0) {$P$};
+  \node[font=\footnotesize,below] at (axis cs:0,-3.1) {$0$};
+  \node[font=\footnotesize,below] at (axis cs:pi,-3.1) {$\theta=\pi$};
+  \node[font=\footnotesize,below] at (axis cs:{2*pi},-3.1) {$2\pi$};
+  \node[font=\footnotesize,sep,fill=bg,inner sep=1pt] at (axis cs:5.35,1.5) {$\ell_+$};
+  \node[font=\footnotesize,sep,fill=bg,inner sep=1pt] at (axis cs:5.35,-1.5) {$\ell_-$};
+  \node[font=\footnotesize,fg!70!bg,fill=bg,inner sep=1pt] at (axis cs:2.3,0.3) {$\nu$};
+  \node[font=\footnotesize,anchor=north] at (axis cs:pi,-3.95) {(a) the cylinder, cut open};
+\end{axis}
+
+% ---------------------------------------------------------------- (b)
+\begin{axis}[name=B,at={($(A.east)+(0.7cm,0)$)},anchor=west,
+  xmin=-3.6,xmax=3.6,ymin=-3.7,ymax=3.7]
+  \hole{bx}{by}
+  \orbits{bx}{by}
+  \node[sep,font=\footnotesize,anchor=south east,fill=bg,inner sep=0.8pt] at (axis cs:{-sqrt(2*\a)-0.15},0.2) {$P$};
+  \node[font=\footnotesize,fg!60!bg] at (axis cs:0,0) {$K$};
+  \node[font=\footnotesize,anchor=north] at (axis cs:0,-3.95) {(b) round chart, $\rho^2/2=a-p_\theta$};
+\end{axis}
+
+% ---------------------------------------------------------------- (c)
+\begin{axis}[name=C,at={($(B.east)+(0.5cm,0)$)},anchor=west,
+  xmin=-2.6,xmax=4.4,ymin=-3.7,ymax=3.7]
+  \hole{cx}{cy}
+  \orbits{cx}{cy}
+  \node[sep,font=\footnotesize,anchor=south east,fill=bg,inner sep=0.8pt] at (axis cs:{cx(0,0)-0.15},{cy(0,0)+0.2}) {$P$};
+  \node[font=\footnotesize,fg!60!bg] at (axis cs:0.25,0.1) {$K$};
+  \node[font=\footnotesize,anchor=north] at (axis cs:0.9,-3.95) {(c) (b), sheared};
+\end{axis}
+\end{tikzpicture}
+\end{document}

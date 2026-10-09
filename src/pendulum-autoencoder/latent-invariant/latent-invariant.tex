@@ -1,0 +1,81 @@
+\documentclass[crop,tikz,11pt]{standalone}
+\usepackage{geometricfigures}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,patterns,decorations.markings}
+
+\definecolor{lib}{HTML}{3B75AF}
+\definecolor{rot}{HTML}{C1701E}
+\definecolor{net}{HTML}{4E9A4E}
+
+% The latent-invariant identity and why it needs a simply connected latent plane, schematically.
+%   (a) A closed latent curve gamma bounds a disk D; the decoder maps D to a surface Psi^dec(D)
+%       in R^4 bounded by Psi^dec o gamma. By Stokes both line integrals are the integral of the
+%       same two-form, over D and over its image, which the symplectic decoder relates.
+%   (b) Path independence: alpha = Psi^dec*(p.dq) - z_p dz_q is closed on the plane; two paths
+%       with the same end points bound a region (shaded) on which d alpha = 0, so their
+%       integrals agree, and every loop integral of alpha vanishes.
+%   (c) A domain with a hole K (hatched, not in the domain), such as a band of M (panel (c) of cylinder-to-poloidal):
+%       the region between two paths on either side of K is not in the domain, and a closed form
+%       can give them different integrals; alpha = c dtheta differs by 2 pi c around K.
+% No data: the shapes are hand-drawn closed curves.
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,
+  lab/.style={font=\footnotesize,inner sep=1.5pt},
+  flow/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Stealth}}}}]
+
+% ================================================================ (a) the identity
+\begin{scope}
+  \fill[fg!4!bg] (-1.7,-1.5) rectangle (1.7,1.5);
+  \node[lab,anchor=north west] at (-1.7,1.5) {$\mathbb{R}^2$};
+  \draw[lib,very thick,fill=lib!25!bg,flow=0.3]
+    plot[smooth cycle,tension=0.8] coordinates {(-1.0,-0.4) (-0.3,-0.9) (0.8,-0.6) (1.1,0.4) (0.2,0.9) (-0.8,0.6)};
+  \node[lab,lib!70!fg] at (0,0) {$D$};
+  \node[lab,lib,anchor=south west] at (0.9,0.6) {$\gamma$};
+\end{scope}
+\draw[->,thick,fg!60!bg] (1.95,0) -- node[above,lab,fg] {$\Psi^\mathrm{dec}$} (3.25,0);
+\begin{scope}[shift={(5.1,0)}]
+  % a curved sheet in R^4 (schematic), with the image of D on it
+  \fill[fg!4!bg] plot[smooth cycle,tension=0.7] coordinates {(-1.7,-1.0) (0.0,-1.45) (1.7,-0.9) (1.5,1.1) (0,1.45) (-1.6,0.95)};
+  \node[lab,anchor=north west] at (-1.75,1.55) {$\mathbb{R}^4$};
+  \draw[lib,very thick,fill=lib!25!bg,flow=0.3]
+    plot[smooth cycle,tension=0.8] coordinates {(-1.1,-0.2) (-0.5,-0.8) (0.7,-0.75) (1.15,0.15) (0.5,0.85) (-0.6,0.7)};
+  \node[lab,lib!70!fg] at (0.05,0) {$\Psi^\mathrm{dec}(D)$};
+  \node[lab,lib,anchor=south west] at (0.75,0.65) {$\Psi^\mathrm{dec}\circ\gamma$};
+\end{scope}
+
+% ================================================================ (b) path independence in the plane
+\begin{scope}[shift={(8.95,0)}]
+  \fill[fg!4!bg] (-1.7,-1.5) rectangle (1.7,1.5);
+  \node[lab,anchor=north west] at (-1.7,1.5) {$\mathbb{R}^2$};
+  \fill[net!18!bg] plot[smooth,tension=0.8] coordinates {(-1.2,-0.3) (-0.4,0.75) (0.5,0.8) (1.2,0.2)}
+    -- plot[smooth,tension=0.8] coordinates {(1.2,0.2) (0.5,-0.7) (-0.4,-0.85) (-1.2,-0.3)};
+  \draw[rot,very thick,flow=0.55] plot[smooth,tension=0.8] coordinates {(-1.2,-0.3) (-0.4,0.75) (0.5,0.8) (1.2,0.2)};
+  \draw[rot,very thick,dashed,flow=0.55] plot[smooth,tension=0.8] coordinates {(-1.2,-0.3) (-0.4,-0.85) (0.5,-0.7) (1.2,0.2)};
+  \fill (-1.2,-0.3) circle (1.3pt) node[lab,anchor=east] {$a$};
+  \fill (1.2,0.2) circle (1.3pt) node[lab,anchor=west] {$b$};
+  \node[lab,rot,anchor=south] at (-0.2,0.85) {$\gamma_1$};
+  \node[lab,rot,anchor=north] at (-0.2,-0.9) {$\gamma_2$};
+  \node[lab,net!60!fg] at (0.05,0) {$d\alpha=0$};
+\end{scope}
+
+% ================================================================ (c) a hole breaks it
+\begin{scope}[shift={(12.85,0)}]
+  \fill[fg!4!bg] (0,0) circle (1.55);
+  \fill[bg,pattern=north east lines,pattern color=fg!45!bg] (0,0) circle (0.45);
+  \draw[fg!45!bg] (0,0) circle (0.45);
+  \node[lab,fill=bg,inner sep=0.6pt] at (0,0) {$K$};
+  \draw[rot,very thick,flow=0.55] plot[smooth,tension=0.8] coordinates {(-1.15,-0.2) (-0.45,0.75) (0.5,0.8) (1.15,0.2)};
+  \draw[rot,very thick,dashed,flow=0.55] plot[smooth,tension=0.8] coordinates {(-1.15,-0.2) (-0.4,-0.8) (0.5,-0.75) (1.15,0.2)};
+  \fill (-1.15,-0.2) circle (1.3pt) node[lab,anchor=east] {$a$};
+  \fill (1.15,0.2) circle (1.3pt) node[lab,anchor=west] {$b$};
+  \node[lab,rot,anchor=south] at (-0.2,0.85) {$\gamma_1$};
+  \node[lab,rot,anchor=north] at (-0.2,-0.85) {$\gamma_2$};
+\end{scope}
+
+% panel labels below the panels, on one line
+\node[font=\footnotesize] at (2.55,-1.95) {(a)};
+\node[font=\footnotesize] at (8.95,-1.95) {(b)};
+\node[font=\footnotesize] at (12.85,-1.95) {(c)};
+\end{tikzpicture}
+\end{document}
