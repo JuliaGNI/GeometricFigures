@@ -323,7 +323,7 @@
 <g clip-path="url(#clip-2)">
 <path fill="none" stroke-width="1.17683" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(17.298889%, 62.69989%, 17.298889%)" stroke-opacity="1" stroke-miterlimit="10" d="M 5.479434 0.00121375 L 1.754061 1.617513 L 3.003737 0.00121375 L 1.754061 -1.619028 Z M 5.479434 0.00121375 " transform="matrix(-0.990882, 0, 0, 0.990882, 170.968537, 50.615985)"/>
 </g>
-<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 235.867188 26.15625 L 250.558594 26.15625 L 250.558594 13.28125 L 235.867188 13.28125 Z M 235.867188 26.15625 "/>
+<path fill-rule="nonzero" fill="rgb(12.156677%, 14.118958%, 14.118958%)" fill-opacity="1" d="M 235.867188 26.15625 L 250.558594 26.15625 L 250.558594 13.28125 L 235.867188 13.28125 Z M 235.867188 26.15625 "/>
 <g fill="rgb(83.898926%, 15.299988%, 15.699768%)" fill-opacity="1">
 <use xlink:href="#glyph-8-0" x="236.854812" y="23.272854"/>
 </g>
