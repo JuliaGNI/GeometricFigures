@@ -29,16 +29,6 @@ path = "docs/src/trust_region/dogleg_tikz_dark.tex"
 engine = "pdflatex"
 dpi = 300
 
-# solver.tex has no build step on origin/main; it takes the engine and the DPI of the other
-# SimpleSolvers figure.
-[[reference]]
-name = "solver"
-theme = "light"
-repository = "SimpleSolvers"
-path = "docs/src/tikz/solver.tex"
-engine = "pdflatex"
-dpi = 300
-
 [[reference]]
 name = "commuting-diagram"
 theme = "light"
