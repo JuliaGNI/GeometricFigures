@@ -96,6 +96,16 @@ package's site.
   encloses, in place of GeometricMachineLearning's `\maketransformerblack` and
   `\maketransformerwhite`.
 
+* **`solver` shows the fields of SimpleSolvers' current `NonlinearSolver`.** They are, in the order
+  of the struct's definition, `nonlinearproblem::NonlinearProblem` (with its `F` and its `J`, a
+  callable or `missing`), `linearproblem::AbstractLinearProblem`, `jacobian::Jacobian`,
+  `linearsolver::AbstractLinearSolver`, `linesearch::Linesearch`, `method::NonlinearSolverMethod`,
+  `cache::AbstractNonlinearSolverCache` and `config::Options`, each with the bound of its type
+  parameter. The `status` field is gone, the cache is no longer a `NewtonSolverCache`, the line
+  search is a `Linesearch` rather than a `LinesearchState`, and the `NonlinearProblem` no longer
+  holds a `Jacobian`. SimpleSolvers removed its own `docs/src/tikz/solver.tex`, so the figure has
+  no original to compare with any more, and its entry in `scripts/references.toml` is gone.
+
 * **28 TikZ figures of a symplectic autoencoder trained on the pendulum are figures of the topic
   `pendulum-autoencoder`.** They accompany the paper on symplectic autoencoders
   (arXiv:2312.10004). Each loads `geometricfigures.sty` and takes `fg` for black and `bg` for
